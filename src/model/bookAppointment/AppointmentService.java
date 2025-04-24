@@ -1,7 +1,5 @@
 package model.bookAppointment;
 
-import model.DateTime;
-
 public class AppointmentService implements AppointmentModel
 {
   private AppointmentList appointmentList;

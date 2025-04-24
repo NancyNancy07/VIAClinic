@@ -1,7 +1,5 @@
 package model.bookAppointment;
 
-import model.Appointment;
-import model.DateTime;
 
 public interface AppointmentModel
 {

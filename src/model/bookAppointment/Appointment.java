@@ -1,6 +1,5 @@
 package model.bookAppointment;
 
-import model.DateTime;
 
 public class Appointment
 {

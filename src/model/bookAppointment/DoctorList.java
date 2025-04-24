@@ -1,7 +1,5 @@
 package model.bookAppointment;
 
-import model.Doctor;
-
 import java.util.ArrayList;
 
 public class DoctorList
