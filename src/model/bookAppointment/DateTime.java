@@ -35,4 +35,14 @@ public class DateTime
   {
     return "DateTime{" + "date=" + date + ", time=" + time + '}';
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj == null || getClass() != obj.getClass())
+    {
+      return false;
+    }
+    DateTime other = (DateTime) obj;
+    return date.equals(other.date) && time.equals(other.time);
+  }
 }
