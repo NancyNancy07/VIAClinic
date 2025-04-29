@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.bookAppointment.dateandtime.TimeViewController">
    <children>
       <Label layoutX="236.0" layoutY="104.0" text="Select Date and Time">
@@ -20,15 +19,21 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <HBox layoutX="207.0" layoutY="131.0" prefHeight="42.0" prefWidth="226.0">
+      <HBox layoutX="178.0" layoutY="166.0" prefHeight="0.0" prefWidth="226.0">
          <children>
-            <Label alignment="BASELINE_CENTER" prefHeight="42.0" prefWidth="105.0" text="Doctor Details:" />
-            <Label alignment="BASELINE_CENTER" prefHeight="41.0" prefWidth="129.0" text="Doctor 1" />
+            <Label alignment="BASELINE_CENTER" prefHeight="17.0" prefWidth="169.0" text="Mode Of Consultation:" />
+            <Label fx:id="mode" alignment="BASELINE_CENTER" prefHeight="41.0" prefWidth="129.0" text="Mode" />
          </children>
       </HBox>
-      <DatePicker layoutX="290.0" layoutY="187.0" />
-      <Label alignment="BASELINE_CENTER" layoutX="175.0" layoutY="191.0" prefHeight="7.0" prefWidth="105.0" text="Select Date:" />
+      <DatePicker fx:id="date" layoutX="270.0" layoutY="200.0" />
+      <Label alignment="BASELINE_CENTER" layoutX="155.0" layoutY="204.0" prefHeight="7.0" prefWidth="105.0" text="Select Date:" />
       <Button fx:id="back" layoutX="486.0" layoutY="363.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
       <Button fx:id="next" layoutX="544.0" layoutY="363.0" mnemonicParsing="false" onAction="#nextView" text="Next" />
+      <HBox layoutX="187.0" layoutY="141.0" prefHeight="10.0" prefWidth="226.0">
+         <children>
+            <Label alignment="BASELINE_CENTER" prefHeight="42.0" prefWidth="105.0" text="Doctor Details:" />
+            <Label fx:id="doctorName" alignment="BASELINE_CENTER" prefHeight="41.0" prefWidth="129.0" text="Doctor 1" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

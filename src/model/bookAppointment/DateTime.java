@@ -2,22 +2,30 @@ package model.bookAppointment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class DateTime
 {
   private LocalDate date;
   private LocalTime time;
 
-  public DateTime(LocalDate date, LocalTime time) {
+  private int day;
+  private int month;
+  private int year;
+
+  public DateTime(LocalDate date, LocalTime time)
+  {
     this.date = date;
     this.time = time;
   }
 
-  public LocalDate getDate() {
+  public LocalDate getDate()
+  {
     return date;
   }
 
-  public LocalTime getTime() {
+  public LocalTime getTime()
+  {
     return time;
   }
 
@@ -33,6 +41,7 @@ public class DateTime
 
   @Override public String toString()
   {
-    return "DateTime{" + "date=" + date + ", time=" + time + '}';
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    return "Date= " + date + ", Time= " + time.format(timeFormatter);
   }
 }

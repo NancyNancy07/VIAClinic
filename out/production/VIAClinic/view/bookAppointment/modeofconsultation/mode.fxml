@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.bookAppointment.modeofconsultation.ModeViewController">
    <children>
       <Label layoutX="197.0" layoutY="92.0" text="Select Mode of Consultation">
@@ -19,15 +18,15 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="next" layoutX="266.0" layoutY="274.0" mnemonicParsing="false" onAction="#nextView" prefHeight="25.0" prefWidth="68.0" text="Next" />
+      <Button layoutX="266.0" layoutY="274.0" mnemonicParsing="false" onAction="#nextView" prefHeight="25.0" prefWidth="68.0" text="Next" />
       <HBox layoutX="187.0" layoutY="145.0" prefHeight="42.0" prefWidth="226.0">
          <children>
             <Label alignment="BASELINE_CENTER" prefHeight="42.0" prefWidth="105.0" text="Doctor Details:" />
-            <Label alignment="BASELINE_CENTER" prefHeight="41.0" prefWidth="129.0" text="Doctor 1" />
+            <Label fx:id="doctorName" alignment="BASELINE_CENTER" prefHeight="41.0" prefWidth="129.0" text="Doctor 1" />
          </children>
       </HBox>
-      <Button layoutX="157.0" layoutY="215.0" mnemonicParsing="false" text="Video call" />
-      <Button layoutX="337.0" layoutY="215.0" mnemonicParsing="false" text="Physical meeting" />
-      <Button layoutX="251.0" layoutY="215.0" mnemonicParsing="false" text="Voice call" />
+      <Button fx:id="videoCall" layoutX="186.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleVideoCall" text="Video call" />
+      <Button fx:id="inPerson" layoutX="366.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleInPerson" text="In-person" />
+      <Button fx:id="voiceCall" layoutX="280.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleVoiceCall" text="Voice call" />
    </children>
 </AnchorPane>
