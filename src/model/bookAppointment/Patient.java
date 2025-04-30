@@ -1,20 +1,26 @@
 package model.bookAppointment;
 
-public class Patient
+import model.loginSystem.User;
+
+public class Patient extends User
 {
   private int patientID;
   private String name;
 
-  public Patient(int patientID, String name) {
+  public Patient(int patientID, String name, String username, String password)
+  {
+    super(username, password);
     this.patientID = patientID;
     this.name = name;
   }
 
-  public int getPatientID() {
+  public int getPatientID()
+  {
     return patientID;
   }
 
-  public String getName() {
+  public String getName()
+  {
     return name;
   }
 

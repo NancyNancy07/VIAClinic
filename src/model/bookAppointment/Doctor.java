@@ -1,12 +1,15 @@
 package model.bookAppointment;
 
-public class Doctor
+import model.loginSystem.User;
+
+public class Doctor extends User
 {
   private int doctorID;
   private String name;
 
-  public Doctor(int doctorID, String name)
+  public Doctor(int doctorID, String name, String username, String password)
   {
+    super(username, password);
     this.doctorID = doctorID;
     this.name = name;
   }
