@@ -1,6 +1,5 @@
 package model.bookAppointment;
 
-
 public class Appointment
 {
   private DateTime dateTime;
@@ -8,15 +7,17 @@ public class Appointment
   private int doctorID;
   private String mode;
   private int patientID;
+  private DoctorList doctorList;
 
   public Appointment(DateTime dateTime, int appointmentID, int doctorID,
-      String mode, int patientID)
+      String mode, int patientID, DoctorList doctorList)
   {
     this.dateTime = dateTime;
     this.appointmentID = appointmentID;
     this.doctorID = doctorID;
     this.mode = mode;
     this.patientID = patientID;
+    this.doctorList = doctorList;
   }
 
   public DateTime getDate()
@@ -74,11 +75,24 @@ public class Appointment
     return mode;
   }
 
+  public String getDoctorName()
+  {
+    Doctor doctor = doctorList.findDoctorByID(
+        this.doctorID); // Assuming this method exists in DoctorList
+    if (doctor != null)
+    {
+      return doctor.getName(); // Assuming Doctor has a getName() method
+    }
+    else
+    {
+      return "Doctor not found";
+    }
+  }
+
   @Override public String toString()
   {
-    return "Appointment{" + "dateTime=" + dateTime + ", appointmentID="
-        + appointmentID + ", doctorID=" + doctorID + ", mode='" + mode + '\''
-        + ", patientID=" + patientID + '}';
+    return dateTime + ", Doctor= " + getDoctorName() + ", Mode='" + mode + '\''
+        + "\n";
   }
 
   public boolean equals(Object obj)

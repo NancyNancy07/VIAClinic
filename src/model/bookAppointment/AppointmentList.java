@@ -1,6 +1,7 @@
 package model.bookAppointment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AppointmentList
 {
@@ -38,14 +39,20 @@ public class AppointmentList
     appointments.remove(appointment);
   }
 
-  public Appointment[] getAllAppointments()
+  public List<Appointment> getAllAppointments()
   {
-    return appointments.toArray(new Appointment[0]);
+    return appointments;
   }
 
   @Override public String toString()
   {
-    return "AppointmentList{" + "appointments=" + appointments + '}';
+    String rtnString = "";
+
+    for (int i = 0; i < appointments.size(); i++)
+    {
+      rtnString += appointments.get(i);
+    }
+    return rtnString;
   }
 
   public boolean equals(Object obj)

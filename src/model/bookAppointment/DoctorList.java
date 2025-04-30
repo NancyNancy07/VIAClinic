@@ -1,6 +1,7 @@
 package model.bookAppointment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DoctorList
 {
@@ -47,9 +48,9 @@ public class DoctorList
     return doctors.size();
   }
 
-  public Doctor[] getAllDoctors()
+  public List<Doctor> getAllDoctors()
   {
-    return doctors.toArray(new Doctor[0]);
+    return doctors;
   }
 
   @Override public String toString()

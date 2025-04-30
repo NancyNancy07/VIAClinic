@@ -1,5 +1,7 @@
 package model.bookAppointment;
 
+import java.util.ArrayList;
+
 public class AppointmentService implements AppointmentModel
 {
   private AppointmentList appointmentList;
@@ -31,7 +33,7 @@ public class AppointmentService implements AppointmentModel
 
     int appointmentID = generateAppointmentID();
     Appointment newAppointment = new Appointment(dateTime, appointmentID,
-        doctorID, mode, patientID);
+        doctorID, mode, patientID, doctorList);
     appointmentList.addAppointment(newAppointment);
     return newAppointment;
   }
@@ -66,6 +68,16 @@ public class AppointmentService implements AppointmentModel
       return appointment;
     }
     return null;
+  }
+
+  @Override public DoctorList getDoctorList()
+  {
+    return doctorList;
+  }
+
+  @Override public AppointmentList getAppointmentList()
+  {
+    return appointmentList;
   }
 
   private int generateAppointmentID()

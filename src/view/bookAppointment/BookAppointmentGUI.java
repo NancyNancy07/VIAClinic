@@ -1,11 +1,19 @@
+package view.bookAppointment;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
 import model.bookAppointment.*;
+import viewModel.bookAppointment.BookAppointmentViewModel;
+import viewModel.bookAppointment.SharedData;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class RunApplication
+public class BookAppointmentGUI extends Application
 {
-  public static void main(String[] args)
+  private BookAppointmentViewModel viewModel;
+
+  @Override public void start(Stage primaryStage) throws Exception
   {
     //  Create the lists
     DoctorList doctorList = new DoctorList();
@@ -43,6 +51,15 @@ public class RunApplication
     Appointment a4 = appointmentService.bookAppointment(4, 4, dateTime,
         "Online");
 
+    viewModel = new BookAppointmentViewModel(appointmentService);
+    SharedData sharedData = new SharedData();
+    BookAppointmentViewHandler viewHandler = new BookAppointmentViewHandler(
+        primaryStage, viewModel, sharedData);
+    viewHandler.start(primaryStage);
+  }
 
+  public static void main(String[] args)
+  {
+    launch();
   }
 }

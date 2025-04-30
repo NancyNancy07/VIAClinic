@@ -36,7 +36,7 @@ public class Doctor extends User
 
   @Override public String toString()
   {
-    return "Doctor{" + "doctorID=" + doctorID + ", name='" + name + '\'' + '}';
+    return "Name: '" + name + '\'';
   }
 
   public boolean equals(Object obj)
