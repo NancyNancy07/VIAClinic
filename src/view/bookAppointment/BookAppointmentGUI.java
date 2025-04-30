@@ -21,15 +21,15 @@ public class BookAppointmentGUI extends Application
     AppointmentList appointmentList = new AppointmentList();
 
     //  Add sample doctor and patient
-    doctorList.addDoctor(new Doctor(1, "Dr. Smith"));
-    doctorList.addDoctor(new Doctor(2, "Dr. Adams"));
-    doctorList.addDoctor(new Doctor(3, "Dr. Brown"));
-    doctorList.addDoctor(new Doctor(4, "Dr. Lee"));
+    doctorList.addDoctor(new Doctor(1, "Dr. Smith", "asd123", "123456789"));
+    doctorList.addDoctor(new Doctor(2, "Dr. Adams","asd123", "123456789"));
+    doctorList.addDoctor(new Doctor(3, "Dr. Brown","asd123", "123456789"));
+    doctorList.addDoctor(new Doctor(4, "Dr. Lee","asd123", "123456789"));
 
-    patientList.addPatient(new Patient(1, "John Doe"));
-    patientList.addPatient(new Patient(2, "Jane Doe"));
-    patientList.addPatient(new Patient(3, "Bob Smith"));
-    patientList.addPatient(new Patient(4, "Alice White"));
+    patientList.addPatient(new Patient(1, "John Doe","asd123", "123456789"));
+    patientList.addPatient(new Patient(2, "Jane Doe","asd123", "123456789"));
+    patientList.addPatient(new Patient(3, "Bob Smith","asd123", "123456789"));
+    patientList.addPatient(new Patient(4, "Alice White","asd123", "123456789"));
 
     //  Create AppointmentService
     AppointmentService appointmentService = new AppointmentService(doctorList,
