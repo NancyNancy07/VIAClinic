@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.loginSystem.doctorView.DoctorViewController">
+   <children>
+      <Label layoutX="249.0" layoutY="78.0" text="VIAClinic">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="231.0" layoutY="134.0" text="Doctor Name:" />
+      <Label fx:id="doctorName" layoutX="321.0" layoutY="134.0" text="Doctor 1" />
+      <TableView fx:id="appointmentList" layoutY="173.0" prefHeight="229.0" prefWidth="607.0">
+        <columns>
+          <TableColumn fx:id="appointment" prefWidth="605.9999999602636" text="Scheduled Appointments" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

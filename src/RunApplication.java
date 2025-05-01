@@ -1,8 +1,3 @@
-import model.bookAppointment.*;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class RunApplication
 {
 //  public static void main(String[] args)
