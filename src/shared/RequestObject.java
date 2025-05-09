@@ -3,15 +3,59 @@ package shared;
 public class RequestObject
 {
   private String type;
-  private String email;
+  private String username;
   private String password;
+  private String userType;
+  private int id;
 
   // Getters and setters
-  public String getType() { return type; }
-  public String getUsername() { return email; }
-  public String getPassword() { return password; }
+  public String getType()
+  {
+    return type;
+  }
 
-  public void setType(String type) { this.type = type; }
-  public void setEmail(String email) { this.email = email; }
-  public void setPassword(String password) { this.password = password; }
+  public String getUsername()
+  {
+    return username;
+  }
+
+  public String getPassword()
+  {
+    return password;
+  }
+
+  public String getUserType()
+  {
+    return userType;
+  }
+
+  public void setType(String type)
+  {
+    this.type = type;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setUsername(String email)
+  {
+    this.username = email;
+  }
+
+  public void setPassword(String password)
+  {
+    this.password = password;
+  }
+
+  public void setUserType(String userType)
+  {
+    this.userType = userType;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
 }

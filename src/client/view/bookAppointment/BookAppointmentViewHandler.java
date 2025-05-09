@@ -71,7 +71,7 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel,sharedData);
+    controller.init(viewModel);
     stage.setTitle("Appointments");
     stage.setScene(scene);
   }

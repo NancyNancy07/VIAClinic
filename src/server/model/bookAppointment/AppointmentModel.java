@@ -2,10 +2,10 @@ package server.model.bookAppointment;
 
 public interface AppointmentModel
 {
-  Appointment bookAppointment(int patientId, int doctorId, DateTime dateTime,
-      String mode);
+  Appointment bookAppointment(NewDateTime dateTime, int patientID,
+      Doctor doctor, String mode);
   boolean cancelAppointment(int appointmentId);
-  Appointment modifyAppointment(int appointmentId, DateTime newDateTime,
+  Appointment modifyAppointment(int appointmentId, NewDateTime newDateTime,
       String newMode);
   DoctorList getDoctorList();
   AppointmentList getAppointmentList();

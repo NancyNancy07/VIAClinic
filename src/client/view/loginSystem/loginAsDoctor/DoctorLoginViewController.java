@@ -34,7 +34,7 @@ public class DoctorLoginViewController
 
   public void login()
   {
-    loginViewModel.loginUser();
+    loginViewModel.loginDoctor();
   }
 
   public void back()

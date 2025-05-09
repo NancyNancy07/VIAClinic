@@ -35,19 +35,19 @@ public class ModeViewController
 
   public void handleVideoCall()
   {
-    sharedData.setConsultationMode(videoCall.getText());
+    viewModel.setMode(videoCall.getText());
     nextView();
   }
 
   public void handleInPerson()
   {
-    sharedData.setConsultationMode(inPerson.getText());
+    viewModel.setMode(inPerson.getText());
     nextView();
   }
 
   public void handleVoiceCall()
   {
-    sharedData.setConsultationMode(voiceCall.getText());
+    viewModel.setMode(voiceCall.getText());
     nextView();
   }
 

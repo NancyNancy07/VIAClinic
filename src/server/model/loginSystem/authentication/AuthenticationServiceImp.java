@@ -2,9 +2,8 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
+import shared.ResponseObject;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,45 +13,43 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
 
-  private DoctorList doctorList;
   private PatientList patientList;
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()
   {
-    // Sample setup
-    doctorList = new DoctorList();
     patientList = new PatientList();
     appointmentList = new AppointmentList();
 
     // Sample doctors
-    users.add(new Doctor(1, "Dr. Smith", "asd123", "1234567"));
-    users.add((new Doctor(2, "Dr. Adams", "asf123", "12345678")));
-    users.add((new Doctor(3, "Dr. Brown", "asg123", "123456789")));
-    users.add((new Doctor(4, "Dr. Lee", "asa123", "123456")));
+    Doctor doctor1 = new Doctor(1, "Dr. Smith", "asd123", "1234567");
+    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
+    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
+    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
+    users.add(doctor1);
+    users.add(doctor2);
+    users.add(doctor3);
+    users.add(doctor4);
 
     // Sample patients
-    users.add((new Patient(1, "John Doe", "asq123", "123")));
-    users.add((new Patient(2, "Jane Doe", "asw123", "1234")));
-    users.add((new Patient(3, "Bob Smith", "ase123", "12345")));
-    users.add((new Patient(4, "Alice White", "asr123", "98765")));
+    users.add(new Patient(5, "John Doe", "asq123", "123"));
+    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
+    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
+    users.add(new Patient(8, "Alice White", "asr123", "98765"));
 
     // Sample appointments
-    LocalTime localTime = LocalTime.now();
-    LocalDate localDate = LocalDate.now();
-    DateTime dateTime = new DateTime(localDate, localTime);
+    // Create sample NewDateTime objects
+    NewDateTime dateTime1 = new NewDateTime(9, 5, 2025, 12, 17);
+    NewDateTime dateTime2 = new NewDateTime(9, 5, 2025, 13, 30);
 
     appointmentList.addAppointment(
-        new Appointment(dateTime, 1, 1, "In-person", 1, doctorList));
+        new Appointment(dateTime1, 5, doctor1, "In-person"));
     appointmentList.addAppointment(
-        new Appointment(dateTime, 2, 2, "Online", 2, doctorList));
+        new Appointment(dateTime2, 5, doctor2, "Online"));
     appointmentList.addAppointment(
-        new Appointment(dateTime, 3, 3, "In-person", 3, doctorList));
+        new Appointment(dateTime1, 6, doctor3, "In-person"));
     appointmentList.addAppointment(
-        new Appointment(dateTime, 4, 4, "Online", 4, doctorList));
-
-    // You can also add patient logins similarly if needed
-
+        new Appointment(dateTime2, 6, doctor4, "Online"));
   }
 
   public static AuthenticationServiceImp getInstance()
@@ -64,33 +61,80 @@ public class AuthenticationServiceImp implements AuthenticationService
     return instance;
   }
 
-  @Override public String login(LoginRequest request)
+  @Override public ResponseObject login(LoginRequest request)
+  {
+    String username = request.getUsername();
+    String password = request.getPassword();
+    String userType = request.getUserType();
+
+    if ("doctor".equalsIgnoreCase(userType))
+    {
+      return loginDoctor(username, password);
+    }
+    else if ("patient".equalsIgnoreCase(userType))
+    {
+      return loginPatient(username, password);
+    }
+    else
+    {
+      return new ResponseObject(false, "Invalid user type", -1);
+    }
+  }
+
+  private ResponseObject loginDoctor(String username, String password)
   {
     for (User user : users)
     {
-      if (request != null && user.getUsername() != null)
+      if (user instanceof Doctor)
       {
-        if (user.getUsername().equals(request.getUsername()))
+        if (user.getUsername().equals(username))
         {
-          if (user.getPassword().equals(request.getPassword()))
+          if (user.getPassword().equals(password))
           {
             loggedInUser = user;
-            return "Ok";
+            return new ResponseObject(true, "Doctor login successful",
+                ((Doctor) user).getDoctorID());
           }
-          return "Incorrect Password";
+          return new ResponseObject(false, "Incorrect password for doctor", -1);
         }
       }
     }
-    for (int i = 0; i < users.size(); i++)
+    return new ResponseObject(false, "Doctor username not found", -1);
+  }
+
+  private ResponseObject loginPatient(String username, String password)
+  {
+    for (User user : users)
     {
-      System.out.println(users.get(i).getUsername());
+      if (user instanceof Patient)
+      {
+        if (user.getUsername().equals(username))
+        {
+          if (user.getPassword().equals(password))
+          {
+            loggedInUser = user;
+            return new ResponseObject(true, "Patient login successful",
+                ((Patient) user).getPatientID());
+          }
+          return new ResponseObject(false, "Incorrect password for patient",
+              -1);
+        }
+      }
     }
-    return "Email not found";
+    return new ResponseObject(false, "Patient username not found", -1);
   }
 
   @Override public List<Doctor> getAllDoctors()
   {
-    return doctorList.getAllDoctors();
+    DoctorList doctors = new DoctorList();
+    for (User user : users)
+    {
+      if (user instanceof Doctor)
+      {
+        doctors.addDoctor((Doctor) user);
+      }
+    }
+    return doctors.getAllDoctors();
   }
 
   @Override public List<Patient> getAllPatients()
@@ -98,33 +142,16 @@ public class AuthenticationServiceImp implements AuthenticationService
     return List.of(patientList.getAllPatients());
   }
 
-  @Override public List<Appointment> getAllAppointments()
+  @Override public List<Appointment> getAppointmentsForPatient(int id)
   {
-    return appointmentList.getAllAppointments();
-  }
-
-  public List<Appointment> getAppointmentsForLoggedInUser()
-  {
-    if (loggedInUser == null)
-    {
-      return new ArrayList<>();
-    }
-
     List<Appointment> result = new ArrayList<>();
     for (Appointment appointment : appointmentList.getAllAppointments())
     {
-      if (loggedInUser instanceof Doctor
-          && appointment.getDoctorID() == ((Doctor) loggedInUser).getDoctorID())
-      {
-        result.add(appointment);
-      }
-      else if (loggedInUser instanceof Patient && appointment.getPatientID()
-          == ((Patient) loggedInUser).getPatientID())
+      if (appointment.getPatientID() == id)
       {
         result.add(appointment);
       }
     }
     return result;
   }
-
 }

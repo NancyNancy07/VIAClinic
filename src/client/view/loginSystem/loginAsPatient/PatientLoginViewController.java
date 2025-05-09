@@ -33,7 +33,7 @@ public class PatientLoginViewController
 
   public void login()
   {
-    loginViewModel.loginUser();
+    loginViewModel.loginPatient();
   }
 
   public void back()

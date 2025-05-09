@@ -1,9 +1,14 @@
 package server.loginNetwork;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import server.model.bookAppointment.Appointment;
+import server.model.bookAppointment.Doctor;
 import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
+import server.util.LocalDateAdapter;
+import server.util.LocalTimeAdapter;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -12,6 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 public class ClientHandler implements Runnable
 {
@@ -19,26 +27,14 @@ public class ClientHandler implements Runnable
   private BufferedReader input;
   private PrintWriter output;
   private Gson gson;
-  //  private UserManager userManager;
   private AuthenticationService authService;
 
   public ClientHandler(Socket socket)
   {
     this.socket = socket;
-    gson = new Gson();
-    //    this.userManager = userManager;
-    authService = AuthenticationServiceImp.getInstance(); // Singleton pattern recommended
 
-    //    try
-    //    {
-    //      input = new BufferedReader(
-    //          new InputStreamReader(socket.getInputStream()));
-    //      output = new PrintWriter(socket.getOutputStream(), true);
-    //    }
-    //    catch (IOException e)
-    //    {
-    //      e.printStackTrace();
-    //    }
+    this.gson = new Gson();
+    authService = AuthenticationServiceImp.getInstance();
   }
 
   @Override public void run()
@@ -56,21 +52,71 @@ public class ClientHandler implements Runnable
 
         // Parse the request JSON
         RequestObject req = gson.fromJson(request, RequestObject.class);
-
-        String responseMessage = switch (req.getType())
+        switch (req.getType())
         {
-          case "login" -> authService.login(
-              new LoginRequest(req.getUsername(), req.getPassword()));
-          default -> "Unknown request type";
-        };
+          case "login" ->
+          {
+            LoginRequest loginRequest = new LoginRequest(req.getUsername(),
+                req.getPassword(), req.getUserType());
 
-        // Send response
-        ResponseObject response = new ResponseObject("ok", responseMessage);
-        output.println(gson.toJson(response));
+            ResponseObject loginResponse = authService.login(loginRequest);
+            output.println(gson.toJson(loginResponse));
+          }
+
+          case "patientAppointments" ->
+          {
+            int patientId = req.getId();
+            List<Appointment> patientAppointments = authService.getAppointmentsForPatient(
+                patientId);
+
+            ResponseObject patientResponse;
+            if (patientAppointments != null && !patientAppointments.isEmpty())
+            {
+              patientResponse = new ResponseObject(true, "Appointments found",
+                  patientId);
+
+              patientResponse.setAppointments(patientAppointments);
+            }
+            else
+            {
+              patientResponse = new ResponseObject(false,
+                  "No appointments found", patientId);
+            }
+
+            output.println(gson.toJson(patientResponse));
+          }
+          case "doctorList" ->
+          {
+            List<Doctor> doctorList = authService.getAllDoctors();
+
+            ResponseObject doctorResponse;
+            if (doctorList != null && !doctorList.isEmpty())
+            {
+              doctorResponse = new ResponseObject(true, "Doctors found", -1);
+              doctorResponse.setDoctors(doctorList);
+            }
+            else
+            {
+              doctorResponse = new ResponseObject(false, "No doctors found",
+                  -1);
+            }
+
+            output.println(gson.toJson(doctorResponse));
+          }
+          default ->
+          {
+            output.println(gson.toJson(
+                new ResponseObject(false, "Unknown request type", -1)));
+          }
+        }
+
+        //        // Send response
+        //        ResponseObject response = new ResponseObject("ok", responseMessage);
+        //        output.println(gson.toJson(response));
       }
 
-//      String username = input.readLine();
-//      String password = input.readLine();
+      //      String username = input.readLine();
+      //      String password = input.readLine();
 
       //      if (userManager.isValidLogin(username, password))
       //      {

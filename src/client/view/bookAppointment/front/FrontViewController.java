@@ -19,12 +19,11 @@ public class FrontViewController
   @FXML private TableView<Appointment> appointmentTable;
   @FXML private TableColumn<Appointment, String> appointment;
   @FXML private AnchorPane pane;
-  private SharedData sharedData;
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private Label date;
 
-  public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel)
   {
     this.viewModel = viewModel;
     ObservableList<Appointment> observableAppointments = FXCollections.observableArrayList(
@@ -45,7 +44,7 @@ public class FrontViewController
     Appointment selected = appointmentTable.getSelectionModel()
         .getSelectedItem();
 
-    doctorName.setText(selected.getDoctorName());
+//    doctorName.setText(selected.getDoctorName());
 
     mode.setText(selected.getMode());
     date.setText(selected.getDate().toString());

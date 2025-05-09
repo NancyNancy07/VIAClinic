@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DoctorList
 {
-  private ArrayList<Doctor> doctors;
+  private  ArrayList<Doctor> doctors;
 
   public DoctorList()
   {
@@ -17,7 +17,7 @@ public class DoctorList
     doctors.add(doctor);
   }
 
-  public Doctor findDoctorByID(int doctorID)
+  public  Doctor findDoctorByID(int doctorID)
   {
     for (int i = 0; i < doctors.size(); i++)
     {

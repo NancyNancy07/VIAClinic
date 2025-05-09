@@ -1,13 +1,16 @@
 package client.view.bookAppointment.confirmation;
 
+import client.viewModel.loginSystem.LoginDataStore;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
 import client.viewModel.bookAppointment.SharedData;
+import server.model.bookAppointment.Doctor;
+import server.model.bookAppointment.NewDateTime;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ConfirmationViewController
 {
@@ -16,24 +19,31 @@ public class ConfirmationViewController
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private Label date;
+  @FXML private Label time;
 
   public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;
-    String name = "";
-    for (int i = 0; i < viewModel.getDoctorList().size(); i++)
-    {
-      if (viewModel.getDoctorList().get(i).getDoctorID()
-          == sharedData.getSelectedDoctorId())
-      {
-        name = viewModel.getDoctorList().get(i).getName();
-      }
 
+    Doctor selectedDoctor = null;
+    for (Doctor doctor : viewModel.getDoctorList())
+    {
+      if (doctor.getDoctorID() == sharedData.getSelectedDoctorId())
+      {
+        selectedDoctor = doctor;
+        break;
+      }
     }
-    doctorName.setText(name);
+
+    if (selectedDoctor != null)
+    {
+      doctorName.setText(selectedDoctor.getName());
+    }
+
     mode.setText(sharedData.getConsultationMode());
     date.setText(sharedData.getAppointmentDate().toString());
+    time.setText(sharedData.getAppointmentTime().toString());
   }
 
   public void confirm()
@@ -41,15 +51,27 @@ public class ConfirmationViewController
     String name = doctorName.textProperty().get();
     String modeC = mode.textProperty().get();
     LocalDate appointmentDate = LocalDate.parse(date.getText());
-    int doctorId = -1;
-    for (int i = 0; i < viewModel.getDoctorList().size(); i++)
+    LocalTime appointmentTime = LocalTime.parse(time.getText());
+    NewDateTime newDateTime = new NewDateTime(appointmentDate.getDayOfMonth(),
+        appointmentDate.getMonthValue(), appointmentDate.getYear(),
+        appointmentTime.getHour(), appointmentTime.getMinute());
+
+    Doctor selectedDoctor = null;
+    for (Doctor doctor : viewModel.getDoctorList())
     {
-      if (name.equals(viewModel.getDoctorList().get(i).getName()))
+      if (name.equals(doctor.getName()))
       {
-        doctorId = viewModel.getDoctorList().get(i).getDoctorID();
+        selectedDoctor = doctor;
+        break;
       }
     }
-    viewModel.addAppointment(1, doctorId, appointmentDate, modeC);
+
+    if (selectedDoctor != null)
+    {
+      int patientId = LoginDataStore.getInstance().getPatientId();
+      viewModel.addAppointment(newDateTime, patientId, selectedDoctor, modeC);
+    }
+
     BookAppointmentViewHandler.showView(
         BookAppointmentViewHandler.ViewType.FRONT);
   }

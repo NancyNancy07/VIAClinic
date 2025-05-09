@@ -1,16 +1,67 @@
 package shared;
 
+import server.model.bookAppointment.Appointment;
+import server.model.bookAppointment.Doctor;
+
+import java.util.List;
+
 public class ResponseObject
 {
+  private boolean success;
   private String status;
   private String message;
+  private int patientId;
+  private List<Appointment> appointments;
+  private List<Doctor> doctors;
 
-  public ResponseObject(String status, String message)
+  public ResponseObject()
   {
-    this.status = status;
-    this.message = message;
   }
 
-  public String getStatus() { return status; }
-  public String getMessage() { return message; }
+  public ResponseObject(boolean success, String message, int patientId)
+  {
+    this.success = success;
+    this.message = message;
+    this.patientId = patientId;
+  }
+
+  public String getStatus()
+  {
+    return status;
+  }
+
+  public String getMessage()
+  {
+    return message;
+  }
+
+  public int getPatientId()
+  {
+    return patientId;
+  }
+
+  public boolean isSuccess()
+  {
+    return success;
+  }
+
+  public List<Appointment> getAppointments()
+  {
+    return appointments;
+  }
+
+  public void setAppointments(List<Appointment> appointments)
+  {
+    this.appointments = appointments;
+  }
+
+  public List<Doctor> getDoctors()
+  {
+    return doctors;
+  }
+
+  public void setDoctors(List<Doctor> doctors)
+  {
+    this.doctors = doctors;
+  }
 }

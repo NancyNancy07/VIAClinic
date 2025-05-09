@@ -5,14 +5,14 @@ import server.model.bookAppointment.AppointmentModel;
 public class ViewModelFactory
 {
   private final LoginViewModel loginViewModel;
-  private final AppointmentViewModel appointmentViewModel;
+//  private final AppointmentViewModel appointmentViewModel;
   private AppointmentModel model;
 
-  public ViewModelFactory(AppointmentModel model)
+  public ViewModelFactory()
   {
     this.model = model;
     this.loginViewModel = new LoginViewModel();
-    this.appointmentViewModel = new AppointmentViewModel(model);
+//    this.appointmentViewModel = new AppointmentViewModel(model);
   }
 
   public LoginViewModel getLoginViewModel()
@@ -20,8 +20,8 @@ public class ViewModelFactory
     return loginViewModel;
   }
 
-  public AppointmentViewModel getAppointmentViewModel()
-  {
-    return appointmentViewModel;
-  }
+//  public AppointmentViewModel getAppointmentViewModel()
+  //  {
+  //    return appointmentViewModel;
+  //  }
 }

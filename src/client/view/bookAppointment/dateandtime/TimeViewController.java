@@ -1,11 +1,17 @@
 package client.view.bookAppointment.dateandtime;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
 import client.viewModel.bookAppointment.SharedData;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeViewController
 {
@@ -14,6 +20,7 @@ public class TimeViewController
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private DatePicker date;
+  @FXML private ComboBox<String> time;
 
   public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
   {
@@ -36,13 +43,36 @@ public class TimeViewController
     {
       date.setValue(sharedData.getAppointmentDate());
     }
+    if (sharedData.getAppointmentTime() != null)
+    {
+      time.setValue((sharedData.getAppointmentTime().toString()));
+    }
+    setTimeSlots();
+  }
+
+  private void setTimeSlots()
+  {
+    // Generate time slots based on ViewModel logic
+    List<String> timeSlots = viewModel.generateTimeSlotsWith15MinGap(8, 17);
+    if (time != null)
+    {
+      time.getItems().clear();
+      time.getItems().addAll(timeSlots);
+
+      if (!timeSlots.isEmpty())
+      {
+        time.setValue(timeSlots.get(0));
+      }
+    }
   }
 
   public void nextView()
   {
-    sharedData.setAppointmentDate(date.getValue());
+    viewModel.setDate(date.getValue());
+    viewModel.setTime(time.getValue());
 
-    if (sharedData.getAppointmentDate() != null)
+    if (sharedData.getAppointmentDate() != null
+        && sharedData.getAppointmentTime() != null)
     {
       BookAppointmentViewHandler.showView(
           BookAppointmentViewHandler.ViewType.CONFIRMATION);

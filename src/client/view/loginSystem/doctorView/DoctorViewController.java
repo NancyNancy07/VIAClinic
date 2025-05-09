@@ -17,7 +17,6 @@ public class DoctorViewController
   @FXML private Label doctorName;
   @FXML private TableView<Appointment> appointmentList;
   @FXML private TableColumn<Appointment, String> appointment;
-  private LoginViewModel loginViewModel;
   private AppointmentViewModel appointmentViewModel;
 
   public DoctorViewController()
@@ -35,6 +34,6 @@ public class DoctorViewController
     });
     this.appointmentList.setItems(observableDoctor);
 
-    doctorName.setText(LoginDataStore.getInstance().getDoctorEmail());
+    doctorName.setText(LoginDataStore.getInstance().getUsername());
   }
 }

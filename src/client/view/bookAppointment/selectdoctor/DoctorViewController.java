@@ -35,15 +35,20 @@ public class DoctorViewController
   {
     int selectedDoctorId = doctorTable.getSelectionModel().getSelectedItem()
         .getDoctorID();
-
     if (selectedDoctorId != -1)
+    {
+      viewModel.setSelectedDoctor(selectedDoctorId);
+      BookAppointmentViewHandler.showView(
+          BookAppointmentViewHandler.ViewType.MODE);
+    }
+
+  /*  if (selectedDoctorId != -1)
     {
       sharedData.setSelectedDoctorId(selectedDoctorId);
       BookAppointmentViewHandler.showView(
           BookAppointmentViewHandler.ViewType.MODE);
-    }
-    BookAppointmentViewHandler.showView(
-        BookAppointmentViewHandler.ViewType.MODE);
+    }*/
+
   }
 
   public void goBack()

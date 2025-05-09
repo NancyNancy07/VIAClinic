@@ -30,8 +30,6 @@ public class LoginSystemViewHandler
   }
 
   private static Stage stage;
-  private static LoginViewModel viewModel;
-  private static AppointmentViewModel appointmentViewModel;
   private static ViewModelFactory viewModelFactory;
 
   public LoginSystemViewHandler(Stage stage, ViewModelFactory factory)
@@ -120,7 +118,7 @@ public class LoginSystemViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModelFactory.getAppointmentViewModel());
+//    controller.init(viewModelFactory.getAppointmentViewModel());
 
     stage.setTitle("Doctor View");
     stage.setScene(scene);
@@ -137,7 +135,7 @@ public class LoginSystemViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    //    controller.init(client.viewModel, sharedData);
+    controller.init(viewModelFactory.getLoginViewModel());
 
     stage.setTitle("Patient View");
     stage.setScene(scene);

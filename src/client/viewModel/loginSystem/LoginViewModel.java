@@ -1,6 +1,6 @@
 package client.viewModel.loginSystem;
 
-import client.loginNetwork.LoginClient;
+import client.clientNetwork.LoginClient;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import shared.ResponseObject;
 
 public class LoginViewModel
 {
@@ -24,38 +25,49 @@ public class LoginViewModel
     this.pwProp.addListener(this::updateLoginButtonState);
   }
 
-  public void loginUser()
+  public void loginDoctor()
   {
-    String email = emailProp.get();
+    loginUserWithType("doctor");
+  }
+
+  public void loginPatient()
+  {
+    loginUserWithType("patient");
+  }
+
+  private void loginUserWithType(String userType)
+  {
+    String username = emailProp.get();
     String password = pwProp.get();
 
-    if (email != null && password != null && !email.isEmpty()
+    if (username != null && password != null && !username.isEmpty()
         && !password.isEmpty())
-
     {
       LoginClient client = new LoginClient();
-      String response = client.login(emailProp.get(), pwProp.get());
-      switch (response)
-      {
-        case "Ok":
-          LoginDataStore.getInstance()
-              .setDoctorData(emailProp.get(), pwProp.get());
-          loginSuccessProp.set(true);
-          break;
-        case "Incorrect Password":
-          showAlert("Incorrect password. Please try again.");
-          break;
-        case "Email not found":
-          showAlert("Email not found. Please check your credentials.");
-          break;
-        default:
-          showAlert("An unexpected error occurred.");
-          break;
-      }
+      ResponseObject response = client.login(username, password, userType);
 
-      // Clear input fields regardless of outcome except for success
-      if (!"Ok".equals(response))
+      if (response != null && response.isSuccess())
       {
+        LoginDataStore.getInstance()
+            .setData(username, password, userType, response.getPatientId());
+        loginSuccessProp.set(true);
+      }
+      else
+      {
+        String message = response.getMessage();
+        if (message.contains("Incorrect password"))
+        {
+          showAlert("Incorrect password. Please try again.");
+        }
+        else if (message.contains("not found"))
+        {
+          showAlert("Email not found. Please check your credentials.");
+        }
+        else
+        {
+          showAlert("An unexpected error occurred: " + message);
+        }
+
         emailProp.set("");
         pwProp.set("");
         loginSuccessProp.set(false);
@@ -66,6 +78,49 @@ public class LoginViewModel
       System.out.println("Fields should not be empty");
     }
   }
+
+  //  public void loginUser()
+  //  {
+  //    String email = emailProp.get();
+  //    String password = pwProp.get();
+  //
+  //    if (email != null && password != null && !email.isEmpty()
+  //        && !password.isEmpty())
+  //
+  //    {
+  //      LoginClient client = new LoginClient();
+  //      String response = client.login(emailProp.get(), pwProp.get(), );
+  //      switch (response)
+  //      {
+  //        case "Ok":
+  //          LoginDataStore.getInstance()
+  //              .setDoctorData(emailProp.get(), pwProp.get());
+  //          loginSuccessProp.set(true);
+  //          break;
+  //        case "Incorrect Password":
+  //          showAlert("Incorrect password. Please try again.");
+  //          break;
+  //        case "Email not found":
+  //          showAlert("Email not found. Please check your credentials.");
+  //          break;
+  //        default:
+  //          showAlert("An unexpected error occurred.");
+  //          break;
+  //      }
+  //
+  //      // Clear input fields regardless of outcome except for success
+  //      if (!"Ok".equals(response))
+  //      {
+  //        emailProp.set("");
+  //        pwProp.set("");
+  //        loginSuccessProp.set(false);
+  //      }
+  //    }
+  //    else
+  //    {
+  //      System.out.println("Fields should not be empty");
+  //    }
+  //  }
 
   private void showAlert(String message)
   {
