@@ -1,6 +1,5 @@
 package server.model.bookAppointment;
 
-import javax.print.Doc;
 import java.util.Random;
 
 public class Appointment

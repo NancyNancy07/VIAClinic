@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +16,10 @@ import server.model.bookAppointment.Appointment;
 public class DoctorViewController
 {
   @FXML private Label doctorName;
+  @FXML private Button patients;
+  @FXML private Button appointments;
+  @FXML private Button message;
+
   @FXML private TableView<Appointment> appointmentList;
   @FXML private TableColumn<Appointment, String> appointment;
   private AppointmentViewModel appointmentViewModel;
