@@ -1,40 +1,31 @@
 package server.model.bookAppointment;
 
-import javax.print.Doc;
-import java.util.Random;
-
 public class Appointment
 {
-  private NewDateTime dateTime;
+  private DateTime dateTime;
   private int appointmentID;
   private int doctorID;
   private String mode;
   private int patientID;
-  private Doctor doctor;
+  private DoctorList doctorList;
 
-  public Appointment(NewDateTime dateTime, int patientID, Doctor doctor,
-      String mode)
+  public Appointment(DateTime dateTime, int appointmentID, int doctorID,
+      String mode, int patientID, DoctorList doctorList)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentId();
+    this.appointmentID = appointmentID;
     this.doctorID = doctorID;
     this.mode = mode;
-    this.doctor = doctor;
     this.patientID = patientID;
+    this.doctorList = doctorList;
   }
 
-  private int appointmentId()
-  {
-    Random random = new Random();
-    return random.nextInt(100) + 1;
-  }
-
-  public NewDateTime getDate()
+  public DateTime getDate()
   {
     return dateTime;
   }
 
-  public NewDateTime getTime()
+  public DateTime getTime()
   {
     return dateTime;
   }
@@ -54,7 +45,7 @@ public class Appointment
     return patientID;
   }
 
-  public void setDateTime(NewDateTime dateTime)
+  public void setDateTime(DateTime dateTime)
   {
     this.dateTime = dateTime;
   }
@@ -84,17 +75,24 @@ public class Appointment
     return mode;
   }
 
-  @Override public String toString()
+  public String getDoctorName()
   {
+    Doctor doctor = doctorList.findDoctorByID(
+        this.doctorID);
     if (doctor != null)
     {
-      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
-          + "'\n";
+      return doctor.getName();
     }
     else
     {
-      return dateTime + ", Doctor= Unknown, Mode='" + mode + "'\n";
+      return "Doctor not found";
     }
+  }
+
+  @Override public String toString()
+  {
+    return dateTime + ", Doctor= " + getDoctorName() + ", Mode='" + mode + '\''
+        + "\n";
   }
 
   public boolean equals(Object obj)
