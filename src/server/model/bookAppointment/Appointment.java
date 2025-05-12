@@ -78,10 +78,10 @@ public class Appointment
   public String getDoctorName()
   {
     Doctor doctor = doctorList.findDoctorByID(
-        this.doctorID); // Assuming this method exists in DoctorList
+        this.doctorID);
     if (doctor != null)
     {
-      return doctor.getName(); // Assuming Doctor has a getName() method
+      return doctor.getName();
     }
     else
     {
