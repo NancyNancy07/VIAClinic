@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import server.model.bookAppointment.*;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
 public class BookAppointmentGUI extends Application
 {
@@ -14,7 +14,7 @@ public class BookAppointmentGUI extends Application
   @Override public void start(Stage primaryStage) throws Exception
   {
     AppointmentModel model = new ClientAppointmentModel();
-    SharedData sharedData = new SharedData();
+    BookAppointmentSharedData sharedData = new BookAppointmentSharedData();
     viewModel = new BookAppointmentViewModel(model, sharedData);
 
     BookAppointmentViewHandler viewHandler = new BookAppointmentViewHandler(

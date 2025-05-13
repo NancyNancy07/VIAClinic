@@ -3,14 +3,14 @@ package client.viewModel.bookAppointment;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class SharedData
+public class BookAppointmentSharedData
 {
   private int selectedDoctorId;
   public String consultationMode;
   private LocalDate appointmentDate;
   private LocalTime appointmentTime;
 
-  public SharedData()
+  public BookAppointmentSharedData()
   {
   }
 

@@ -9,7 +9,7 @@ import client.view.bookAppointment.front.FrontViewController;
 import client.view.bookAppointment.modeofconsultation.ModeViewController;
 import client.view.bookAppointment.selectdoctor.DoctorViewController;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
 import java.io.IOException;
 
@@ -30,10 +30,10 @@ public class BookAppointmentViewHandler
 
   private static Stage stage;
   private static BookAppointmentViewModel viewModel;
-  private static SharedData sharedData;
+  private static BookAppointmentSharedData sharedData;
 
   public BookAppointmentViewHandler(Stage stage,
-      BookAppointmentViewModel viewModel, SharedData sharedData)
+      BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
   {
     BookAppointmentViewHandler.stage = stage;
     BookAppointmentViewHandler.viewModel = viewModel;

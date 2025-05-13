@@ -1,11 +1,11 @@
 package client.view.bookAppointment.confirmation;
 
-import client.viewModel.loginSystem.LoginDataStore;
+import client.viewModel.loginSystem.LoginSharedData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.NewDateTime;
 
@@ -15,13 +15,13 @@ import java.time.LocalTime;
 public class ConfirmationViewController
 {
   private BookAppointmentViewModel viewModel;
-  private SharedData sharedData;
+  private BookAppointmentSharedData sharedData;
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private Label date;
   @FXML private Label time;
 
-  public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;
@@ -68,7 +68,7 @@ public class ConfirmationViewController
 
     if (selectedDoctor != null)
     {
-      int patientId = LoginDataStore.getInstance().getPatientId();
+      int patientId = LoginSharedData.getInstance().getPatientId();
       viewModel.addAppointment(newDateTime, patientId, selectedDoctor, modeC);
     }
 

@@ -6,23 +6,20 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TimeViewController
 {
   private BookAppointmentViewModel viewModel;
-  private SharedData sharedData;
+  private BookAppointmentSharedData sharedData;
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private DatePicker date;
   @FXML private ComboBox<String> time;
 
-  public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;

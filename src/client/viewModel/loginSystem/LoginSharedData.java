@@ -1,23 +1,23 @@
 package client.viewModel.loginSystem;
 
-public class LoginDataStore
+public class LoginSharedData
 {
-  private static LoginDataStore instance;
+  private static LoginSharedData instance;
 
   private String username;
   private String pwd;
   private String userType;
   private int patientId;
 
-  private LoginDataStore()
+  private LoginSharedData()
   {
   }
 
-  public static LoginDataStore getInstance()
+  public static LoginSharedData getInstance()
   {
     if (instance == null)
     {
-      instance = new LoginDataStore();
+      instance = new LoginSharedData();
     }
     return instance;
   }

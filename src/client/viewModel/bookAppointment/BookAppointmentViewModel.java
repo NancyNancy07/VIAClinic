@@ -1,7 +1,7 @@
 package client.viewModel.bookAppointment;
 
 import client.clientNetwork.PatientAppointmentClient;
-import client.viewModel.loginSystem.LoginDataStore;
+import client.viewModel.loginSystem.LoginSharedData;
 import server.model.bookAppointment.*;
 
 import java.time.LocalDate;
@@ -13,9 +13,9 @@ import java.util.List;
 public class BookAppointmentViewModel
 {
   private AppointmentModel model;
-  private SharedData sharedData;
+  private BookAppointmentSharedData sharedData;
 
-  public BookAppointmentViewModel(AppointmentModel model, SharedData sharedData)
+  public BookAppointmentViewModel(AppointmentModel model, BookAppointmentSharedData sharedData)
   {
     this.sharedData = sharedData;
     this.model = model;
@@ -37,7 +37,7 @@ public class BookAppointmentViewModel
   public List<Appointment> getAppointmentList()
   {
     PatientAppointmentClient client = new PatientAppointmentClient();
-    int patientId = LoginDataStore.getInstance().getPatientId();
+    int patientId = LoginSharedData.getInstance().getPatientId();
     List<Appointment> appointments = client.getAppointmentByPatientId(
         patientId);
     System.out.println(appointments);
