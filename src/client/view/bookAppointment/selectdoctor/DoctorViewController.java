@@ -41,14 +41,6 @@ public class DoctorViewController
       BookAppointmentViewHandler.showView(
           BookAppointmentViewHandler.ViewType.MODE);
     }
-
-  /*  if (selectedDoctorId != -1)
-    {
-      sharedData.setSelectedDoctorId(selectedDoctorId);
-      BookAppointmentViewHandler.showView(
-          BookAppointmentViewHandler.ViewType.MODE);
-    }*/
-
   }
 
   public void goBack()

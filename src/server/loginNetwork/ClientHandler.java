@@ -131,23 +131,8 @@ public class ClientHandler implements Runnable
                 new ResponseObject(false, "Unknown request type", -1)));
           }
         }
-
-        //        // Send response
-        //        ResponseObject response = new ResponseObject("ok", responseMessage);
-        //        output.println(gson.toJson(response));
       }
 
-      //      String username = input.readLine();
-      //      String password = input.readLine();
-
-      //      if (userManager.isValidLogin(username, password))
-      //      {
-      //        output.println("LOGIN_SUCCESS");
-      //      }
-      //      else
-      //      {
-      //        output.println("LOGIN_FAILED");
-      //      }
     }
     catch (IOException e)
     {

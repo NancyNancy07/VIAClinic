@@ -83,48 +83,6 @@ public class LoginViewModel
   {
     return LoginSharedData.getInstance().getUsername();
   }
-  //  public void loginUser()
-  //  {
-  //    String email = emailProp.get();
-  //    String password = pwProp.get();
-  //
-  //    if (email != null && password != null && !email.isEmpty()
-  //        && !password.isEmpty())
-  //
-  //    {
-  //      LoginClient client = new LoginClient();
-  //      String response = client.login(emailProp.get(), pwProp.get(), );
-  //      switch (response)
-  //      {
-  //        case "Ok":
-  //          LoginDataStore.getInstance()
-  //              .setDoctorData(emailProp.get(), pwProp.get());
-  //          loginSuccessProp.set(true);
-  //          break;
-  //        case "Incorrect Password":
-  //          showAlert("Incorrect password. Please try again.");
-  //          break;
-  //        case "Email not found":
-  //          showAlert("Email not found. Please check your credentials.");
-  //          break;
-  //        default:
-  //          showAlert("An unexpected error occurred.");
-  //          break;
-  //      }
-  //
-  //      // Clear input fields regardless of outcome except for success
-  //      if (!"Ok".equals(response))
-  //      {
-  //        emailProp.set("");
-  //        pwProp.set("");
-  //        loginSuccessProp.set(false);
-  //      }
-  //    }
-  //    else
-  //    {
-  //      System.out.println("Fields should not be empty");
-  //    }
-  //  }
 
   private void showAlert(String message)
   {
