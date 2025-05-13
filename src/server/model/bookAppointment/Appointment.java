@@ -20,6 +20,10 @@ public class Appointment
     this.doctorList = doctorList;
   }
 
+  public Appointment(NewDateTime dateTime, int patientID, Doctor doctor, String mode)
+  {
+  }
+
   public DateTime getDate()
   {
     return dateTime;

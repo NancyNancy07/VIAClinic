@@ -1,9 +1,14 @@
 package server.model.bookAppointment;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class AppointmentService implements AppointmentModel {
   private AppointmentList appointmentList;
   private DoctorList doctorList;
   private PatientList patientList;
+
+
 
   public AppointmentService(DoctorList doctorList, PatientList patientList,
       AppointmentList appointmentList) {
