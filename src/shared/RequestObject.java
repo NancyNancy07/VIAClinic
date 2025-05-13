@@ -8,7 +8,6 @@ public class RequestObject
   private String userType;
   private int id;
 
-  // Getters and setters
   public String getType()
   {
     return type;
