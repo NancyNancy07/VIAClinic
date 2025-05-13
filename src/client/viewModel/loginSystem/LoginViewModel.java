@@ -48,7 +48,7 @@ public class LoginViewModel
 
       if (response != null && response.isSuccess())
       {
-        LoginDataStore.getInstance()
+        LoginSharedData.getInstance()
             .setData(username, password, userType, response.getPatientId());
         loginSuccessProp.set(true);
       }
@@ -79,6 +79,10 @@ public class LoginViewModel
     }
   }
 
+  public String getLoginUser()
+  {
+    return LoginSharedData.getInstance().getUsername();
+  }
   //  public void loginUser()
   //  {
   //    String email = emailProp.get();

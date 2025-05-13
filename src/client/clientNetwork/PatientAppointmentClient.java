@@ -104,7 +104,6 @@ public class PatientAppointmentClient
       ResponseObject response = gson.fromJson(jsonResponse,
           ResponseObject.class);
 
-      // Assuming the response contains a list of doctors
       return response.getDoctors();
     }
     catch (IOException e)

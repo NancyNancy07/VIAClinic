@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
+import server.model.bookAppointment.Patient;
 import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
@@ -85,6 +86,7 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(patientResponse));
           }
+
           case "doctorList" ->
           {
             List<Doctor> doctorList = authService.getAllDoctors();
@@ -103,6 +105,26 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(doctorResponse));
           }
+
+          case "patientList" ->
+          {
+            List<Patient> patientList = authService.getAllPatients();
+
+            ResponseObject patientResponse;
+            if (patientList != null && !patientList.isEmpty())
+            {
+              patientResponse = new ResponseObject(true, "Patient found", -1);
+              patientResponse.setPatients(patientList);
+            }
+            else
+            {
+              patientResponse = new ResponseObject(false, "No patient found",
+                  -1);
+            }
+
+            output.println(gson.toJson(patientResponse));
+          }
+
           default ->
           {
             output.println(gson.toJson(

@@ -5,18 +5,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
 public class ModeViewController
 {
   private BookAppointmentViewModel viewModel;
-  private SharedData sharedData;
+  private BookAppointmentSharedData sharedData;
   @FXML Label doctorName;
   @FXML Button videoCall;
   @FXML Button voiceCall;
   @FXML Button inPerson;
 
-  public void init(BookAppointmentViewModel viewModel, SharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;

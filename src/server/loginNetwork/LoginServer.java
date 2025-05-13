@@ -8,16 +8,49 @@ public class LoginServer
 {
   private static final int PORT = 1234;
 
-  public static void main(String[] args) throws IOException
+  public static void main(String[] args)
   {
-    ServerSocket serverSocket = new ServerSocket(PORT);
-    System.out.println("Server started...");
-    while (true)
+
+    try (ServerSocket serverSocket = new ServerSocket(PORT))
     {
-      Socket clientSocket = serverSocket.accept();
-      new Thread(new ClientHandler(clientSocket)).start();
+      System.out.println("✅ Login Server started on port " + PORT);
+      while (true)
+      {
+        Socket clientSocket = serverSocket.accept();
+        ClientHandler handler = new ClientHandler(clientSocket);
+        Thread thread = new Thread(handler);
+        thread.start();
+      }
+    }
+    catch (IOException e)
+    {
+      System.err.println("❌ Server error: " + e.getMessage());
+      e.printStackTrace();
     }
   }
+
+
+
+
+//    try
+//
+//  {
+//    ServerSocket serverSocket = new ServerSocket(PORT);
+//    System.out.println("Server started...");
+//    while (true)
+//    {
+//      Socket clientSocket = serverSocket.accept();
+//      new Thread(new ClientHandler(clientSocket)).start();
+//    }
+//  }
+//    catch(
+//  Exception e)
+//
+//  {
+//    e.printStackTrace();
+//  }
+//
+//}
 }
 //    try (ServerSocket serverSocket = new ServerSocket(PORT))
 //    {

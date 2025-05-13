@@ -8,8 +8,6 @@ import client.view.loginSystem.loginAsDoctor.DoctorLoginViewController;
 import client.view.loginSystem.loginAsPatient.PatientLoginViewController;
 import client.view.loginSystem.loginFront.LoginFrontViewContoller;
 import client.view.loginSystem.patientView.PatientViewController;
-import client.viewModel.loginSystem.AppointmentViewModel;
-import client.viewModel.loginSystem.LoginViewModel;
 import client.viewModel.loginSystem.ViewModelFactory;
 
 import java.io.IOException;
@@ -118,7 +116,7 @@ public class LoginSystemViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-//    controller.init(viewModelFactory.getAppointmentViewModel());
+   controller.init(viewModelFactory.getLoginViewModel());
 
     stage.setTitle("Doctor View");
     stage.setScene(scene);

@@ -1,35 +1,39 @@
 package server.model.bookAppointment;
 
+import java.util.Random;
+
 public class Appointment
 {
-  private DateTime dateTime;
+  private NewDateTime dateTime;
   private int appointmentID;
   private int doctorID;
   private String mode;
   private int patientID;
-  private DoctorList doctorList;
+  private Doctor doctor;
 
-  public Appointment(DateTime dateTime, int appointmentID, int doctorID,
-      String mode, int patientID, DoctorList doctorList)
+  public Appointment(NewDateTime dateTime, int patientID, Doctor doctor,
+      String mode)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentID;
+    this.appointmentID = appointmentId();
     this.doctorID = doctorID;
     this.mode = mode;
+    this.doctor = doctor;
     this.patientID = patientID;
-    this.doctorList = doctorList;
   }
 
-  public Appointment(NewDateTime dateTime, int patientID, Doctor doctor, String mode)
+  private int appointmentId()
   {
+    Random random = new Random();
+    return random.nextInt(100) + 1;
   }
 
-  public DateTime getDate()
+  public NewDateTime getDate()
   {
     return dateTime;
   }
 
-  public DateTime getTime()
+  public NewDateTime getTime()
   {
     return dateTime;
   }
@@ -49,7 +53,7 @@ public class Appointment
     return patientID;
   }
 
-  public void setDateTime(DateTime dateTime)
+  public void setDateTime(NewDateTime dateTime)
   {
     this.dateTime = dateTime;
   }
@@ -79,24 +83,17 @@ public class Appointment
     return mode;
   }
 
-  public String getDoctorName()
+  @Override public String toString()
   {
-    Doctor doctor = doctorList.findDoctorByID(
-        this.doctorID);
     if (doctor != null)
     {
-      return doctor.getName();
+      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
+          + "'\n";
     }
     else
     {
-      return "Doctor not found";
+      return dateTime + ", Doctor= Unknown, Mode='" + mode + "'\n";
     }
-  }
-
-  @Override public String toString()
-  {
-    return dateTime + ", Doctor= " + getDoctorName() + ", Mode='" + mode + '\''
-        + "\n";
   }
 
   public boolean equals(Object obj)

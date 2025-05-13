@@ -5,6 +5,7 @@ import server.model.loginSystem.entities.User;
 import shared.ResponseObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AuthenticationServiceImp implements AuthenticationService
@@ -13,12 +14,10 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
 
-  private PatientList patientList;
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()
   {
-    patientList = new PatientList();
     appointmentList = new AppointmentList();
 
     // Sample doctors
@@ -139,7 +138,15 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   @Override public List<Patient> getAllPatients()
   {
-    return List.of(patientList.getAllPatients());
+    PatientList patients = new PatientList();
+    for (User user : users)
+    {
+      if (user instanceof Patient)
+      {
+        patients.addPatient((Patient) user);
+      }
+    }
+    return Arrays.asList(patients.getAllPatients());
   }
 
   @Override public List<Appointment> getAppointmentsForPatient(int id)

@@ -1,39 +1,49 @@
 package client.view.loginSystem.doctorView;
 
-import client.viewModel.loginSystem.AppointmentViewModel;
-import client.viewModel.loginSystem.LoginDataStore;
+import client.view.managePatient.PatientGUI;
+import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.loginSystem.LoginViewModel;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import client.viewModel.patients.PatientsSharedData;
+import client.viewModel.patients.PatientsViewModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import server.model.bookAppointment.Appointment;
+import javafx.stage.Stage;
 
 public class DoctorViewController
 {
   @FXML private Label doctorName;
-  @FXML private TableView<Appointment> appointmentList;
-  @FXML private TableColumn<Appointment, String> appointment;
-  private AppointmentViewModel appointmentViewModel;
+  @FXML private Button patients;
+  @FXML private Button appointments;
+  @FXML private Button message;
+
+  private LoginViewModel loginViewModel;
 
   public DoctorViewController()
   {
   }
 
-  public void init(AppointmentViewModel appointmentViewModel)
+  public void init(LoginViewModel loginViewModel)
   {
-    this.appointmentViewModel = appointmentViewModel;
-    ObservableList<Appointment> observableDoctor = FXCollections.observableArrayList(
-        appointmentViewModel.getAppointmentList());
-    this.appointment.setCellValueFactory((cellData) -> {
-      return new SimpleStringProperty(
-          ((Appointment) cellData.getValue()).toString());
-    });
-    this.appointmentList.setItems(observableDoctor);
+    this.loginViewModel = loginViewModel;
+    doctorName.setText(loginViewModel.getLoginUser());
+  }
 
-    doctorName.setText(LoginDataStore.getInstance().getUsername());
+  public void setPatientView() throws Exception
+  {
+    onPatientButtonClick();
+  }
+
+  @FXML private void onPatientButtonClick() throws Exception
+  {
+    PatientsSharedData sharedData = new PatientsSharedData();
+    PatientsViewModel viewModel = new PatientsViewModel(sharedData);
+    startPatientGUI(viewModel);
+  }
+
+  private void startPatientGUI(PatientsViewModel viewModel) throws Exception
+  {
+    PatientGUI patientGUI = new PatientGUI();
+    patientGUI.start(new Stage());
   }
 }

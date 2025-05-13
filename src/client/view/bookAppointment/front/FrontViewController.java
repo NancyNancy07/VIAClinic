@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import server.model.bookAppointment.Appointment;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.SharedData;
 
 public class FrontViewController
 {
