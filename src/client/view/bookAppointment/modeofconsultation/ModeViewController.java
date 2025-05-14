@@ -1,6 +1,7 @@
 package client.view.bookAppointment.modeofconsultation;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
@@ -16,7 +17,8 @@ public class ModeViewController
   @FXML Button voiceCall;
   @FXML Button inPerson;
 
-  public void init(BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel,
+      BookAppointmentSharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;
@@ -36,19 +38,16 @@ public class ModeViewController
   public void handleVideoCall()
   {
     viewModel.setMode(videoCall.getText());
-    nextView();
   }
 
   public void handleInPerson()
   {
     viewModel.setMode(inPerson.getText());
-    nextView();
   }
 
   public void handleVoiceCall()
   {
     viewModel.setMode(voiceCall.getText());
-    nextView();
   }
 
   public void nextView()
@@ -58,6 +57,13 @@ public class ModeViewController
       BookAppointmentViewHandler.showView(
           BookAppointmentViewHandler.ViewType.TIME);
     }
-
+    else
+    {
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle("No Mode of Consultation Selected");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select a mode before continuing.");
+      alert.showAndWait();
+    }
   }
 }
