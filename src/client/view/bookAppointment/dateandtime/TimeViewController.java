@@ -1,6 +1,7 @@
 package client.view.bookAppointment.dateandtime;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -19,7 +20,8 @@ public class TimeViewController
   @FXML private DatePicker date;
   @FXML private ComboBox<String> time;
 
-  public void init(BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
+  public void init(BookAppointmentViewModel viewModel,
+      BookAppointmentSharedData sharedData)
   {
     this.viewModel = viewModel;
     this.sharedData = sharedData;
@@ -74,7 +76,14 @@ public class TimeViewController
       BookAppointmentViewHandler.showView(
           BookAppointmentViewHandler.ViewType.CONFIRMATION);
     }
-
+    else
+    {
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle("No Time or Date Selected");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select a date or time before continuing.");
+      alert.showAndWait();
+    }
   }
 
   public void goBack()
