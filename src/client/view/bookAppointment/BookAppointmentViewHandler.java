@@ -1,43 +1,42 @@
 package client.view.bookAppointment;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import client.viewModel.bookAppointment.BookAppointmentViewModelFactory;
 import client.view.bookAppointment.confirmation.ConfirmationViewController;
 import client.view.bookAppointment.dateandtime.TimeViewController;
 import client.view.bookAppointment.front.FrontViewController;
 import client.view.bookAppointment.modeofconsultation.ModeViewController;
 import client.view.bookAppointment.selectdoctor.DoctorViewController;
-import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class BookAppointmentViewHandler
 {
-
-  public static void start(Stage s)
-  {
-    stage = s;
-    showView(ViewType.FRONT);
-    stage.show();
-  }
+  private static Stage stage;
+  private static BookAppointmentViewModelFactory factory;
 
   public enum ViewType
   {
     FRONT, DOCTOR, MODE, TIME, CONFIRMATION
   }
 
-  private static Stage stage;
-  private static BookAppointmentViewModel viewModel;
-  private static BookAppointmentSharedData sharedData;
-
+  // Constructor now takes factory instead of single ViewModel
   public BookAppointmentViewHandler(Stage stage,
-      BookAppointmentViewModel viewModel, BookAppointmentSharedData sharedData)
+      BookAppointmentViewModelFactory factory)
   {
     BookAppointmentViewHandler.stage = stage;
-    BookAppointmentViewHandler.viewModel = viewModel;
-    BookAppointmentViewHandler.sharedData = sharedData;
+    BookAppointmentViewHandler.factory = factory;
+  }
+
+  public static void start(Stage s, BookAppointmentViewModelFactory factory)
+  {
+    stage = s;
+    BookAppointmentViewHandler.factory = factory;
+    showView(ViewType.FRONT);
+    stage.show();
   }
 
   public static void showView(ViewType view)
@@ -51,7 +50,6 @@ public class BookAppointmentViewHandler
         case MODE -> showModeView();
         case TIME -> showTimeView();
         case CONFIRMATION -> showConfirmationView();
-
       }
     }
     catch (Exception e)
@@ -71,7 +69,8 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getFrontViewModel());
+
     stage.setTitle("Appointments");
     stage.setScene(scene);
   }
@@ -79,6 +78,7 @@ public class BookAppointmentViewHandler
   private static void showDoctorView() throws IOException
   {
     DoctorViewController controller = new DoctorViewController();
+
     FXMLLoader fxmlLoader = new FXMLLoader(
         BookAppointmentViewHandler.class.getResource(
             "./selectdoctor/doctor.fxml"));
@@ -86,7 +86,7 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel, sharedData);
+    controller.init(factory.getDoctorViewModel());
 
     stage.setTitle("Select Doctor");
     stage.setScene(scene);
@@ -103,7 +103,8 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel, sharedData);
+
+    controller.init(factory.getModeViewModel());
 
     stage.setTitle("Select Mode of Consultation");
     stage.setScene(scene);
@@ -120,7 +121,8 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel, sharedData);
+
+    controller.init(factory.getDateTimeViewModel());
 
     stage.setTitle("Select Date and Time");
     stage.setScene(scene);
@@ -137,7 +139,8 @@ public class BookAppointmentViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel, sharedData);
+
+    controller.init(factory.getFrontViewModel(), factory.getDoctorViewModel());
 
     stage.setTitle("Confirmation");
     stage.setScene(scene);

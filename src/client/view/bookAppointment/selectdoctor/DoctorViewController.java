@@ -9,21 +9,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import server.model.bookAppointment.Doctor;
 import client.view.bookAppointment.BookAppointmentViewHandler;
-import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
+import client.viewModel.bookAppointment.SelectDoctorViewModel;
 
 public class DoctorViewController
 {
-  private BookAppointmentViewModel viewModel;
-  private BookAppointmentSharedData sharedData;
+  private SelectDoctorViewModel viewModel;
+
   @FXML private TableView<Doctor> doctorTable;
   @FXML private TableColumn<Doctor, String> doctor;
 
-  public void init(BookAppointmentViewModel viewModel,
-      BookAppointmentSharedData sharedData)
+  public void init(SelectDoctorViewModel viewModel)
   {
     this.viewModel = viewModel;
-    this.sharedData = sharedData;
+
     ObservableList<Doctor> observableDoctor = FXCollections.observableArrayList(
         viewModel.getDoctorList());
 
@@ -39,10 +37,8 @@ public class DoctorViewController
 
     if (selectedDoctor != null)
     {
-      int selectedDoctorId = selectedDoctor.getDoctorID();
-      viewModel.setSelectedDoctor(selectedDoctorId);
-      BookAppointmentViewHandler.showView(
-          BookAppointmentViewHandler.ViewType.MODE);
+      viewModel.setSelectedDoctor(selectedDoctor.getDoctorID());
+      BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.MODE);
     }
     else
     {
@@ -56,7 +52,6 @@ public class DoctorViewController
 
   public void goBack()
   {
-    BookAppointmentViewHandler.showView(
-        BookAppointmentViewHandler.ViewType.FRONT);
+    BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.FRONT);
   }
 }

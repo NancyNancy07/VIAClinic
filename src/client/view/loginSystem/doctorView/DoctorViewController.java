@@ -1,7 +1,6 @@
 package client.view.loginSystem.doctorView;
 
 import client.view.managePatient.PatientGUI;
-import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.loginSystem.LoginViewModel;
 import client.viewModel.patients.PatientsSharedData;
 import client.viewModel.patients.PatientsViewModel;
@@ -36,8 +35,7 @@ public class DoctorViewController
 
   @FXML private void onPatientButtonClick() throws Exception
   {
-    PatientsSharedData sharedData = new PatientsSharedData();
-    PatientsViewModel viewModel = new PatientsViewModel(sharedData);
+    PatientsViewModel viewModel = new PatientsViewModel();
     startPatientGUI(viewModel);
   }
 

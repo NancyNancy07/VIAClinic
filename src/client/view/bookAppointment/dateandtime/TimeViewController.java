@@ -6,52 +6,40 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
-import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
+import client.viewModel.bookAppointment.SelectDateTimeViewModel;
 
 import java.util.List;
 
 public class TimeViewController
 {
-  private BookAppointmentViewModel viewModel;
-  private BookAppointmentSharedData sharedData;
+  private SelectDateTimeViewModel viewModel;
+
   @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private DatePicker date;
   @FXML private ComboBox<String> time;
 
-  public void init(BookAppointmentViewModel viewModel,
-      BookAppointmentSharedData sharedData)
+  public void init(SelectDateTimeViewModel viewModel)
   {
     this.viewModel = viewModel;
-    this.sharedData = sharedData;
-    String name = "";
-    for (int i = 0; i < viewModel.getDoctorList().size(); i++)
-    {
-      if (viewModel.getDoctorList().get(i).getDoctorID()
-          == sharedData.getSelectedDoctorId())
-      {
-        name = viewModel.getDoctorList().get(i).getName();
-      }
 
-    }
-    doctorName.setText(name);
-    mode.setText(sharedData.getConsultationMode());
+    doctorName.setText(viewModel.getDoctorName());
+    mode.setText(viewModel.getMode());
 
-    if (sharedData.getAppointmentDate() != null)
+    if (viewModel.getDate() != null)
     {
-      date.setValue(sharedData.getAppointmentDate());
+      date.setValue(viewModel.getDate());
     }
-    if (sharedData.getAppointmentTime() != null)
+    if (viewModel.getTime() != null)
     {
-      time.setValue((sharedData.getAppointmentTime().toString()));
+      time.setValue(viewModel.getTime().toString());
     }
+
     setTimeSlots();
   }
 
   private void setTimeSlots()
   {
-    // Generate time slots based on ViewModel logic
     List<String> timeSlots = viewModel.generateTimeSlotsWith15MinGap(8, 17);
     if (time != null)
     {
@@ -70,25 +58,22 @@ public class TimeViewController
     viewModel.setDate(date.getValue());
     viewModel.setTime(time.getValue());
 
-    if (sharedData.getAppointmentDate() != null
-        && sharedData.getAppointmentTime() != null)
+    if (viewModel.getDate() != null && viewModel.getTime() != null)
     {
-      BookAppointmentViewHandler.showView(
-          BookAppointmentViewHandler.ViewType.CONFIRMATION);
+      BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.CONFIRMATION);
     }
     else
     {
       Alert alert = new Alert(Alert.AlertType.WARNING);
       alert.setTitle("No Time or Date Selected");
       alert.setHeaderText(null);
-      alert.setContentText("Please select a date or time before continuing.");
+      alert.setContentText("Please select a date and time before continuing.");
       alert.showAndWait();
     }
   }
 
   public void goBack()
   {
-    BookAppointmentViewHandler.showView(
-        BookAppointmentViewHandler.ViewType.DOCTOR);
+    BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.MODE);
   }
 }

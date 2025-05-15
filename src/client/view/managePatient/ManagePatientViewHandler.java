@@ -26,7 +26,6 @@ public class ManagePatientViewHandler
 
   private static Stage stage;
   private static PatientsViewModel viewModel;
-  private static BookAppointmentSharedData sharedData;
 
   public ManagePatientViewHandler(Stage stage, PatientsViewModel viewModel)
   {

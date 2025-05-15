@@ -1,16 +1,19 @@
-package client.view.managePatient;
+package client.view.patientJournal;
 
 import client.viewModel.patients.PatientsSharedData;
 import client.viewModel.patients.PatientsViewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class PatientGUI extends Application
+public class PatientJournalGUI extends Application
 {
+  private PatientsViewModel viewModel;
+
   @Override public void start(Stage primaryStage) throws Exception
   {
-    PatientsViewModel viewModel = new PatientsViewModel();
-    ManagePatientViewHandler viewHandler = new ManagePatientViewHandler(
+    viewModel = new PatientsViewModel();
+
+    PatientJournalViewHandler viewHandler = new PatientJournalViewHandler(
         primaryStage, viewModel);
     viewHandler.start(primaryStage);
   }

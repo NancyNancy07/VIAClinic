@@ -5,34 +5,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import client.view.bookAppointment.BookAppointmentViewHandler;
-import client.viewModel.bookAppointment.BookAppointmentViewModel;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
+import client.viewModel.bookAppointment.SelectModeViewModel;
 
 public class ModeViewController
 {
-  private BookAppointmentViewModel viewModel;
-  private BookAppointmentSharedData sharedData;
-  @FXML Label doctorName;
-  @FXML Button videoCall;
-  @FXML Button voiceCall;
-  @FXML Button inPerson;
+  private SelectModeViewModel viewModel;
 
-  public void init(BookAppointmentViewModel viewModel,
-      BookAppointmentSharedData sharedData)
+  @FXML private Label doctorName;
+  @FXML private Button videoCall;
+  @FXML private Button voiceCall;
+  @FXML private Button inPerson;
+
+  public void init(SelectModeViewModel viewModel)
   {
     this.viewModel = viewModel;
-    this.sharedData = sharedData;
-    String name = "";
-    for (int i = 0; i < viewModel.getDoctorList().size(); i++)
-    {
-      if (viewModel.getDoctorList().get(i).getDoctorID()
-          == sharedData.getSelectedDoctorId())
-      {
-        name = viewModel.getDoctorList().get(i).getName();
-      }
-
-    }
-    doctorName.setText(name);
+    doctorName.setText(viewModel.getSelectedDoctorName());
   }
 
   public void handleVideoCall()
@@ -52,10 +39,9 @@ public class ModeViewController
 
   public void nextView()
   {
-    if (sharedData.getConsultationMode() != null)
+    if (viewModel.getConsultationMode() != null)
     {
-      BookAppointmentViewHandler.showView(
-          BookAppointmentViewHandler.ViewType.TIME);
+      BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.TIME);
     }
     else
     {

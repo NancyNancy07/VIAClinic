@@ -7,22 +7,18 @@ import java.time.LocalTime;
 
 public class ClientAppointmentModel implements AppointmentModel
 {
-  private AppointmentList appointmentList; // Filled by server response
-  private DoctorList doctorList; // Filled by server response
+  private AppointmentList appointmentList;
+  private DoctorList doctorList;
 
   public ClientAppointmentModel()
   {
     this.appointmentList = new AppointmentList();
     this.doctorList = new DoctorList();
-    // Fetch data from server here and fill the lists
   }
 
   @Override public Appointment bookAppointment(NewDateTime dateTime,
       int patientId, Doctor doctor, String mode)
   {
-    // Send request to server, receive appointment, and return it
-    // Update local list if needed
-
     return new Appointment(dateTime, patientId, doctor, mode); // Example stub
   }
 

@@ -10,11 +10,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import server.model.bookAppointment.Appointment;
 import client.view.bookAppointment.BookAppointmentViewHandler;
-import client.viewModel.bookAppointment.BookAppointmentViewModel;
+import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 
 public class FrontViewController
 {
-  private BookAppointmentViewModel viewModel;
+  private BookAppointmentFrontViewModel viewModel;
   @FXML private TableView<Appointment> appointmentTable;
   @FXML private TableColumn<Appointment, String> appointment;
   @FXML private AnchorPane pane;
@@ -22,7 +22,7 @@ public class FrontViewController
   @FXML private Label mode;
   @FXML private Label date;
 
-  public void init(BookAppointmentViewModel viewModel)
+  public void init(BookAppointmentFrontViewModel viewModel)
   {
     this.viewModel = viewModel;
     ObservableList<Appointment> observableAppointments = FXCollections.observableArrayList(

@@ -13,13 +13,13 @@ import java.util.List;
 
 public class PatientsViewModel implements DiagnosisListener
 {
-  private PatientsSharedData patientsSharedData;
+  private PatientsSharedData patientsSharedData = PatientsSharedData.getInstance();
   private List<Patient> patients;
   private int patientId;
   private PatientClient patientClient;
   private ObservableList<Diagnosis> diagnoses = FXCollections.observableArrayList();
 
-  public PatientsViewModel(PatientsSharedData patientsSharedData)
+  public PatientsViewModel()
   {
     this.patientsSharedData = patientsSharedData;
     patientClient = new PatientClient();
