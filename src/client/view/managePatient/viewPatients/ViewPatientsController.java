@@ -43,6 +43,7 @@ public class ViewPatientsController
     Patient selected = patientsTable.getSelectionModel().getSelectedItem();
     patientName.setText(selected.getName());
     viewModel.setPatientName(selected.getName());
+    viewModel.setPatientId(selected);
   }
 
   public void setAddDiagnosisView()

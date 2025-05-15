@@ -37,7 +37,7 @@ public class BookAppointmentViewModel
   public List<Appointment> getAppointmentList()
   {
     PatientAppointmentClient client = new PatientAppointmentClient();
-    int patientId = LoginSharedData.getInstance().getPatientId();
+    int patientId = LoginSharedData.getInstance().getId();
     List<Appointment> appointments = client.getAppointmentByPatientId(
         patientId);
     System.out.println(appointments);

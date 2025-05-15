@@ -1,5 +1,7 @@
 package shared;
 
+import server.model.patientJournal.Diagnosis;
+
 public class RequestObject
 {
   private String type;
@@ -7,6 +9,7 @@ public class RequestObject
   private String password;
   private String userType;
   private int id;
+  private Diagnosis diagnosis;
 
   public String getType()
   {
@@ -56,5 +59,13 @@ public class RequestObject
   public void setId(int id)
   {
     this.id = id;
+  }
+
+  public void setDiagnosis(Diagnosis diagnosis) {
+    this.diagnosis = diagnosis;
+  }
+
+  public Diagnosis getDiagnosis() {
+    return diagnosis;
   }
 }

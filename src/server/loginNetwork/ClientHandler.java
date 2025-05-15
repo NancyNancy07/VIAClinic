@@ -8,6 +8,7 @@ import server.model.bookAppointment.Patient;
 import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
+import server.model.patientJournal.Diagnosis;
 import server.util.LocalDateAdapter;
 import server.util.LocalTimeAdapter;
 import shared.RequestObject;
@@ -123,6 +124,28 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(patientResponse));
+          }
+
+          case "addDiagnosis" ->
+          {
+            Diagnosis diagnosis = req.getDiagnosis();
+            System.out.println("Received diagnosis:");
+            System.out.println("  Name: " + diagnosis.getDiagnosisName());
+            System.out.println("  Status: " + diagnosis.getStatus());
+            System.out.println(
+                "  Date Diagnosed: " + diagnosis.getDateDiagnosed());
+            System.out.println("  Comment: " + diagnosis.getComment());
+            System.out.println("  Doctor ID: " + diagnosis.getDoctorId());
+            System.out.println("  Patient ID: " + diagnosis.getPatientId());
+            System.out.println(
+                "  Prescription: " + diagnosis.getPrescription());
+
+            ResponseObject diagnosisResponse = new ResponseObject();
+            diagnosisResponse.setSuccess(true);
+            diagnosisResponse.setMessage("Diagnosis received by server");
+            diagnosisResponse.setDiagnosis(diagnosis);
+
+            output.println(gson.toJson(diagnosisResponse));
           }
 
           default ->

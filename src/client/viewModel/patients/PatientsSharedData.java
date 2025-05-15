@@ -1,5 +1,10 @@
 package client.viewModel.patients;
 
+import client.viewModel.loginSystem.LoginSharedData;
+import server.model.bookAppointment.NewDateTime;
+
+import java.time.LocalDate;
+
 public class PatientsSharedData
 {
   private String patientName;
@@ -15,11 +20,10 @@ public class PatientsSharedData
     return patientName;
   }
 
-  public void setDiagnosis(String diagnosis)
+  public void setDiagnosis(String diagnosis, String status, NewDateTime date,
+      String prescription)
   {
     this.diagnosis = diagnosis;
-    System.out.println(diagnosis);
-
   }
 
   public String getDiagnosis()
@@ -27,4 +31,8 @@ public class PatientsSharedData
     return diagnosis;
   }
 
+  public int getDoctorId()
+  {
+    return LoginSharedData.getInstance().getId();
+  }
 }

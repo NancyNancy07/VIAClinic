@@ -7,7 +7,7 @@ public class LoginSharedData
   private String username;
   private String pwd;
   private String userType;
-  private int patientId;
+  private int id;
 
   private LoginSharedData()
   {
@@ -27,7 +27,7 @@ public class LoginSharedData
     this.username = email;
     this.pwd = pwd;
     this.userType = userType;
-    this.patientId = patientId;
+    this.id = patientId;
   }
 
   public String getUsername()
@@ -35,8 +35,8 @@ public class LoginSharedData
     return username;
   }
 
-  public int getPatientId()
+  public int getId()
   {
-    return patientId;
+    return id;
   }
 }
