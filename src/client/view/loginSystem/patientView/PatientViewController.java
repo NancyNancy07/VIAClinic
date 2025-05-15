@@ -4,10 +4,9 @@ import client.model.ClientAppointmentModel;
 import client.view.bookAppointment.BookAppointmentGUI;
 import client.view.patientJournal.PatientJournalGUI;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.loginSystem.LoginViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -32,9 +31,8 @@ public class PatientViewController
   @FXML private void onAppointmentButtonClick() throws Exception
   {
     AppointmentModel model = new ClientAppointmentModel();
-    BookAppointmentSharedData sharedData = BookAppointmentSharedData.getInstance();
     BookAppointmentFrontViewModel viewModel = new BookAppointmentFrontViewModel(model);
-    startBookAppointmentGUI(viewModel, sharedData);
+    startBookAppointmentGUI(viewModel);
   }
 
   @FXML private void onPatientJournalButtonClick() throws Exception
@@ -43,8 +41,7 @@ public class PatientViewController
     startPatientJournalGUI(viewModel);
   }
 
-  private void startBookAppointmentGUI(BookAppointmentFrontViewModel viewModel,
-      BookAppointmentSharedData sharedData) throws Exception
+  private void startBookAppointmentGUI(BookAppointmentFrontViewModel viewModel) throws Exception
   {
     BookAppointmentGUI bookAppointmentGUI = new BookAppointmentGUI();
     bookAppointmentGUI.start(new Stage());

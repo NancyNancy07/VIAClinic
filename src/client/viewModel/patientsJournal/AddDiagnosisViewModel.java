@@ -1,65 +1,34 @@
-package client.viewModel.patients;
+package client.viewModel.patientsJournal;
 
 import client.clientNetwork.DiagnosisListener;
 import client.clientNetwork.PatientClient;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.bookAppointment.NewDateTime;
-import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 
-import java.time.LocalDate;
-import java.util.List;
-
-public class PatientsViewModel implements DiagnosisListener
+public class AddDiagnosisViewModel implements DiagnosisListener
 {
-  private PatientsSharedData patientsSharedData = PatientsSharedData.getInstance();
-  private List<Patient> patients;
-  private int patientId;
-  private PatientClient patientClient;
   private ObservableList<Diagnosis> diagnoses = FXCollections.observableArrayList();
 
-  public PatientsViewModel()
+  private final PatientsSharedData patientsSharedData = PatientsSharedData.getInstance();
+  private final PatientClient patientClient;
+
+  private final StringProperty patientName = new SimpleStringProperty();
+
+  public AddDiagnosisViewModel()
   {
-    this.patientsSharedData = patientsSharedData;
     patientClient = new PatientClient();
-    patientClient.setDiagnosisListener(this); // Register as listener
-
-  }
-
-  public List<Patient> getPatientList()
-  {
-    PatientClient patientClient = new PatientClient();
-    this.patients = patientClient.getPatientList();
-    if (patients != null)
-    {
-      return patients;
-    }
-
-    return null;
-  }
-
-  public void setPatientId(Patient patient)
-  {
-    for (int i = 0; i < patients.size(); i++)
-    {
-      if (patients.get(i).equals(patient))
-      {
-        patientId = patients.get(i).getPatientID();
-      }
-    }
-  }
-
-  public int getPatientId()
-  {
-    return patientId;
+    patientName.set(patientsSharedData.getPatientName());
   }
 
   public void addDiagnosis(String diagnosisName, String status,
       NewDateTime date, String prescription)
   {
     Diagnosis diagnosis = new Diagnosis(diagnosisName, status, date,
-        patientsSharedData.getDoctorId(), getPatientId(), prescription);
+        patientsSharedData.getDoctorId(), patientsSharedData.getPatientId(),
+        prescription);
     diagnoses.add(diagnosis);
     patientClient.sendAddDiagnosis(diagnosis);
     patientsSharedData.setDiagnosis(diagnosisName, status, date, prescription);
@@ -89,5 +58,4 @@ public class PatientsViewModel implements DiagnosisListener
   {
     System.out.println("Diagnosis result: " + message);
   }
-
 }

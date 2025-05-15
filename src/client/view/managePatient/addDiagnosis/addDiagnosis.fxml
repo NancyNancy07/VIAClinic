@@ -30,7 +30,7 @@
                            </font>
                         </Label>
                         <Label layoutX="209.0" layoutY="57.0" text="Patient Name:" />
-                        <Label fx:id="patientName" layoutX="312.0" layoutY="57.0" text="Patient 1" />
+                        <Label fx:id="patientName2" layoutX="312.0" layoutY="57.0" text="Patient 1" />
                      </children>
                   </AnchorPane>
             </content>
@@ -52,7 +52,7 @@
                         <DatePicker fx:id="dateAddedField" layoutX="322.0" layoutY="166.0" prefHeight="25.0" prefWidth="150.0" />
                         <Label layoutX="244.0" layoutY="202.0" text="Status:" />
                         <TextField fx:id="statusField" layoutX="322.0" layoutY="198.0" />
-                        <TextField fx:id="patientName2" disable="true" editable="false" layoutX="322.0" layoutY="103.0" />
+                        <TextField fx:id="patientName" disable="true" editable="false" layoutX="322.0" layoutY="103.0" />
                         <Label layoutX="211.0" layoutY="234.0" text="Perscription:" />
                         <TextField fx:id="prescriptionField" layoutX="322.0" layoutY="230.0" prefHeight="25.0" prefWidth="247.0" />
                      </children>

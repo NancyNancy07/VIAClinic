@@ -1,7 +1,6 @@
 package client.view.patientJournal;
 
-import client.viewModel.patients.PatientsSharedData;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

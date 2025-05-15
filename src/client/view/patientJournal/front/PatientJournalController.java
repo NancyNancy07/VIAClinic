@@ -1,6 +1,6 @@
 package client.view.patientJournal.front;
 
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

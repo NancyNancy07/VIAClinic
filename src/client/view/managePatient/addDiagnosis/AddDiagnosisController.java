@@ -1,6 +1,6 @@
 package client.view.managePatient.addDiagnosis;
 
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.AddDiagnosisViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,21 +9,19 @@ import javafx.scene.control.*;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
 
-import java.time.LocalDate;
-
 public class AddDiagnosisController
 {
   @FXML private TextField diagnosisName;
-  @FXML private Label patientName;
-  @FXML private TextField patientName2;
+  @FXML private TextField patientName;
+  @FXML private Label patientName2;
   @FXML private TextField statusField;
   @FXML private TextField prescriptionField;
   @FXML private DatePicker dateAddedField;
   @FXML private TableView<Diagnosis> diagnosisTableView;
   @FXML private TableColumn<Diagnosis, String> diagnosisCol;
-  private PatientsViewModel viewModel;
+  private AddDiagnosisViewModel viewModel;
 
-  public void init(PatientsViewModel viewModel)
+  public void init(AddDiagnosisViewModel viewModel)
   {
     this.viewModel = viewModel;
     patientName.setText(viewModel.getPatientName());

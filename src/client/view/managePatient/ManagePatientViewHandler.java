@@ -2,19 +2,20 @@ package client.view.managePatient;
 
 import client.view.managePatient.addDiagnosis.AddDiagnosisController;
 import client.view.managePatient.viewPatients.ViewPatientsController;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientJournalViewModelFactory;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
 import java.io.IOException;
 
 public class ManagePatientViewHandler
 {
-  public static void start(Stage s)
+  public static void start(Stage s, PatientJournalViewModelFactory factory)
   {
     stage = s;
+    ManagePatientViewHandler.factory = factory;
     showView(ViewType.FRONT);
     stage.show();
   }
@@ -26,11 +27,14 @@ public class ManagePatientViewHandler
 
   private static Stage stage;
   private static PatientsViewModel viewModel;
+  private static PatientJournalViewModelFactory factory;
 
-  public ManagePatientViewHandler(Stage stage, PatientsViewModel viewModel)
+  public ManagePatientViewHandler(Stage stage,
+      PatientJournalViewModelFactory factory)
   {
     ManagePatientViewHandler.stage = stage;
     ManagePatientViewHandler.viewModel = viewModel;
+    ManagePatientViewHandler.factory = factory;
   }
 
   public static void showView(ViewType view)
@@ -64,7 +68,7 @@ public class ManagePatientViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientsViewModel());
     stage.setTitle("Patients Data");
     stage.setScene(scene);
   }
@@ -79,7 +83,7 @@ public class ManagePatientViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getAddDiagnosisViewModel());
 
     stage.setTitle("View Diagnosis");
     stage.setScene(scene);

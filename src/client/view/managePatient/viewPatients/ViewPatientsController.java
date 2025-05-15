@@ -1,7 +1,7 @@
 package client.view.managePatient.viewPatients;
 
 import client.view.managePatient.ManagePatientViewHandler;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

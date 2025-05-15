@@ -1,7 +1,7 @@
 package client.view.patientJournal;
 
 import client.view.patientJournal.front.PatientJournalController;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.patientsJournal.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
