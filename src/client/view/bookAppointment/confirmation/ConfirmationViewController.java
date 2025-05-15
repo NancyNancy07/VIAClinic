@@ -68,7 +68,7 @@ public class ConfirmationViewController
 
     if (selectedDoctor != null)
     {
-      int patientId = LoginSharedData.getInstance().getPatientId();
+      int patientId = LoginSharedData.getInstance().getId();
       viewModel.addAppointment(newDateTime, patientId, selectedDoctor, modeC);
     }
 

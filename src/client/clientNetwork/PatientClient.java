@@ -3,6 +3,7 @@ package client.clientNetwork;
 import com.google.gson.Gson;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
+import server.model.patientJournal.Diagnosis;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -11,10 +12,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PatientClient
 {
+  private DiagnosisListener listener;
+
+  public void setDiagnosisListener(DiagnosisListener listener)
+  {
+    this.listener = listener;
+  }
+
   public List<Patient> getPatientList()
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -43,6 +52,50 @@ public class PatientClient
     {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  public void sendAddDiagnosis(Diagnosis diagnosis)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("addDiagnosis");
+      request.setDiagnosis(diagnosis);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        Diagnosis addedDiagnosis = response.getDiagnosis();
+        System.out.println(
+            "Diagnosis added: " + addedDiagnosis.getDiagnosisName());
+
+        if (listener != null)
+        {
+          listener.onDiagnosisAdded(true,
+              addedDiagnosis.getDiagnosisName() + "is added");
+        }
+      }
+
+    }
+    catch (IOException e)
+
+    {
+      e.printStackTrace();
     }
   }
 }

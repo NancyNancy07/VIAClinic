@@ -3,6 +3,7 @@ package shared;
 import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
+import server.model.patientJournal.Diagnosis;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ResponseObject
   private List<Appointment> appointments;
   private List<Doctor> doctors;
   private List<Patient> patients;
+  private Diagnosis diagnosis;
 
   public ResponseObject()
   {
@@ -75,5 +77,25 @@ public class ResponseObject
   public void setPatients(List<Patient> patients)
   {
     this.patients = patients;
+  }
+
+  public Diagnosis getDiagnosis()
+  {
+    return diagnosis;
+  }
+
+  public void setDiagnosis(Diagnosis diagnosis)
+  {
+    this.diagnosis = diagnosis;
+  }
+
+  public void setSuccess(boolean b)
+  {
+    this.success = b;
+  }
+
+  public void setMessage(String diagnosisReceivedByServer)
+  {
+    this.message = diagnosisReceivedByServer;
   }
 }
