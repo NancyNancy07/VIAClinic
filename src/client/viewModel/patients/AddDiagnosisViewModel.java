@@ -1,7 +1,8 @@
-package client.viewModel.patientsJournal;
+package client.viewModel.patients;
 
 import client.clientNetwork.DiagnosisListener;
 import client.clientNetwork.PatientClient;
+import client.viewModel.patientJournal.PatientJournalSharedData;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ public class AddDiagnosisViewModel implements DiagnosisListener
   private ObservableList<Diagnosis> diagnoses = FXCollections.observableArrayList();
 
   private final PatientsSharedData patientsSharedData = PatientsSharedData.getInstance();
+  private final PatientJournalSharedData patientJournalSharedData = PatientJournalSharedData.getInstance();
+
   private final PatientClient patientClient;
 
   private final StringProperty patientName = new SimpleStringProperty();
@@ -32,6 +35,7 @@ public class AddDiagnosisViewModel implements DiagnosisListener
     diagnoses.add(diagnosis);
     patientClient.sendAddDiagnosis(diagnosis);
     patientsSharedData.setDiagnosis(diagnosisName, status, date, prescription);
+    patientJournalSharedData.setPatientId(patientsSharedData.getPatientId());
   }
 
   public ObservableList<Diagnosis> getDiagnoses()

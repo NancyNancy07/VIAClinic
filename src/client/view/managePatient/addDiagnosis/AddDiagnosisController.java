@@ -1,9 +1,7 @@
 package client.view.managePatient.addDiagnosis;
 
-import client.viewModel.patientsJournal.AddDiagnosisViewModel;
+import client.viewModel.patients.AddDiagnosisViewModel;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import server.model.bookAppointment.NewDateTime;

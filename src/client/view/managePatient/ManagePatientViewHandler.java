@@ -2,8 +2,8 @@ package client.view.managePatient;
 
 import client.view.managePatient.addDiagnosis.AddDiagnosisController;
 import client.view.managePatient.viewPatients.ViewPatientsController;
-import client.viewModel.patientsJournal.PatientJournalViewModelFactory;
-import client.viewModel.patientsJournal.PatientsViewModel;
+import client.viewModel.patients.PatientJournalViewModelFactory;
+import client.viewModel.patients.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -129,6 +129,10 @@ public class ClientHandler implements Runnable
           case "addDiagnosis" ->
           {
             Diagnosis diagnosis = req.getDiagnosis();
+
+            if (diagnosis != null) {
+              AuthenticationServiceImp.getInstance().addDiagnosis(diagnosis);
+            }
             System.out.println("Received diagnosis:");
             System.out.println("  Name: " + diagnosis.getDiagnosisName());
             System.out.println("  Status: " + diagnosis.getStatus());
@@ -144,6 +148,23 @@ public class ClientHandler implements Runnable
             diagnosisResponse.setSuccess(true);
             diagnosisResponse.setMessage("Diagnosis received by server");
             diagnosisResponse.setDiagnosis(diagnosis);
+
+            output.println(gson.toJson(diagnosisResponse));
+          }
+
+          case "getDiagnosisList" ->
+          {
+            int patientId = req.getId();
+
+            List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(patientId);
+
+            ResponseObject diagnosisResponse;
+            if (diagnosisList != null && !diagnosisList.isEmpty()) {
+              diagnosisResponse = new ResponseObject(true, "Diagnoses found", patientId);
+              diagnosisResponse.setDiagnoses(diagnosisList);
+            } else {
+              diagnosisResponse = new ResponseObject(false, "No diagnoses found", patientId);
+            }
 
             output.println(gson.toJson(diagnosisResponse));
           }

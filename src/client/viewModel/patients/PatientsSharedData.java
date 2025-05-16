@@ -1,4 +1,4 @@
-package client.viewModel.patientsJournal;
+package client.viewModel.patients;
 
 import client.viewModel.loginSystem.LoginSharedData;
 import server.model.bookAppointment.NewDateTime;

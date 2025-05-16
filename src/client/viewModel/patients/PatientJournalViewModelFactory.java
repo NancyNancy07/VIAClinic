@@ -1,4 +1,4 @@
-package client.viewModel.patientsJournal;
+package client.viewModel.patients;
 
 public class PatientJournalViewModelFactory
 {

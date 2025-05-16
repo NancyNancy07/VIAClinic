@@ -17,6 +17,7 @@ public class ResponseObject
   private List<Doctor> doctors;
   private List<Patient> patients;
   private Diagnosis diagnosis;
+  private List<Diagnosis> diagnoses;
 
   public ResponseObject()
   {
@@ -97,5 +98,15 @@ public class ResponseObject
   public void setMessage(String diagnosisReceivedByServer)
   {
     this.message = diagnosisReceivedByServer;
+  }
+
+  public List<Diagnosis> getDiagnoses()
+  {
+    return diagnoses;
+  }
+
+  public void setDiagnoses(List<Diagnosis> diagnoses)
+  {
+    this.diagnoses = diagnoses;
   }
 }

@@ -98,4 +98,47 @@ public class PatientClient
       e.printStackTrace();
     }
   }
+
+  public List<Diagnosis> getPatientDiagnosis(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("getDiagnosisList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getDiagnoses();
+      }
+      else
+      {
+        System.err.println(
+            "Failed to retrieve diagnoses: " + response.getMessage());
+        return null;
+      }
+
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }

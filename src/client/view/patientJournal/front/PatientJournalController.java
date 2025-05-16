@@ -1,6 +1,8 @@
 package client.view.patientJournal.front;
 
-import client.viewModel.patientsJournal.PatientsViewModel;
+import client.view.patientJournal.PatientJournalViewHandler;
+import client.viewModel.loginSystem.LoginSharedData;
+import client.viewModel.patients.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,19 +21,12 @@ public class PatientJournalController
   public void init(PatientsViewModel viewModel)
   {
     this.viewModel = viewModel;
-    //    ObservableList<Patient> patients = FXCollections.observableArrayList(
-    //        viewModel.getPatientList());
-    //
-    //    patient.setCellValueFactory(
-    //        cellData -> new SimpleStringProperty(cellData.getValue().toString()));
-    //
-    //    patientsTable.setItems(patients);
-    //
-    //    patientsTable.setOnMouseClicked(event -> managePatientData());
+    patientName.setText(LoginSharedData.getInstance().getUsername());
   }
 
   @FXML private void diagnosisClick()
   {
-
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.DIAGNOSIS);
   }
 }

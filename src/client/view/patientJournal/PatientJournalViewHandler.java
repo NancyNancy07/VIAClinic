@@ -1,7 +1,9 @@
 package client.view.patientJournal;
 
+import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
-import client.viewModel.patientsJournal.PatientsViewModel;
+import client.viewModel.patientJournal.PatientDiagnosisViewModel;
+import client.viewModel.patients.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,12 +25,15 @@ public class PatientJournalViewHandler
   }
 
   private static Stage stage;
-  private static PatientsViewModel viewModel;
+  private static PatientDiagnosisViewModel viewModel;
+  private static PatientsViewModel patientsViewModel;
 
-  public PatientJournalViewHandler(Stage stage, PatientsViewModel viewModel)
+  public PatientJournalViewHandler(Stage stage,
+      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel)
   {
     PatientJournalViewHandler.stage = stage;
     PatientJournalViewHandler.viewModel = viewModel;
+    PatientJournalViewHandler.patientsViewModel = patientsViewModel;
   }
 
   public static void showView(ViewType view)
@@ -62,25 +67,25 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(patientsViewModel);
     stage.setTitle("My Journal");
     stage.setScene(scene);
   }
 
   private static void showDiagnosisView() throws IOException
   {
-//    AddDiagnosisController controller = new AddDiagnosisController();
-//    FXMLLoader fxmlLoader = new FXMLLoader(
-//        ManagePatientViewHandler.class.getResource(
-//            "./addDiagnosis/addDiagnosis.fxml"));
-//
-//    fxmlLoader.setControllerFactory(ignore -> controller);
-//
-//    Scene scene = new Scene(fxmlLoader.load());
-//    controller.init(viewModel);
-//
-//    stage.setTitle("View Diagnosis");
-//    stage.setScene(scene);
+    DiagnosisController controller = new DiagnosisController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource(
+            "./diagnosis/diagnosis.fxml"));
+
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(viewModel);
+
+    stage.setTitle("View Diagnosis");
+    stage.setScene(scene);
   }
 
 }

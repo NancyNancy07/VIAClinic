@@ -2,8 +2,10 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
+import server.model.patientJournal.Diagnosis;
 import shared.ResponseObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +15,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   private ArrayList<User> users = new ArrayList<>();
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
+  private List<Diagnosis> allDiagnoses;
 
   private AppointmentList appointmentList;
 
@@ -49,6 +52,18 @@ public class AuthenticationServiceImp implements AuthenticationService
         new Appointment(dateTime1, 6, doctor3, "In-person"));
     appointmentList.addAppointment(
         new Appointment(dateTime2, 6, doctor4, "Online"));
+
+    allDiagnoses = new ArrayList<>();
+    NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
+    NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
+
+    allDiagnoses.add(
+        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
+    allDiagnoses.add(
+        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
+    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1, 5,
+        "Cast for 4 weeks"));
+
   }
 
   public static AuthenticationServiceImp getInstance()
@@ -161,4 +176,23 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
     return result;
   }
+
+  @Override public List<Diagnosis> getDiagnosesForPatient(int patientId)
+  {
+    List<Diagnosis> patientDiagnoses = new ArrayList<>();
+    for (Diagnosis diagnosis : allDiagnoses)
+    {
+      if (diagnosis.getPatientId() == patientId)
+      {
+        patientDiagnoses.add(diagnosis);
+      }
+    }
+    return patientDiagnoses;
+  }
+
+  public void addDiagnosis(Diagnosis diagnosis)
+  {
+    allDiagnoses.add(diagnosis);
+  }
+
 }
