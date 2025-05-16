@@ -28,7 +28,7 @@ public class TestDatabaseDiagnosis
       String userName = "johndoe";
       String password = "password123";
 
-      DatabasePatient patient = databasePatientDAO.create(firstName, lastName, email,
+      Patient patient = databasePatientDAO.create(firstName, lastName, email,
           phoneNumber, userName, password, CPR, address);
 
 
@@ -41,7 +41,7 @@ public class TestDatabaseDiagnosis
       String doctorUserName = "drsmith";
       String doctorPassword = "doctorpassword";
 
-      DatabaseDoctor doctor = databaseDoctorDAO.create(doctorFirstName, doctorLastName, doctorEmail,
+      Doctor doctor = databaseDoctorDAO.create(doctorFirstName, doctorLastName, doctorEmail,
           doctorPhoneNumber, doctorUserName, doctorPassword);
 
       PrescriptionDAO prescriptionDAO = PrescriptionDAO.getInstance();
@@ -59,11 +59,11 @@ public class TestDatabaseDiagnosis
       Prescription prescription = prescriptionDAO.create(medicineName, doseAmount, doseUnit, prescriptionStartDate, prescriptionEndDate, frequency, status, comment, doctor, patient);
 
 
-      DiagnosisDAO diagnosisDAO = DiagnosisDAO.getInstance();
+      DatabaseDiagnosisDAO diagnosisDAO = DatabaseDiagnosisDAO.getInstance();
 
       NewDateTime dateDiagnosed = new NewDateTime(1, 10, 2023, 12, 0);
 
-      DatabaseDiagnosis diagnosis = diagnosisDAO.createDatabaseDiagnosis("Flu", "Active", dateDiagnosed, "Patient is sick", doctor, patient, prescription);
+      Diagnosis diagnosis = diagnosisDAO.create("Flu", "Active", dateDiagnosed, "Patient is sick", doctor, patient, prescription);
       System.out.println("Diagnosis created: " + diagnosis.getDiagnosisName());
     }
     catch (Exception e)

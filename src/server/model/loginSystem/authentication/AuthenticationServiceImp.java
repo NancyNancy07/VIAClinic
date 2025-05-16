@@ -25,14 +25,14 @@ public class AuthenticationServiceImp implements AuthenticationService
     appointmentList = new AppointmentList();
 
     // Sample doctors
-    Doctor doctor1 = new Doctor(1, "Dr. Smith", "asd123", "1234567");
-    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
-    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
-    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
+    Doctor doctor1 = new Doctor(1, "Smith", "Jones","asdasd@gmail.com","1234566644", "asd123", "1234567");
+//    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
+//    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
+//    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
     users.add(doctor1);
-    users.add(doctor2);
-    users.add(doctor3);
-    users.add(doctor4);
+//    users.add(doctor2);
+//    users.add(doctor3);
+//    users.add(doctor4);
 
     // Sample patients
     Address address1 = new Address("Horsens", "8700", "Street 1");
@@ -49,12 +49,12 @@ public class AuthenticationServiceImp implements AuthenticationService
 
     appointmentList.addAppointment(
         new Appointment(dateTime1, 5, doctor1, "In-person"));
-    appointmentList.addAppointment(
-        new Appointment(dateTime2, 5, doctor2, "Online"));
-    appointmentList.addAppointment(
-        new Appointment(dateTime1, 6, doctor3, "In-person"));
-    appointmentList.addAppointment(
-        new Appointment(dateTime2, 6, doctor4, "Online"));
+//    appointmentList.addAppointment(
+//        new Appointment(dateTime2, 5, doctor2, "Online"));
+//    appointmentList.addAppointment(
+//        new Appointment(dateTime1, 6, doctor3, "In-person"));
+//    appointmentList.addAppointment(
+//        new Appointment(dateTime2, 6, doctor4, "Online"));
 
     allDiagnoses = new ArrayList<>();
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);

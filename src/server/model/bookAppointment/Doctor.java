@@ -5,14 +5,32 @@ import server.model.loginSystem.entities.User;
 public class Doctor extends User
 {
   private int doctorID;
-  private String name;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String phoneNumber;
 
-  public Doctor(int doctorID, String name, String username, String password)
+  public Doctor(int doctorID, String firstName, String lastName,
+      String email, String phoneNumber, String userName, String password)
   {
-    super(username, password);
+
+    super(userName, password);
     this.doctorID = doctorID;
-    this.name = name;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
   }
+  public Doctor(String firstName, String lastName, String email,
+      String phoneNumber, String userName, String password)
+  {
+    super(userName, password);
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+  }
+
 
   public int getDoctorID()
   {
@@ -21,7 +39,7 @@ public class Doctor extends User
 
   public String getName()
   {
-    return name;
+    return firstName + " " + lastName;
   }
 
   public void setDoctorID(int doctorID)
@@ -31,12 +49,13 @@ public class Doctor extends User
 
   public void setName(String name)
   {
-    this.name = name;
+    this.firstName = name.split(" ")[0];
+    this.lastName = name.split(" ")[1];
   }
 
   @Override public String toString()
   {
-    return "Name: '" + name + '\'';
+    return "Name: '" + getName() + '\'';
   }
 
   public boolean equals(Object obj)
@@ -46,6 +65,6 @@ public class Doctor extends User
       return false;
     }
     Doctor other = (Doctor) obj;
-    return doctorID == other.doctorID && name.equals(other.name);
+    return doctorID == other.doctorID && getName().equals(other.getName());
   }
 }

@@ -1,6 +1,8 @@
 package server.model.patientJournal;
 
+import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.NewDateTime;
+import server.model.bookAppointment.Patient;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -28,9 +30,9 @@ public class DatabaseDiagnosisDAO
     );
   }
 
-  public DatabaseDiagnosis create(String diagnosisName, String status,
+  public Diagnosis create(String diagnosisName, String status,
       NewDateTime dateDiagnosed, String comment,
-      DatabaseDoctor doctor, DatabasePatient patient,
+      Doctor doctor, Patient patient,
       Prescription prescription) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -63,7 +65,7 @@ public class DatabaseDiagnosisDAO
         generatedId = keys.getInt(1);
       }
 
-      DatabaseDiagnosis diagnosis = new DatabaseDiagnosis(
+      Diagnosis diagnosis = new Diagnosis(
           diagnosisName, status, dateDiagnosed, comment,
           doctor.getDoctorID(), patient.getPatientID(), prescription
       );

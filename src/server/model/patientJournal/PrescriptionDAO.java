@@ -38,7 +38,7 @@ public class PrescriptionDAO
   public Prescription create(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
       String frequency, String status, String comment,
-      DatabaseDoctor doctor, DatabasePatient patient) throws SQLException
+      Doctor doctor, Patient patient) throws SQLException
   {
     try (Connection connection = getConnection())
     {

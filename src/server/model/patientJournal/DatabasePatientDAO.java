@@ -1,5 +1,7 @@
 package server.model.patientJournal;
 
+import server.model.bookAppointment.Patient;
+
 import java.sql.*;
 
 public class DatabasePatientDAO
@@ -25,7 +27,7 @@ public class DatabasePatientDAO
     );
   }
 
-  public DatabasePatient create(String firstName, String lastName, String email,
+  public Patient create(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password, String CPR, Address address) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -53,14 +55,14 @@ public class DatabasePatientDAO
         generatedId = keys.getInt(1);
       }
 
-      DatabasePatient patient = new DatabasePatient(firstName, lastName, email, phoneNumber, userName, password, CPR, address);
+      Patient patient = new Patient(firstName, lastName, email, phoneNumber, userName, password, CPR, address);
       patient.setPatientID(generatedId);
 
       return patient;
     }
   }
 
-  public DatabasePatient getPatientById(int patientId) throws SQLException
+  public Patient getPatientById(int patientId) throws SQLException
   {
     try (Connection connection = getConnection())
     {
@@ -83,7 +85,7 @@ public class DatabasePatientDAO
 
         Address address = AddressDAO.getInstance().getAddressById(addressId);
 
-        DatabasePatient patient = new DatabasePatient(firstName, lastName, email, phoneNumber, userName, password, CPR, address);
+        Patient patient = new Patient(firstName, lastName, email, phoneNumber, userName, password, CPR, address);
         patient.setPatientID(patientId);
 
         return patient;

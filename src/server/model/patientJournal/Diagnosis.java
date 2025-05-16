@@ -14,7 +14,7 @@ public class Diagnosis implements Serializable
   private String comment;
   private int doctorId;
   private int patientId;
-  private String prescription;
+  private Prescription prescription;
 
   public Diagnosis()
   {
@@ -22,7 +22,7 @@ public class Diagnosis implements Serializable
 
   public Diagnosis(String diagnosisName, String status,
       NewDateTime dateDiagnosed, int doctorId, int patientId,
-      String prescription)
+      Prescription prescription)
   {
     this.diagnosisName = diagnosisName;
     this.status = status;
@@ -34,7 +34,7 @@ public class Diagnosis implements Serializable
 
   public Diagnosis(String diagnosisName, String status,
       NewDateTime dateDiagnosed, String comment, int doctorId, int patientId,
-      String prescription)
+      Prescription prescription)
   {
     this.diagnosisName = diagnosisName;
     this.status = status;
@@ -115,12 +115,12 @@ public class Diagnosis implements Serializable
     this.patientId = patientId;
   }
 
-  public String getPrescription()
+  public Prescription getPrescription()
   {
     return prescription;
   }
 
-  public void setPrescription(String prescription)
+  public void setPrescription(Prescription prescription)
   {
     this.prescription = prescription;
   }

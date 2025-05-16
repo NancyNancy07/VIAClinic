@@ -1,5 +1,7 @@
 package server.model.patientJournal;
 
+import server.model.bookAppointment.Doctor;
+
 import java.sql.*;
 
 public class DatabaseDoctorDAO
@@ -25,7 +27,7 @@ public class DatabaseDoctorDAO
     );
   }
 
-  public DatabaseDoctor create(String firstName, String lastName, String email,
+  public Doctor create(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -51,14 +53,14 @@ public class DatabaseDoctorDAO
         generatedId = keys.getInt(1);
       }
 
-      DatabaseDoctor doctor = new DatabaseDoctor(firstName, lastName, email, phoneNumber, userName, password);
+      Doctor doctor = new Doctor(firstName, lastName, email, phoneNumber, userName, password);
       doctor.setDoctorID(generatedId);
 
       return doctor;
     }
   }
 
-  public DatabaseDoctor getDoctorById(int doctorId) throws SQLException
+  public Doctor getDoctorById(int doctorId) throws SQLException
   {
     try (Connection connection = getConnection())
     {
@@ -77,7 +79,7 @@ public class DatabaseDoctorDAO
         String userName = resultSet.getString("userName");
         String password = resultSet.getString("password");
 
-        DatabaseDoctor doctor = new DatabaseDoctor(firstName, lastName, email, phoneNumber, userName, password);
+        Doctor doctor = new Doctor(firstName, lastName, email, phoneNumber, userName, password);
         doctor.setDoctorID(doctorId);
 
         return doctor;
