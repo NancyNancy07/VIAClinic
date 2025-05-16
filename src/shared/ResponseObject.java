@@ -110,3 +110,14 @@ public class ResponseObject
     this.diagnoses = diagnoses;
   }
 }
+
+  public Appointment getAppointment()
+  {
+    return getAppointment();
+  }
+  public void setAppointment(Appointment appointment)
+  {
+    this.appointments=appointments;
+  }
+  }
+

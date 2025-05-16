@@ -1,5 +1,6 @@
 package shared;
 
+import server.model.bookAppointment.Appointment;
 import server.model.patientJournal.Diagnosis;
 
 public class RequestObject
@@ -10,6 +11,7 @@ public class RequestObject
   private String userType;
   private int id;
   private Diagnosis diagnosis;
+  private Appointment appointment;
 
   public String getType()
   {
@@ -67,5 +69,13 @@ public class RequestObject
 
   public Diagnosis getDiagnosis() {
     return diagnosis;
+  }
+
+  public void setAppointment(Appointment appointment)
+  { this.appointment=appointment;
+  }
+  public Appointment getAppointment()
+  {
+    return appointment;
   }
 }

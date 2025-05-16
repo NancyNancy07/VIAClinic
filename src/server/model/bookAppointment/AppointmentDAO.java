@@ -1,6 +1,7 @@
 package server.model.bookAppointment;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class AppointmentDAO
 {
@@ -28,21 +29,26 @@ public class AppointmentDAO
         "postgres", "admin");
   }
 
-  public Appointment create(DateTime dateTime, int appointmentID, int doctorID,
-      String mode, int patientID, DoctorList doctorList) throws SQLException
+  public Appointment create( NewDateTime dateTime,
+      String mode, int patientID, Doctor doctor) throws SQLException
   {
     try (Connection connection = getConnection())
     {
-      //      PreparedStatement statement =
-      //      connection.prepareStatement(" INSERT INTO Appointment(DateTime,appointment_id,doctor_id,patient_id,doctorlist,mode) Values(?,?,?,?,?,?)");
-      //      statement.setInt(1, appointmentID);
-      //      statement.setTimestamp(2, (DateTime));
-      //      statement.setInt(3, doctorID);
-      //      statement.setInt(4, patientID);
-      //      statement.setString(5, mode);
-      //statement.executeUpdate();
-      //return new Appointment(dateTime, appointmentID, doctorID, mode, patientID, doctorList);
-      return null;
+            PreparedStatement statement =
+            connection.prepareStatement(" INSERT INTO Appointment(dateTime,patientid,doctorid,mode) Values(?,?,?,?)");
+            LocalDateTime localDateTime = LocalDateTime.of(dateTime.getYear(),
+          dateTime.getMonth(), dateTime.getDay(), dateTime.getHour(),
+          dateTime.getMinute());
+            Timestamp.valueOf(localDateTime);
+      statement.setTimestamp(1, Timestamp.valueOf(localDateTime));
+      statement.setString(2, mode);
+       statement.setInt(3, patientID);
+      statement.setInt( 4, doctor.getDoctorID());
+           
+      statement.executeUpdate();
+      return new Appointment(dateTime,patientID,doctor,mode );
+
+
     }
   }
 }
