@@ -2,6 +2,7 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
+import server.model.patientJournal.Address;
 import server.model.patientJournal.Diagnosis;
 import shared.ResponseObject;
 
@@ -34,10 +35,12 @@ public class AuthenticationServiceImp implements AuthenticationService
     users.add(doctor4);
 
     // Sample patients
-    users.add(new Patient(5, "John Doe", "asq123", "123"));
-    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
-    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
-    users.add(new Patient(8, "Alice White", "asr123", "98765"));
+    Address address1 = new Address("Horsens", "8700", "Street 1");
+    users.add(new Patient(5, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1));
+//    users.add(new Patient(5, "John Doe", "asq123", "123"));
+//    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
+//    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
+//    users.add(new Patient(8, "Alice White", "asr123", "98765"));
 
     // Sample appointments
     // Create sample NewDateTime objects
