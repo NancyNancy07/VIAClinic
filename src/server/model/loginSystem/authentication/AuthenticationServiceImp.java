@@ -3,9 +3,12 @@ package server.model.loginSystem.authentication;
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.Address;
+import server.model.patientJournal.DatabaseDiagnosisDAO;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 import shared.ResponseObject;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,30 +20,44 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
+  private final DatabaseDiagnosisDAO diagnosisDAO;
+  private final AppointmentDAO appointmentDAO;
 
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()
   {
+    try
+    {
+      this.diagnosisDAO = DatabaseDiagnosisDAO.getInstance();
+      this.appointmentDAO = AppointmentDAO.getInstance();
+    }
+    catch (SQLException e)
+    {
+      throw new RuntimeException("Failed to initialize DAO", e);
+    }
     appointmentList = new AppointmentList();
 
     // Sample doctors
-    Doctor doctor1 = new Doctor(1, "Smith", "Jones","asdasd@gmail.com","1234566644", "asd123", "1234567");
-//    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
-//    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
-//    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
+    Doctor doctor1 = new Doctor(1, "Smith", "Jones", "asdasd@gmail.com",
+        "1234566644", "asd123", "1234567");
+    //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
+    //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
+    //    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
     users.add(doctor1);
-//    users.add(doctor2);
-//    users.add(doctor3);
-//    users.add(doctor4);
+    //    users.add(doctor2);
+    //    users.add(doctor3);
+    //    users.add(doctor4);
 
     // Sample patients
     Address address1 = new Address("Horsens", "8700", "Street 1");
-    users.add(new Patient(5, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1));
-//    users.add(new Patient(5, "John Doe", "asq123", "123"));
-//    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
-//    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
-//    users.add(new Patient(8, "Alice White", "asr123", "98765"));
+    users.add(
+        new Patient(1, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123",
+            "123", "1234567890", address1));
+    //    users.add(new Patient(5, "John Doe", "asq123", "123"));
+    //    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
+    //    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
+    //    users.add(new Patient(8, "Alice White", "asr123", "98765"));
 
     // Sample appointments
     // Create sample NewDateTime objects
@@ -49,23 +66,25 @@ public class AuthenticationServiceImp implements AuthenticationService
 
     appointmentList.addAppointment(
         new Appointment(dateTime1, 5, doctor1, "In-person"));
-//    appointmentList.addAppointment(
-//        new Appointment(dateTime2, 5, doctor2, "Online"));
-//    appointmentList.addAppointment(
-//        new Appointment(dateTime1, 6, doctor3, "In-person"));
-//    appointmentList.addAppointment(
-//        new Appointment(dateTime2, 6, doctor4, "Online"));
+    //    appointmentList.addAppointment(
+    //        new Appointment(dateTime2, 5, doctor2, "Online"));
+    //    appointmentList.addAppointment(
+    //        new Appointment(dateTime1, 6, doctor3, "In-person"));
+    //    appointmentList.addAppointment(
+    //        new Appointment(dateTime2, 6, doctor4, "Online"));
 
     allDiagnoses = new ArrayList<>();
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
 
+    Prescription prescription1 = new Prescription("Ipren", 3.0, "ug", dateTime1,
+        dateTime4, "dont no", "healing", "no", 1, 5);
     allDiagnoses.add(
-        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
+        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, prescription1));
     allDiagnoses.add(
-        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
-    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1, 5,
-        "Cast for 4 weeks"));
+        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, prescription1));
+    allDiagnoses.add(
+        new Diagnosis("Fracture", "Healing", dateTime3, 1, 5, prescription1));
 
   }
 
@@ -169,15 +188,55 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   @Override public List<Appointment> getAppointmentsForPatient(int id)
   {
-    List<Appointment> result = new ArrayList<>();
-    for (Appointment appointment : appointmentList.getAllAppointments())
+    try
     {
-      if (appointment.getPatientID() == id)
+      return appointmentDAO.getAppointmentsByPatientId(id);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+    //    List<Appointment> result = new ArrayList<>();
+    //    for (Appointment appointment : appointmentList.getAllAppointments())
+    //    {
+    //      if (appointment.getPatientID() == id)
+    //      {
+    //        result.add(appointment);
+    //      }
+    //    }
+    //    return result;
+  }
+
+  public Appointment bookAppointment(Appointment appointment)
+  {
+    try
+    {
+
+      return appointmentDAO.create(appointment.getDate(), appointment.getMode(),
+          appointment.getPatientID(), getDoctorById(appointment.getDoctorID()));
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public Doctor getDoctorById(int doctorId)
+  {
+    for (User user : users)
+    {
+      if (user instanceof Doctor)
       {
-        result.add(appointment);
+        Doctor doctor = (Doctor) user;
+        if (doctor.getDoctorID() == doctorId)
+        {
+          return doctor;
+        }
       }
     }
-    return result;
+    return null;
   }
 
   @Override public List<Diagnosis> getDiagnosesForPatient(int patientId)
@@ -196,6 +255,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   public void addDiagnosis(Diagnosis diagnosis)
   {
     allDiagnoses.add(diagnosis);
+
   }
 
 }

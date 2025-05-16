@@ -2,6 +2,7 @@ package client.viewModel.patients;
 
 import client.viewModel.loginSystem.LoginSharedData;
 import server.model.bookAppointment.NewDateTime;
+import server.model.patientJournal.Prescription;
 
 public class PatientsSharedData
 {
@@ -45,7 +46,7 @@ public class PatientsSharedData
   }
 
   public void setDiagnosis(String diagnosis, String status, NewDateTime date,
-      String prescription)
+      Prescription prescription)
   {
     this.diagnosis = diagnosis;
   }

@@ -23,7 +23,7 @@ public class BookAppointmentFrontViewModel
     Appointment appointment = new Appointment(date, patientId, doctor, mode);
 
     PatientAppointmentClient client = new PatientAppointmentClient();
-    //    Appointment bookedAppointment = client.bookAppointment(appointment);
+    Appointment bookedAppointment = client.bookAppointment(appointment);
 
     // Return the response from the server (i.e., the created appointment)
     return appointment;

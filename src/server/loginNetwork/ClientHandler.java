@@ -54,6 +54,7 @@ public class ClientHandler implements Runnable
 
         // Parse the request JSON
         RequestObject req = gson.fromJson(request, RequestObject.class);
+        System.out.println(req.getType());
         switch (req.getType())
         {
           case "login" ->
@@ -130,7 +131,8 @@ public class ClientHandler implements Runnable
           {
             Diagnosis diagnosis = req.getDiagnosis();
 
-            if (diagnosis != null) {
+            if (diagnosis != null)
+            {
               AuthenticationServiceImp.getInstance().addDiagnosis(diagnosis);
             }
             System.out.println("Received diagnosis:");
@@ -156,14 +158,20 @@ public class ClientHandler implements Runnable
           {
             int patientId = req.getId();
 
-            List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(patientId);
+            List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(
+                patientId);
 
             ResponseObject diagnosisResponse;
-            if (diagnosisList != null && !diagnosisList.isEmpty()) {
-              diagnosisResponse = new ResponseObject(true, "Diagnoses found", patientId);
+            if (diagnosisList != null && !diagnosisList.isEmpty())
+            {
+              diagnosisResponse = new ResponseObject(true, "Diagnoses found",
+                  patientId);
               diagnosisResponse.setDiagnoses(diagnosisList);
-            } else {
-              diagnosisResponse = new ResponseObject(false, "No diagnoses found", patientId);
+            }
+            else
+            {
+              diagnosisResponse = new ResponseObject(false,
+                  "No diagnoses found", patientId);
             }
 
             output.println(gson.toJson(diagnosisResponse));
@@ -177,21 +185,23 @@ public class ClientHandler implements Runnable
           case "bookAppointment" ->
           {
             Appointment appointment = req.getAppointment();
-            System.out.println("Received appointment:");
-            System.out.println("  date: " + appointment.getDate());
-            System.out.println("  time: " + appointment.getTime());
-            System.out.println("  mode: " + appointment.getMode());
-            System.out.println(
-                "  Appointment ID: " + appointment.getAppointmentID());
-            System.out.println("  Doctor ID: " + appointment.getDoctorID());
-            System.out.println("  Patient ID: " + appointment.getPatientID());
-            
-
+            Appointment savedAppointment = AuthenticationServiceImp.getInstance()
+                .bookAppointment(appointment);
 
             ResponseObject appointmentResponse = new ResponseObject();
-            appointmentResponse.setSuccess(true);
-            appointmentResponse.setMessage("appointment received by server");
-            appointmentResponse.setAppointment(appointment);
+            if (savedAppointment != null)
+            {
+              appointmentResponse.setSuccess(true);
+              appointmentResponse.setMessage(
+                  "Appointment saved to database successfully");
+              appointmentResponse.setAppointment(savedAppointment);
+            }
+            else
+            {
+              appointmentResponse.setSuccess(false);
+              appointmentResponse.setMessage(
+                  "Failed to save appointment to database");
+            }
 
             output.println(gson.toJson(appointmentResponse));
           }
@@ -199,8 +209,6 @@ public class ClientHandler implements Runnable
         }
 
       }
-
-
 
     }
 

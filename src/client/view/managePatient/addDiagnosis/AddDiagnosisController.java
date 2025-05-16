@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 
 public class AddDiagnosisController
 {
@@ -39,6 +40,8 @@ public class AddDiagnosisController
         dateAddedField.getValue().getMonth().getValue(),
         dateAddedField.getValue().getDayOfMonth(), 0, 0);
     String prescription = (prescriptionField.getText());
+    Prescription prescription1 = new Prescription(prescription, 2, "mg", date,
+        date, "no", "healing", "no", 1, 5);
 
     if (diagnosis.isEmpty() || status.isEmpty() || date == null
         || prescription.isEmpty())
@@ -51,7 +54,7 @@ public class AddDiagnosisController
       return;
     }
 
-    viewModel.addDiagnosis(diagnosis, status, date, prescription);
+    viewModel.addDiagnosis(diagnosis, status, date, prescription1);
     diagnosisName.clear();
     statusField.clear();
     prescriptionField.clear();
