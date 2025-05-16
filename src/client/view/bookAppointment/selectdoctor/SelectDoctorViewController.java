@@ -11,7 +11,7 @@ import server.model.bookAppointment.Doctor;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.SelectDoctorViewModel;
 
-public class DoctorViewController
+public class SelectDoctorViewController
 {
   private SelectDoctorViewModel viewModel;
 
