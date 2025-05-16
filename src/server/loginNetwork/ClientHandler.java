@@ -153,10 +153,36 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(
                 new ResponseObject(false, "Unknown request type", -1)));
           }
+          case "bookAppointment" ->
+          {
+            Appointment appointment = req.getAppointment();
+            System.out.println("Received appointment:");
+            System.out.println("  date: " + appointment.getDate());
+            System.out.println("  time: " + appointment.getTime());
+            System.out.println("  mode: " + appointment.getMode());
+            System.out.println(
+                "  Appointment ID: " + appointment.getAppointmentID());
+            System.out.println("  Doctor ID: " + appointment.getDoctorID());
+            System.out.println("  Patient ID: " + appointment.getPatientID());
+            
+
+
+            ResponseObject appointmentResponse = new ResponseObject();
+            appointmentResponse.setSuccess(true);
+            appointmentResponse.setMessage("appointment received by server");
+            appointmentResponse.setAppointment(appointment);
+
+            output.println(gson.toJson(appointmentResponse));
+          }
+
         }
+
       }
 
+
+
     }
+
     catch (IOException e)
     {
       e.printStackTrace();
@@ -179,3 +205,4 @@ public class ClientHandler implements Runnable
     }
   }
 }
+

@@ -98,4 +98,14 @@ public class ResponseObject
   {
     this.message = diagnosisReceivedByServer;
   }
-}
+
+  public Appointment getAppointment()
+  {
+    return getAppointment();
+  }
+  public void setAppointment(Appointment appointment)
+  {
+    this.appointments=appointments;
+  }
+  }
+

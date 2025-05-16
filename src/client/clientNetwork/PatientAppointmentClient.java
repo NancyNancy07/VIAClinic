@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-public class PatientAppointmentClient
+public class PatientAppointmentClient<Create>
 {
   public List<Appointment> getAppointmentByPatientId(int patientId)
   {
@@ -47,43 +47,40 @@ public class PatientAppointmentClient
     }
   }
 
-//  public Appointment bookAppointment(Appointment appointment)
-//  {
-//    try (Socket socket = new Socket("localhost", 1234);
-//        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-//        BufferedReader input = new BufferedReader(
-//            new InputStreamReader(socket.getInputStream())))
-//    {
-//      Gson gson = new Gson();
-//
-//      // Create a request object to send
-//      RequestObject request = new RequestObject();
-//      request.setType("bookAppointment");
-//      request.setAppointment(appointment);
-//
-//
-//      String jsonRequest = gson.toJson(request);
-//      System.out.println("Sending to server: " + jsonRequest);
-//
-//
-//      output.println(jsonRequest);
-//
-//      String jsonResponse = input.readLine();
-//      System.out.println("Received from server: " + jsonResponse);
-//
-//      ResponseObject response = gson.fromJson(jsonResponse, ResponseObject.class);
-//
-//      return response.getAppointment();
-//    }
-//    catch (IOException e)
-//    {
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
-
-  public List<Doctor> getDoctorList()
+  public Appointment bookAppointment(Appointment appointment)
   {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+     // Create a request objecttosend;
+      RequestObject request = new RequestObject();
+      request.setType("bookAppointment");
+      request.setAppointment(appointment);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      return response.getAppointment();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+    public List<Doctor> getDoctorList () {
     try (Socket socket = new Socket("localhost", 1234);
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader input = new BufferedReader(
@@ -112,4 +109,5 @@ public class PatientAppointmentClient
       return null;
     }
   }
-}
+  }
+
