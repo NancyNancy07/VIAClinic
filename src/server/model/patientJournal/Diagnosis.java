@@ -32,6 +32,19 @@ public class Diagnosis implements Serializable
     this.prescription = prescription;
   }
 
+  public Diagnosis(String diagnosisName, String status,
+      NewDateTime dateDiagnosed, String comment, int doctorId, int patientId,
+      String prescription)
+  {
+    this.diagnosisName = diagnosisName;
+    this.status = status;
+    this.dateDiagnosed = dateDiagnosed;
+    this.comment = comment;
+    this.doctorId = doctorId;
+    this.patientId = patientId;
+    this.prescription = prescription;
+  }
+
   public int getDiagnosisId()
   {
     return diagnosisId;
