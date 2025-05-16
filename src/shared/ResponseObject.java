@@ -7,8 +7,7 @@ import server.model.patientJournal.Diagnosis;
 
 import java.util.List;
 
-public class ResponseObject
-{
+public class ResponseObject {
   private boolean success;
   private String status;
   private String message;
@@ -19,105 +18,84 @@ public class ResponseObject
   private Diagnosis diagnosis;
   private List<Diagnosis> diagnoses;
 
-  public ResponseObject()
-  {
+  public ResponseObject() {
   }
 
-  public ResponseObject(boolean success, String message, int patientId)
-  {
+  public ResponseObject(boolean success, String message, int patientId) {
     this.success = success;
     this.message = message;
     this.patientId = patientId;
   }
 
-  public String getStatus()
-  {
-    return status;
-  }
-
-  public String getMessage()
-  {
-    return message;
-  }
-
-  public int getPatientId()
-  {
-    return patientId;
-  }
-
-  public boolean isSuccess()
-  {
+  public boolean isSuccess() {
     return success;
   }
 
-  public List<Appointment> getAppointments()
-  {
+  public void setSuccess(boolean success) {
+    this.success = success;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public int getPatientId() {
+    return patientId;
+  }
+
+  public void setPatientId(int patientId) {
+    this.patientId = patientId;
+  }
+
+  public List<Appointment> getAppointments() {
     return appointments;
   }
 
-  public void setAppointments(List<Appointment> appointments)
-  {
+  public void setAppointments(List<Appointment> appointments) {
     this.appointments = appointments;
   }
 
-  public List<Doctor> getDoctors()
-  {
+  public List<Doctor> getDoctors() {
     return doctors;
   }
 
-  public void setDoctors(List<Doctor> doctors)
-  {
+  public void setDoctors(List<Doctor> doctors) {
     this.doctors = doctors;
   }
 
-  public List<Patient> getPatients()
-  {
+  public List<Patient> getPatients() {
     return patients;
   }
 
-  public void setPatients(List<Patient> patients)
-  {
+  public void setPatients(List<Patient> patients) {
     this.patients = patients;
   }
 
-  public Diagnosis getDiagnosis()
-  {
+  public Diagnosis getDiagnosis() {
     return diagnosis;
   }
 
-  public void setDiagnosis(Diagnosis diagnosis)
-  {
+  public void setDiagnosis(Diagnosis diagnosis) {
     this.diagnosis = diagnosis;
   }
 
-  public void setSuccess(boolean b)
-  {
-    this.success = b;
-  }
-
-  public void setMessage(String diagnosisReceivedByServer)
-  {
-    this.message = diagnosisReceivedByServer;
-  }
-
-  public List<Diagnosis> getDiagnoses()
-  {
+  public List<Diagnosis> getDiagnoses() {
     return diagnoses;
   }
 
-  public void setDiagnoses(List<Diagnosis> diagnoses)
-  {
+  public void setDiagnoses(List<Diagnosis> diagnoses) {
     this.diagnoses = diagnoses;
   }
 }
-
-  public Appointment getAppointment()
-  {
-    return getAppointment();
-  }
-  public void setAppointment(Appointment appointment)
-  {
-    this.appointments=appointments;
-  }
-  }
-
