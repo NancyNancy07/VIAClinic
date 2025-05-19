@@ -39,9 +39,15 @@ public class AddDiagnosisController
     NewDateTime date = new NewDateTime(dateAddedField.getValue().getYear(),
         dateAddedField.getValue().getMonth().getValue(),
         dateAddedField.getValue().getDayOfMonth(), 0, 0);
-    String prescription = (prescriptionField.getText());
-    Prescription prescription1 = new Prescription(prescription, 2, "mg", date,
-        date, "no", "healing", "no", 1, 5);
+
+    NewDateTime dateTime3 = new NewDateTime(1, 10, 2023, 0, 0);
+    NewDateTime dateTime4 = new NewDateTime(1, 12, 2023, 0, 0);
+    String prescription = (prescriptionField.getText()); //needsToChange
+    Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
+        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
+        100, 100);
+    //doctor1.getDoctorID() = 100
+    //patient1.getPatientID()
 
     if (diagnosis.isEmpty() || status.isEmpty() || date == null
         || prescription.isEmpty())

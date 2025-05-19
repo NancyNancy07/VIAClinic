@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
+import server.model.patientJournal.PrescriptionDAO;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -99,6 +101,50 @@ public class PatientClient
     }
   }
 
+  public void sendAddPrescription(Prescription prescription)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("addPrescription");
+      request.setPrescription(prescription);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server AddPrescription: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server AddPrescription: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        Prescription addedPrescription = response.getPrescription();
+        System.out.println(
+            "Prescription added: " + addedPrescription.getMedicineName());
+
+        if (listener != null)
+        {
+          listener.onDiagnosisAdded(true,
+              addedPrescription.getMedicineName() + "is added");
+        }
+      }
+
+    }
+    catch (IOException e)
+
+    {
+      e.printStackTrace();
+    }
+  }
+
   public List<Diagnosis> getPatientDiagnosis(int id)
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -131,6 +177,49 @@ public class PatientClient
       {
         System.err.println(
             "Failed to retrieve diagnoses: " + response.getMessage());
+        return null;
+      }
+
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<Prescription> getPatientPrescriptions(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("getPrescriptionList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server Prescriptions: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server Prescriptions: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getPrescriptions();
+      }
+      else
+      {
+        System.err.println(
+            "Failed to retrieve prescriptions: " + response.getMessage());
         return null;
       }
 

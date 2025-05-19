@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 
 import java.util.List;
 
@@ -14,12 +15,14 @@ public class PatientDiagnosisViewModel
 {
   private final PatientClient patientClient;
   private final ObservableList<Diagnosis> diagnosisList;
+  private final ObservableList<Prescription> prescriptionList;
   private PatientJournalSharedData patientJournalSharedData = PatientJournalSharedData.getInstance();
 
   public PatientDiagnosisViewModel()
   {
     this.patientClient = new PatientClient();
     this.diagnosisList = FXCollections.observableArrayList();
+    this.prescriptionList = FXCollections.observableArrayList();
   }
 
   public ObservableList<Diagnosis> getDiagnosisList(int patientId)
@@ -43,6 +46,13 @@ public class PatientDiagnosisViewModel
 
     return diagnosisList;
 
+  }
+
+  public ObservableList<Prescription> getPrescriptionList(int patientId)
+  {
+    List<Prescription> prescriptions = patientClient.getPatientPrescriptions(patientId);
+    prescriptionList.setAll(prescriptions);
+    return prescriptionList;
   }
 
   public void loadDiagnosesForPatient(int patientId)

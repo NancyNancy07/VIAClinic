@@ -29,4 +29,10 @@ public class PatientJournalController
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.DIAGNOSIS);
   }
+
+  @FXML private void prescriptionClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.PRESCRIPTION);
+  }
 }

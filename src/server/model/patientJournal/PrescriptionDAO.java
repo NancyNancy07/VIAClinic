@@ -6,7 +6,8 @@ import server.model.bookAppointment.Patient;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrescriptionDAO
 {
@@ -38,7 +39,7 @@ public class PrescriptionDAO
   public Prescription create(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
       String frequency, String status, String comment,
-      Doctor doctor, Patient patient) throws SQLException
+      int doctorId, int patientId) throws SQLException
   {
     try (Connection connection = getConnection())
     {
@@ -64,8 +65,8 @@ public class PrescriptionDAO
         statement.setString(8, comment);
       }
 
-      statement.setInt(9, doctor.getDoctorID());
-      statement.setInt(10, patient.getPatientID());
+      statement.setInt(9, doctorId);
+      statement.setInt(10, patientId);
 
       statement.executeUpdate();
 
@@ -78,7 +79,7 @@ public class PrescriptionDAO
       Prescription prescription = new Prescription(
           medicineName, doseAmount, doseUnit,
           startDate, endDate, frequency, status,
-          comment, doctor.getDoctorID(), patient.getPatientID()
+          comment, doctorId, patientId
       );
       prescription.setPrescriptionId(generatedId);
 
@@ -122,4 +123,57 @@ public class PrescriptionDAO
 
 
   }
+
+  public List<Prescription> getPrescriptionsByPatientId(int patientId) throws SQLException
+  {
+    List<Prescription> prescriptions = new ArrayList<>();
+    try (Connection connection = getConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement(
+          "SELECT * FROM prescription WHERE patientId = ?");
+      statement.setInt(1, patientId);
+
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next())
+      {
+        int prescriptionId = resultSet.getInt("prescriptionId");
+
+        String medicineName = resultSet.getString("medicineName");
+        double doseAmount = resultSet.getDouble("doseAmount");
+        String doseUnit = resultSet.getString("doseUnit");
+
+        Timestamp startDateTimestamp = resultSet.getTimestamp("startDate");
+        NewDateTime startDate = new NewDateTime(
+            startDateTimestamp.toLocalDateTime().getDayOfMonth(),
+            startDateTimestamp.toLocalDateTime().getMonthValue(),
+            startDateTimestamp.toLocalDateTime().getYear(),
+            startDateTimestamp.toLocalDateTime().getHour(),
+            startDateTimestamp.toLocalDateTime().getMinute()
+        );
+
+        Timestamp endDateTimestamp = resultSet.getTimestamp("endDate");
+        NewDateTime endDate = new NewDateTime(
+            endDateTimestamp.toLocalDateTime().getDayOfMonth(),
+            endDateTimestamp.toLocalDateTime().getMonthValue(),
+            endDateTimestamp.toLocalDateTime().getYear(),
+            endDateTimestamp.toLocalDateTime().getHour(),
+            endDateTimestamp.toLocalDateTime().getMinute()
+        );
+
+        String frequency = resultSet.getString("frequency");
+        String status = resultSet.getString("status");
+        String comment = resultSet.getString("comment");
+        int doctorId = resultSet.getInt("doctorId");
+
+        Prescription prescription = new Prescription(medicineName, doseAmount, doseUnit, startDate,
+            endDate, frequency, status, comment, doctorId, patientId);
+
+        prescription.setPrescriptionId(prescriptionId);
+
+        prescriptions.add(prescription);
+      }
+    }
+    return prescriptions;
+  }
+
 }

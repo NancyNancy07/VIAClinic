@@ -31,7 +31,7 @@
                </children>
             </HBox>
             <Button layoutX="117.0" layoutY="97.0" mnemonicParsing="false" onAction="#setAddDiagnosisView" text="View Diagnosis" />
-            <Button layoutX="257.0" layoutY="97.0" mnemonicParsing="false" text="View Perscription" />
+            <Button layoutX="257.0" layoutY="97.0" mnemonicParsing="false" onAction="#setAddPrescriptionView" text="View Prescription" />
             <Button layoutX="439.0" layoutY="14.0" mnemonicParsing="false" text="X" />
          </children>
       </AnchorPane>
