@@ -21,7 +21,7 @@ public class AddressDAO
     return DriverManager.getConnection(
         "jdbc:postgresql://localhost:5432/postgres?currentSchema=book_appointment",
         "postgres",
-        "bangarang24"
+        "Via@123"
     );
   }
 
