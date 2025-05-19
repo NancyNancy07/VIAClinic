@@ -114,6 +114,7 @@ public class ClientHandler implements Runnable
             if (patientList != null && !patientList.isEmpty())
             {
               patientResponse = new ResponseObject(true, "Patient found", -1);
+              patientResponse.setPatients(patientList);
             }
             else
             {
