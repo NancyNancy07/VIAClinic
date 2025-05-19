@@ -114,7 +114,6 @@ public class ClientHandler implements Runnable
             if (patientList != null && !patientList.isEmpty())
             {
               patientResponse = new ResponseObject(true, "Patient found", -1);
-            patientResponse.setPatients(patientList);
             }
             else
             {
@@ -181,15 +180,21 @@ public class ClientHandler implements Runnable
           {
             int patientId = req.getId();
 
-            List<Prescription> prescriptionList = authService.getPrescriptionsForPatient(patientId);
+            List<Prescription> prescriptionList = authService.getPrescriptionsForPatient(
+                patientId);
 
             ResponseObject prescriptionResponse;
 
-            if (prescriptionList != null && !prescriptionList.isEmpty()) {
-              prescriptionResponse = new ResponseObject(true, "Prescription found", patientId);
+            if (prescriptionList != null && !prescriptionList.isEmpty())
+            {
+              prescriptionResponse = new ResponseObject(true,
+                  "Prescription found", patientId);
               prescriptionResponse.setPrescriptions(prescriptionList);
-            } else {
-              prescriptionResponse = new ResponseObject(false, "No prescriptions found", patientId);
+            }
+            else
+            {
+              prescriptionResponse = new ResponseObject(false,
+                  "No prescriptions found", patientId);
             }
 
             output.println(gson.toJson(prescriptionResponse));
@@ -199,13 +204,15 @@ public class ClientHandler implements Runnable
           {
             Prescription prescription = req.getPrescription();
 
-            if (prescription != null) {
-              AuthenticationServiceImp.getInstance().addPrescription(prescription.getMedicineName(),
-                  prescription.getDoseAmount(), prescription.getDoseUnit(),
-                  prescription.getStartDate(), prescription.getEndDate(),
-                  prescription.getFrequency(), prescription.getStatus(),
-                  prescription.getComment(), prescription.getDoctorId(),
-                  prescription.getPatientId());
+            if (prescription != null)
+            {
+              AuthenticationServiceImp.getInstance()
+                  .addPrescription(prescription.getMedicineName(),
+                      prescription.getDoseAmount(), prescription.getDoseUnit(),
+                      prescription.getStartDate(), prescription.getEndDate(),
+                      prescription.getFrequency(), prescription.getStatus(),
+                      prescription.getComment(), prescription.getDoctorId(),
+                      prescription.getPatientId());
             }
             System.out.println("Received prescription");
 
@@ -217,11 +224,6 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(prescriptionResponse));
           }
 
-          default ->
-          {
-            output.println(gson.toJson(
-                new ResponseObject(false, "Unknown request type", -1)));
-          }
           case "bookAppointment" ->
           {
             Appointment appointment = req.getAppointment();

@@ -21,8 +21,8 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
-  private final DatabaseDiagnosisDAO diagnosisDAO;
-  private final AppointmentDAO appointmentDAO;
+  private  DatabaseDiagnosisDAO diagnosisDAO;
+  private  AppointmentDAO appointmentDAO;
   private List<Prescription> allPrescriptions;
 
   private AppointmentList appointmentList;
