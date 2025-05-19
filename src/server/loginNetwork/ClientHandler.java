@@ -1,7 +1,6 @@
 package server.loginNetwork;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
@@ -9,8 +8,6 @@ import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
-import server.util.LocalDateAdapter;
-import server.util.LocalTimeAdapter;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -19,17 +16,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ClientHandler implements Runnable
 {
-  private Socket socket;
+  private final Socket socket;
   private BufferedReader input;
   private PrintWriter output;
-  private Gson gson;
-  private AuthenticationService authService;
+  private final Gson gson;
+  private final AuthenticationService authService;
 
   public ClientHandler(Socket socket)
   {
@@ -136,7 +131,9 @@ public class ClientHandler implements Runnable
               AuthenticationServiceImp.getInstance().addDiagnosis(diagnosis);
             }
             System.out.println("Received diagnosis:");
-            System.out.println("  Name: " + diagnosis.getDiagnosisName());
+            System.out.println("  Name: " + (diagnosis != null ?
+                diagnosis.getDiagnosisName() :
+                null));
             System.out.println("  Status: " + diagnosis.getStatus());
             System.out.println(
                 "  Date Diagnosed: " + diagnosis.getDateDiagnosed());
@@ -157,11 +154,11 @@ public class ClientHandler implements Runnable
           case "getDiagnosisList" ->
           {
             int patientId = req.getId();
-
             List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(
                 patientId);
 
             ResponseObject diagnosisResponse;
+
             if (diagnosisList != null && !diagnosisList.isEmpty())
             {
               diagnosisResponse = new ResponseObject(true, "Diagnoses found",
@@ -177,11 +174,6 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(diagnosisResponse));
           }
 
-          default ->
-          {
-            output.println(gson.toJson(
-                new ResponseObject(false, "Unknown request type", -1)));
-          }
           case "bookAppointment" ->
           {
             Appointment appointment = req.getAppointment();
@@ -206,6 +198,11 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(appointmentResponse));
           }
 
+          default ->
+          {
+            output.println(gson.toJson(
+                new ResponseObject(false, "Unknown request type", -1)));
+          }
         }
 
       }

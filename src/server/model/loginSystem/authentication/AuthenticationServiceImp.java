@@ -9,7 +9,6 @@ import server.model.patientJournal.Prescription;
 import shared.ResponseObject;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +22,6 @@ public class AuthenticationServiceImp implements AuthenticationService
   private final DatabaseDiagnosisDAO diagnosisDAO;
   private final AppointmentDAO appointmentDAO;
 
-  private AppointmentList appointmentList;
-
   private AuthenticationServiceImp()
   {
     try
@@ -36,7 +33,6 @@ public class AuthenticationServiceImp implements AuthenticationService
     {
       throw new RuntimeException("Failed to initialize DAO", e);
     }
-    appointmentList = new AppointmentList();
 
     // Sample doctors
     Doctor doctor1 = new Doctor(1, "Smith", "Jones", "asdasd@gmail.com",
@@ -54,24 +50,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     users.add(
         new Patient(1, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123",
             "123", "1234567890", address1));
-    //    users.add(new Patient(5, "John Doe", "asq123", "123"));
-    //    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
-    //    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
-    //    users.add(new Patient(8, "Alice White", "asr123", "98765"));
 
-    // Sample appointments
     // Create sample NewDateTime objects
     NewDateTime dateTime1 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime2 = new NewDateTime(9, 5, 2025, 13, 30);
-
-    appointmentList.addAppointment(
-        new Appointment(dateTime1, 5, doctor1, "In-person"));
-    //    appointmentList.addAppointment(
-    //        new Appointment(dateTime2, 5, doctor2, "Online"));
-    //    appointmentList.addAppointment(
-    //        new Appointment(dateTime1, 6, doctor3, "In-person"));
-    //    appointmentList.addAppointment(
-    //        new Appointment(dateTime2, 6, doctor4, "Online"));
 
     allDiagnoses = new ArrayList<>();
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
@@ -241,15 +223,26 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   @Override public List<Diagnosis> getDiagnosesForPatient(int patientId)
   {
-    List<Diagnosis> patientDiagnoses = new ArrayList<>();
-    for (Diagnosis diagnosis : allDiagnoses)
+    try
     {
-      if (diagnosis.getPatientId() == patientId)
-      {
-        patientDiagnoses.add(diagnosis);
-      }
+      return diagnosisDAO.getByPatientId(patientId);
     }
-    return patientDiagnoses;
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+
+    //    List<Diagnosis> patientDiagnoses = new ArrayList<>();
+    //
+    //    for (Diagnosis diagnosis : allDiagnoses)
+    //    {
+    //      if (diagnosis.getPatientId() == patientId)
+    //      {
+    //        patientDiagnoses.add(diagnosis);
+    //      }
+    //    }
+    //    return patientDiagnoses;
   }
 
   public void addDiagnosis(Diagnosis diagnosis)
