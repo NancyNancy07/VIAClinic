@@ -228,16 +228,20 @@ public class ClientHandler implements Runnable
           case "bookAppointment" ->
           {
             Appointment appointment = req.getAppointment();
-            Appointment savedAppointment = AuthenticationServiceImp.getInstance()
-                .bookAppointment(appointment);
 
             ResponseObject appointmentResponse = new ResponseObject();
-            if (savedAppointment != null)
+            if (appointment != null)
             {
+              AuthenticationServiceImp.getInstance()
+                  .bookAppointment(appointment);
+
+              System.out.println("Received prescription");
+
               appointmentResponse.setSuccess(true);
-              appointmentResponse.setMessage(
-                  "Appointment saved to database successfully");
-              appointmentResponse.setAppointment(savedAppointment);
+              appointmentResponse.setMessage("Appointment received by server");
+              appointmentResponse.setAppointment(appointment);
+
+              output.println(gson.toJson(appointmentResponse));
             }
             else
             {

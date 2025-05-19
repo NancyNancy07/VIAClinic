@@ -1,5 +1,6 @@
 package client.viewModel.patientJournal;
 
+import client.clientNetwork.DiagnosisListener;
 import client.clientNetwork.PatientClient;
 import client.viewModel.loginSystem.LoginSharedData;
 import javafx.application.Platform;
@@ -11,7 +12,7 @@ import server.model.patientJournal.Prescription;
 
 import java.util.List;
 
-public class PatientDiagnosisViewModel
+public class PatientDiagnosisViewModel implements DiagnosisListener
 {
   private final PatientClient patientClient;
   private final ObservableList<Diagnosis> diagnosisList;
@@ -50,7 +51,8 @@ public class PatientDiagnosisViewModel
 
   public ObservableList<Prescription> getPrescriptionList(int patientId)
   {
-    List<Prescription> prescriptions = patientClient.getPatientPrescriptions(patientId);
+    List<Prescription> prescriptions = patientClient.getPatientPrescriptions(
+        patientId);
     prescriptionList.setAll(prescriptions);
     return prescriptionList;
   }
@@ -64,5 +66,10 @@ public class PatientDiagnosisViewModel
   {
     return LoginSharedData.getInstance().getId();
 
+  }
+
+  @Override public void onDiagnosisAdded(boolean success, String message)
+  {
+    System.out.println("Diagnosis result: " + message);
   }
 }

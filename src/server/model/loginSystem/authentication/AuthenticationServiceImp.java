@@ -10,7 +10,6 @@ import server.model.patientJournal.PrescriptionDAO;
 import shared.ResponseObject;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +28,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   {
     appointmentList = new AppointmentList();
     // Sample doctors
-    Doctor doctor1 = new Doctor(4, "Dr. Smith", "Smith", "tobias@gmail.com",
+    Doctor doctor1 = new Doctor(1, "Dr. Smith", "Smith", "tobias@gmail.com",
         "87654321", "drsmith", "doctorpassword");
     //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
     //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
@@ -192,12 +191,12 @@ public class AuthenticationServiceImp implements AuthenticationService
     //    return result;
   }
 
-  public Appointment bookAppointment(Appointment appointment)
+  public void bookAppointment(Appointment appointment)
   {
+    appointmentList.addAppointment(appointment);
     try
     {
-
-      return AppointmentDAO.getInstance()
+      AppointmentDAO.getInstance()
           .create(appointment.getDate(), appointment.getMode(),
               appointment.getPatientID(),
               getDoctorById(appointment.getDoctorID()));
@@ -205,11 +204,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     catch (SQLException e)
     {
       e.printStackTrace();
-      return null;
     }
   }
 
-  public Doctor getDoctorById(int doctorId)
+  private Doctor getDoctorById(int doctorId)
   {
     for (User user : users)
     {
@@ -219,6 +217,22 @@ public class AuthenticationServiceImp implements AuthenticationService
         if (doctor.getDoctorID() == doctorId)
         {
           return doctor;
+        }
+      }
+    }
+    return null;
+  }
+
+  private Patient getPatientById(int patientId)
+  {
+    for (User user : users)
+    {
+      if (user instanceof Patient)
+      {
+        Patient patient = (Patient) user;
+        if (patient.getPatientID() == patientId)
+        {
+          return patient;
         }
       }
     }
@@ -247,6 +261,23 @@ public class AuthenticationServiceImp implements AuthenticationService
     //      }
     //    }
     //    return patientDiagnoses;
+  }
+
+  public void addDiagnosis(Diagnosis diagnosis)
+  {
+    try
+    {
+      DatabaseDiagnosisDAO.getInstance()
+          .create(diagnosis.getDiagnosisName(), diagnosis.getStatus(),
+              diagnosis.getDateDiagnosed(), diagnosis.getComment(),
+              getDoctorById(diagnosis.getDoctorId()),
+              getPatientById(diagnosis.getPatientId()),
+              diagnosis.getPrescription());
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public List<Prescription> getPrescriptionsForPatient(int patientId)
@@ -288,10 +319,4 @@ public class AuthenticationServiceImp implements AuthenticationService
       e.printStackTrace();
     }
   }
-
-  public void addDiagnosis(Diagnosis diagnosis)
-  {
-    allDiagnoses.add(diagnosis);
-  }
-
 }

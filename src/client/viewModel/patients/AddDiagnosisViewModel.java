@@ -11,7 +11,9 @@ import javafx.scene.control.Alert;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.PrescriptionDAO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AddDiagnosisViewModel implements DiagnosisListener
@@ -82,6 +84,21 @@ public class AddDiagnosisViewModel implements DiagnosisListener
   public int getPatientId()
   {
     return patientsSharedData.getPatientId();
+  }
+
+  public ObservableList<Prescription> getAllPrescriptions(int id)
+  {
+    try
+    {
+      List<Prescription> prescriptions = PrescriptionDAO.getInstance()
+          .getPrescriptionsByPatientId(id);
+      return FXCollections.observableArrayList(prescriptions);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return FXCollections.observableArrayList();
+    }
   }
 
   @Override public void onDiagnosisAdded(boolean success, String message)

@@ -99,8 +99,8 @@ public class DatabaseDiagnosisDAO
         int pid = rs.getInt("patientId");
 
         Diagnosis d = new Diagnosis(diagnosisName, status,
-            new NewDateTime(date.getYear(), date.getMonthValue(),
-                date.getDayOfMonth(), 0, 0), comment, doctorId, pid, null
+            new NewDateTime(date.getDayOfMonth(), date.getMonthValue(),
+                date.getYear(), 0, 0), comment, doctorId, pid, null
             // no Prescription for now
         );
 

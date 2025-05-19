@@ -8,6 +8,8 @@ import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 
+import java.time.LocalDate;
+
 public class AddDiagnosisController
 {
   @FXML private TextField diagnosisName;
@@ -15,7 +17,11 @@ public class AddDiagnosisController
   @FXML private Label patientName2;
   @FXML private TextField statusField;
   @FXML private TextField prescriptionField;
-  @FXML private DatePicker dateAddedField;
+  @FXML private DatePicker startDatePicker;
+  @FXML private DatePicker endDatePicker;
+  @FXML private ComboBox<Prescription> prescription;
+  @FXML private TextField commentField;
+
   @FXML private TableView<Diagnosis> diagnosisTableView;
   @FXML private TableColumn<Diagnosis, String> diagnosisCol;
   private AddDiagnosisViewModel viewModel;
@@ -30,28 +36,62 @@ public class AddDiagnosisController
 
     diagnosisTableView.setItems(
         viewModel.getDiagnoses(viewModel.getPatientId()));
+
+    prescription.setCellFactory(param -> new ListCell<>()
+    {
+      @Override protected void updateItem(Prescription item, boolean empty)
+      {
+        super.updateItem(item, empty);
+        if (empty || item == null)
+          setText(null);
+        else
+          setText(item.getMedicineName() + " - " + item.getDoseAmount()
+              + item.getDoseUnit());
+      }
+    });
+
+    prescription.setButtonCell(new ListCell<>()
+    {
+      @Override protected void updateItem(Prescription item, boolean empty)
+      {
+        super.updateItem(item, empty);
+        if (empty || item == null)
+          setText(null);
+        else
+          setText(item.getMedicineName() + " - " + item.getDoseAmount()
+              + item.getDoseUnit());
+      }
+    });
+
+    prescription.getItems()
+        .addAll(viewModel.getAllPrescriptions(viewModel.getPatientId()));
   }
 
   @FXML private void setDiagnosisName()
   {
     String diagnosis = diagnosisName.getText();
     String status = statusField.getText();
+    String comment = commentField.getText();
+    NewDateTime date = new NewDateTime(LocalDate.now().getDayOfMonth(),
+        LocalDate.now().getMonthValue(), LocalDate.now().getYear(), 0, 0);
 
-    NewDateTime date = new NewDateTime(dateAddedField.getValue().getYear(),
-        dateAddedField.getValue().getMonth().getValue(),
-        dateAddedField.getValue().getDayOfMonth(), 0, 0);
+    NewDateTime startDate = new NewDateTime(
+        startDatePicker.getValue().getDayOfMonth(),
+        startDatePicker.getValue().getMonthValue(),
+        startDatePicker.getValue().getYear(), 0, 0);
+    NewDateTime endDate = new NewDateTime(
+        endDatePicker.getValue().getDayOfMonth(),
+        endDatePicker.getValue().getMonthValue(),
+        endDatePicker.getValue().getYear(), 0, 0);
 
-    NewDateTime dateTime3 = new NewDateTime(1, 10, 2023, 0, 0);
-    NewDateTime dateTime4 = new NewDateTime(1, 12, 2023, 0, 0);
-    String prescription = (prescriptionField.getText()); //needsToChange
+    Prescription selectedPrescription = prescription.getValue();
+
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
-        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food", 100,
+        startDate, endDate, "Twice a day", "Ongoing", "Take with food", 100,
         100);
-    //doctor1.getDoctorID() = 100
-    //patient1.getPatientID()
 
     if (diagnosis.isEmpty() || status.isEmpty() || date == null
-        || prescription.isEmpty())
+        || selectedPrescription == null)
     {
       Alert alert = new Alert(Alert.AlertType.WARNING);
       alert.setTitle("Input Required");
@@ -61,10 +101,13 @@ public class AddDiagnosisController
       return;
     }
 
-    viewModel.addDiagnosis(diagnosis, status, date, prescription1);
+    viewModel.addDiagnosis(diagnosis, status, date, selectedPrescription);
+    patientName.clear();
     diagnosisName.clear();
     statusField.clear();
     prescriptionField.clear();
-    dateAddedField.setValue(null);
+    startDatePicker.setValue(null);
+    endDatePicker.setValue(null);
+
   }
 }
