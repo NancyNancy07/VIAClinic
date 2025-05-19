@@ -28,7 +28,8 @@ public class AddDiagnosisController
     diagnosisCol.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().toString()));
 
-    diagnosisTableView.setItems(viewModel.getDiagnoses());
+    diagnosisTableView.setItems(
+        viewModel.getDiagnoses(viewModel.getPatientId()));
   }
 
   @FXML private void setDiagnosisName()
@@ -44,8 +45,8 @@ public class AddDiagnosisController
     NewDateTime dateTime4 = new NewDateTime(1, 12, 2023, 0, 0);
     String prescription = (prescriptionField.getText()); //needsToChange
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
-        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
-        100, 100);
+        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food", 100,
+        100);
     //doctor1.getDoctorID() = 100
     //patient1.getPatientID()
 

@@ -21,8 +21,6 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
-  private  DatabaseDiagnosisDAO diagnosisDAO;
-  private  AppointmentDAO appointmentDAO;
   private List<Prescription> allPrescriptions;
 
   private AppointmentList appointmentList;
@@ -30,12 +28,12 @@ public class AuthenticationServiceImp implements AuthenticationService
   private AuthenticationServiceImp()
   {
     appointmentList = new AppointmentList();
-
     // Sample doctors
-    Doctor doctor1 = new Doctor(4, "Dr. Smith", "Smith","tobias@gmail.com","87654321", "drsmith", "doctorpassword");
-//    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
-//    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
-//    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
+    Doctor doctor1 = new Doctor(4, "Dr. Smith", "Smith", "tobias@gmail.com",
+        "87654321", "drsmith", "doctorpassword");
+    //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
+    //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
+    //    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
     users.add(doctor1);
     //    users.add(doctor2);
     //    users.add(doctor3);
@@ -43,13 +41,14 @@ public class AuthenticationServiceImp implements AuthenticationService
 
     // Sample patients
     Address address1 = new Address("Horsens", "8700", "Street 1");
-    Patient patient1 = new Patient(7, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1);
+    Patient patient1 = new Patient(1, "John", "Doe", "asdasd@gmail.com",
+        "12345678", "asq123", "123", "1234567890", address1);
 
     users.add(patient1);
-//    users.add(new Patient(5, "John Doe", "asq123", "123"));
-//    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
-//    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
-//    users.add(new Patient(8, "Alice White", "asr123", "98765"));
+    //    users.add(new Patient(5, "John Doe", "asq123", "123"));
+    //    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
+    //    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
+    //    users.add(new Patient(8, "Alice White", "asr123", "98765"));
 
     // Sample appointments
     // Create sample NewDateTime objects
@@ -60,17 +59,16 @@ public class AuthenticationServiceImp implements AuthenticationService
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
 
-
     allPrescriptions = new ArrayList<>();
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
         dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
         doctor1.getDoctorID(), patient1.getPatientID());
-//    allDiagnoses.add(
-//        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
-//    allDiagnoses.add(
-//        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
-    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1, patient1.getPatientID(),
-        prescription1));
+    //    allDiagnoses.add(
+    //        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
+    //    allDiagnoses.add(
+    //        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
+    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1,
+        patient1.getPatientID(), prescription1));
 
   }
 
@@ -176,7 +174,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   {
     try
     {
-      return appointmentDAO.getAppointmentsByPatientId(id);
+      return AppointmentDAO.getInstance().getAppointmentsByPatientId(id);
     }
     catch (SQLException e)
     {
@@ -199,8 +197,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     try
     {
 
-      return appointmentDAO.create(appointment.getDate(), appointment.getMode(),
-          appointment.getPatientID(), getDoctorById(appointment.getDoctorID()));
+      return AppointmentDAO.getInstance()
+          .create(appointment.getDate(), appointment.getMode(),
+              appointment.getPatientID(),
+              getDoctorById(appointment.getDoctorID()));
     }
     catch (SQLException e)
     {
@@ -229,7 +229,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   {
     try
     {
-      return diagnosisDAO.getByPatientId(patientId);
+      return DatabaseDiagnosisDAO.getInstance().getByPatientId(patientId);
     }
     catch (SQLException e)
     {
@@ -264,22 +264,24 @@ public class AuthenticationServiceImp implements AuthenticationService
   }
 
   @Override public void addPrescription(String medicineName, double doseAmount,
-      String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
-      String status, String comment, int doctorId, int patientId)
+      String doseUnit, NewDateTime startDate, NewDateTime endDate,
+      String frequency, String status, String comment, int doctorId,
+      int patientId)
   {
-    Prescription prescription = new Prescription(medicineName, doseAmount, doseUnit,
-        startDate, endDate, frequency, status, comment, doctorId, patientId);
-
+    Prescription prescription = new Prescription(medicineName, doseAmount,
+        doseUnit, startDate, endDate, frequency, status, comment, doctorId,
+        patientId);
 
     allPrescriptions.add(prescription);
     PrescriptionDAO prescriptionDAO = PrescriptionDAO.getInstance();
     try
     {
-      prescriptionDAO.create(prescription.getMedicineName(), prescription.getDoseAmount(),
-          prescription.getDoseUnit(), prescription.getStartDate(),
-          prescription.getEndDate(), prescription.getFrequency(),
-          prescription.getStatus(), prescription.getComment(),
-          prescription.getDoctorId(), prescription.getPatientId());
+      prescriptionDAO.create(prescription.getMedicineName(),
+          prescription.getDoseAmount(), prescription.getDoseUnit(),
+          prescription.getStartDate(), prescription.getEndDate(),
+          prescription.getFrequency(), prescription.getStatus(),
+          prescription.getComment(), prescription.getDoctorId(),
+          prescription.getPatientId());
     }
     catch (SQLException e)
     {

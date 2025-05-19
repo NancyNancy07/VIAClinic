@@ -85,7 +85,7 @@ public class DatabaseDiagnosisDAO
     try (Connection connection = getConnection())
     {
       PreparedStatement stmt = connection.prepareStatement(
-          "SELECT * FROM Diagnosis WHERE \"patientId\" = ?");
+          "SELECT * FROM Diagnosis WHERE patientid= ?");
       stmt.setInt(1, patientId);
 
       ResultSet rs = stmt.executeQuery();
