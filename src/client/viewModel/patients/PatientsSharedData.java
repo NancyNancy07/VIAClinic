@@ -2,6 +2,7 @@ package client.viewModel.patients;
 
 import client.viewModel.loginSystem.LoginSharedData;
 import server.model.bookAppointment.NewDateTime;
+import server.model.patientJournal.Prescription;
 
 public class PatientsSharedData
 {
@@ -9,6 +10,7 @@ public class PatientsSharedData
 
   private String patientName;
   private String diagnosis;
+  private String prescription;
   private int patientId;
 
   private PatientsSharedData()
@@ -45,7 +47,7 @@ public class PatientsSharedData
   }
 
   public void setDiagnosis(String diagnosis, String status, NewDateTime date,
-      String prescription)
+      Prescription prescription)
   {
     this.diagnosis = diagnosis;
   }
@@ -59,4 +61,17 @@ public class PatientsSharedData
   {
     return LoginSharedData.getInstance().getId();
   }
+
+  public void setPrescription(String medicineName, double doseAmount,
+      String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
+      String status, String comment, int doctorId, int patientId)
+  {
+    this.prescription = medicineName;
+  }
+  public String getPrescription()
+  {
+    return prescription;
+  }
+
+
 }

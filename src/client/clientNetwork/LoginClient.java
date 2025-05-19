@@ -32,11 +32,11 @@ public class LoginClient
       request.setUserType(type);
 
       String jsonRequest = gson.toJson(request);
-      System.out.println("Sending to server: " + jsonRequest);
+      System.out.println("Sending to server PatientLogin: " + jsonRequest);
       output.println(jsonRequest);
 
       String jsonResponse = input.readLine();
-      System.out.println("Received from server: " + jsonResponse);
+      System.out.println("Received from server PatientLogin: " + jsonResponse);
 
       if (jsonResponse == null || jsonResponse.trim().isEmpty())
       {

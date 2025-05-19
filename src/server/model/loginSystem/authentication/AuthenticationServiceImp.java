@@ -4,8 +4,11 @@ import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.Address;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
+import server.model.patientJournal.PrescriptionDAO;
 import shared.ResponseObject;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +20,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   private static AuthenticationServiceImp instance;
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
+  private List<Prescription> allPrescriptions;
 
   private AppointmentList appointmentList;
 
@@ -25,7 +29,7 @@ public class AuthenticationServiceImp implements AuthenticationService
     appointmentList = new AppointmentList();
 
     // Sample doctors
-    Doctor doctor1 = new Doctor(1, "Smith", "Jones","asdasd@gmail.com","1234566644", "asd123", "1234567");
+    Doctor doctor1 = new Doctor(4, "Dr. Smith", "Smith","tobias@gmail.com","87654321", "drsmith", "doctorpassword");
 //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
 //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
 //    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
@@ -36,7 +40,9 @@ public class AuthenticationServiceImp implements AuthenticationService
 
     // Sample patients
     Address address1 = new Address("Horsens", "8700", "Street 1");
-    users.add(new Patient(5, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1));
+    Patient patient1 = new Patient(7, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1);
+
+    users.add(patient1);
 //    users.add(new Patient(5, "John Doe", "asq123", "123"));
 //    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
 //    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
@@ -48,7 +54,7 @@ public class AuthenticationServiceImp implements AuthenticationService
     NewDateTime dateTime2 = new NewDateTime(9, 5, 2025, 13, 30);
 
     appointmentList.addAppointment(
-        new Appointment(dateTime1, 5, doctor1, "In-person"));
+        new Appointment(dateTime1, patient1.getPatientID(), doctor1, "In-person"));
 //    appointmentList.addAppointment(
 //        new Appointment(dateTime2, 5, doctor2, "Online"));
 //    appointmentList.addAppointment(
@@ -60,12 +66,17 @@ public class AuthenticationServiceImp implements AuthenticationService
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
 
-    allDiagnoses.add(
-        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
-    allDiagnoses.add(
-        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
-    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1, 5,
-        "Cast for 4 weeks"));
+
+    allPrescriptions = new ArrayList<>();
+    Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
+        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
+        doctor1.getDoctorID(), patient1.getPatientID());
+//    allDiagnoses.add(
+//        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
+//    allDiagnoses.add(
+//        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
+    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1, patient1.getPatientID(),
+        prescription1));
 
   }
 
@@ -191,6 +202,44 @@ public class AuthenticationServiceImp implements AuthenticationService
       }
     }
     return patientDiagnoses;
+  }
+
+  @Override public List<Prescription> getPrescriptionsForPatient(int patientId)
+  {
+    PrescriptionDAO prescriptionDAO = PrescriptionDAO.getInstance();
+    try
+    {
+      return prescriptionDAO.getPrescriptionsByPatientId(patientId);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
+  @Override public void addPrescription(String medicineName, double doseAmount,
+      String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
+      String status, String comment, int doctorId, int patientId)
+  {
+    Prescription prescription = new Prescription(medicineName, doseAmount, doseUnit,
+        startDate, endDate, frequency, status, comment, doctorId, patientId);
+
+
+    allPrescriptions.add(prescription);
+    PrescriptionDAO prescriptionDAO = PrescriptionDAO.getInstance();
+    try
+    {
+      prescriptionDAO.create(prescription.getMedicineName(), prescription.getDoseAmount(),
+          prescription.getDoseUnit(), prescription.getStartDate(),
+          prescription.getEndDate(), prescription.getFrequency(),
+          prescription.getStatus(), prescription.getComment(),
+          prescription.getDoctorId(), prescription.getPatientId());
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   public void addDiagnosis(Diagnosis diagnosis)

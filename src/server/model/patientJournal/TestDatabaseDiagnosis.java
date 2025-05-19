@@ -56,7 +56,7 @@ public class TestDatabaseDiagnosis
       String comment = "Take with food";
 
 
-      Prescription prescription = prescriptionDAO.create(medicineName, doseAmount, doseUnit, prescriptionStartDate, prescriptionEndDate, frequency, status, comment, doctor, patient);
+      Prescription prescription = prescriptionDAO.create(medicineName, doseAmount, doseUnit, prescriptionStartDate, prescriptionEndDate, frequency, status, comment, doctor.getDoctorID(), patient.getPatientID());
 
 
       DatabaseDiagnosisDAO diagnosisDAO = DatabaseDiagnosisDAO.getInstance();

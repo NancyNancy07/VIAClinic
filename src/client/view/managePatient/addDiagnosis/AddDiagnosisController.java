@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 
 public class AddDiagnosisController
 {
@@ -17,6 +18,7 @@ public class AddDiagnosisController
   @FXML private DatePicker dateAddedField;
   @FXML private TableView<Diagnosis> diagnosisTableView;
   @FXML private TableColumn<Diagnosis, String> diagnosisCol;
+
   private AddDiagnosisViewModel viewModel;
 
   public void init(AddDiagnosisViewModel viewModel)
@@ -38,7 +40,15 @@ public class AddDiagnosisController
     NewDateTime date = new NewDateTime(dateAddedField.getValue().getYear(),
         dateAddedField.getValue().getMonth().getValue(),
         dateAddedField.getValue().getDayOfMonth(), 0, 0);
-    String prescription = (prescriptionField.getText());
+
+    NewDateTime dateTime3 = new NewDateTime(1, 10, 2023, 0, 0);
+    NewDateTime dateTime4 = new NewDateTime(1, 12, 2023, 0, 0);
+    String prescription = (prescriptionField.getText()); //needsToChange
+    Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
+        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
+        100, 100);
+    //doctor1.getDoctorID() = 100
+    //patient1.getPatientID()
 
     if (diagnosis.isEmpty() || status.isEmpty() || date == null
         || prescription.isEmpty())
@@ -51,7 +61,7 @@ public class AddDiagnosisController
       return;
     }
 
-    viewModel.addDiagnosis(diagnosis, status, date, prescription);
+    viewModel.addDiagnosis(diagnosis, status, date, prescription1);
     diagnosisName.clear();
     statusField.clear();
     prescriptionField.clear();

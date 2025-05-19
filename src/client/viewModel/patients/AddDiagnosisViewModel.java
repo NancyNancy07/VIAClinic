@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 
 public class AddDiagnosisViewModel implements DiagnosisListener
 {
@@ -27,7 +28,7 @@ public class AddDiagnosisViewModel implements DiagnosisListener
   }
 
   public void addDiagnosis(String diagnosisName, String status,
-      NewDateTime date, String prescription)
+      NewDateTime date, Prescription prescription)
   {
     Diagnosis diagnosis = new Diagnosis(diagnosisName, status, date,
         patientsSharedData.getDoctorId(), patientsSharedData.getPatientId(),

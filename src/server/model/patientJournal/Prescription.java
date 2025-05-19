@@ -54,4 +54,54 @@ public class Prescription
   public void setPrescriptionId(int prescriptionId) {
     this.prescriptionId = prescriptionId;
   }
+
+  public int getPatientId()
+  {
+    return patientId;
+  }
+
+  public String getMedicineName()
+  {
+    return medicineName;
+  }
+
+  public double getDoseAmount()
+  {
+    return doseAmount;
+  }
+
+  public String getDoseUnit()
+  {
+    return doseUnit;
+  }
+
+  public NewDateTime getStartDate()
+  {
+    return startDate;
+  }
+
+  public NewDateTime getEndDate()
+  {
+    return endDate;
+  }
+
+  public String getFrequency()
+  {
+    return frequency;
+  }
+
+  public String getStatus()
+  {
+    return status;
+  }
+
+  public String getComment()
+  {
+    return comment;
+  }
+
+  public int getDoctorId()
+  {
+    return doctorId;
+  }
 }

@@ -9,6 +9,7 @@ import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.Prescription;
 import server.util.LocalDateAdapter;
 import server.util.LocalTimeAdapter;
 import shared.RequestObject;
@@ -115,7 +116,7 @@ public class ClientHandler implements Runnable
             if (patientList != null && !patientList.isEmpty())
             {
               patientResponse = new ResponseObject(true, "Patient found", -1);
-              patientResponse.setPatients(patientList);
+            patientResponse.setPatients(patientList);
             }
             else
             {
@@ -167,6 +168,46 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(diagnosisResponse));
+          }
+
+          case "getPrescriptionList" ->
+          {
+            int patientId = req.getId();
+
+            List<Prescription> prescriptionList = authService.getPrescriptionsForPatient(patientId);
+
+            ResponseObject prescriptionResponse;
+
+            if (prescriptionList != null && !prescriptionList.isEmpty()) {
+              prescriptionResponse = new ResponseObject(true, "Prescription found", patientId);
+              prescriptionResponse.setPrescriptions(prescriptionList);
+            } else {
+              prescriptionResponse = new ResponseObject(false, "No prescriptions found", patientId);
+            }
+
+            output.println(gson.toJson(prescriptionResponse));
+          }
+
+          case "addPrescription" ->
+          {
+            Prescription prescription = req.getPrescription();
+
+            if (prescription != null) {
+              AuthenticationServiceImp.getInstance().addPrescription(prescription.getMedicineName(),
+                  prescription.getDoseAmount(), prescription.getDoseUnit(),
+                  prescription.getStartDate(), prescription.getEndDate(),
+                  prescription.getFrequency(), prescription.getStatus(),
+                  prescription.getComment(), prescription.getDoctorId(),
+                  prescription.getPatientId());
+            }
+            System.out.println("Received prescription");
+
+            ResponseObject prescriptionResponse = new ResponseObject();
+            prescriptionResponse.setSuccess(true);
+            prescriptionResponse.setMessage("Prescription received by server");
+            prescriptionResponse.setPrescription(prescription);
+
+            output.println(gson.toJson(prescriptionResponse));
           }
 
           default ->
