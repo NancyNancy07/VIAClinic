@@ -26,7 +26,7 @@ public class AppointmentDAO
   {
     return DriverManager.getConnection(
         "jdbc:postgresql://localhost:5432/postgres?currentSchema=jdbc",
-        "postgres", "admin");
+        "postgres", "Via@123");
   }
 
   public Appointment create( NewDateTime dateTime,
