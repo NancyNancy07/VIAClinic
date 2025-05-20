@@ -23,7 +23,6 @@ public class DiagnosisController
     nameColumn.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().toString()));
     int patientId = viewModel.getPatientId();
-    System.out.println(patientId);
     diagnosisTable.setItems(viewModel.getDiagnosisList(patientId));
   }
 }

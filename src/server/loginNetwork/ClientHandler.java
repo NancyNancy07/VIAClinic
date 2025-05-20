@@ -257,6 +257,29 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(referralResponse));
           }
 
+          case "getReferralList" ->
+          {
+            int patientId = req.getId();
+            List<Referral> referralList = authService.getReferralsForPatient(
+                patientId);
+
+            ResponseObject referralResponse;
+
+            if (referralList != null && !referralList.isEmpty())
+            {
+              referralResponse = new ResponseObject(true, "Referrals found",
+                  patientId);
+              referralResponse.setReferrals(referralList);
+            }
+            else
+            {
+              referralResponse = new ResponseObject(false, "No referral found",
+                  patientId);
+            }
+
+            output.println(gson.toJson(referralResponse));
+          }
+
           default ->
           {
             output.println(gson.toJson(

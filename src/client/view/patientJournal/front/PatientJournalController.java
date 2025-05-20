@@ -35,4 +35,10 @@ public class PatientJournalController
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.PRESCRIPTION);
   }
+
+  @FXML private void referralClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.REFERRAL);
+  }
 }

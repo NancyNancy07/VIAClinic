@@ -3,8 +3,10 @@ package client.view.patientJournal;
 import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
 import client.view.patientJournal.prescription.PrescriptionController;
+import client.view.patientJournal.referral.ReferralController;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import client.viewModel.managePatients.PatientsViewModel;
+import client.viewModel.patientJournal.PatientJournalViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,17 +24,19 @@ public class PatientJournalViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, CONFIRMATION
+    FRONT, DIAGNOSIS, REFERRAL, TIME, PRESCRIPTION, CONFIRMATION
   }
 
   private static Stage stage;
+  private static PatientJournalViewModelFactory factory;
   private static PatientDiagnosisViewModel viewModel;
   private static PatientsViewModel patientsViewModel;
 
   public PatientJournalViewHandler(Stage stage,
-      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel)
+      PatientJournalViewModelFactory factory)
   {
     PatientJournalViewHandler.stage = stage;
+    this.factory = factory;
     PatientJournalViewHandler.viewModel = viewModel;
     PatientJournalViewHandler.patientsViewModel = patientsViewModel;
   }
@@ -46,7 +50,7 @@ public class PatientJournalViewHandler
         case FRONT -> showFrontView();
         case DIAGNOSIS -> showDiagnosisView();
         case PRESCRIPTION -> showPrescriptionView();
-        //        case MODE -> showModeView();
+        case REFERRAL -> showReferralView();
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
 
@@ -84,7 +88,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientDiagnosisViewModel());
 
     stage.setTitle("View Diagnosis");
     stage.setScene(scene);
@@ -103,6 +107,22 @@ public class PatientJournalViewHandler
     controller.init(viewModel);
 
     stage.setTitle("View Prescription");
+    stage.setScene(scene);
+  }
+
+  private static void showReferralView() throws IOException
+  {
+    ReferralController controller = new ReferralController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource(
+            "./referral/referral.fxml"));
+
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(factory.getPatientReferralViewModel());
+
+    stage.setTitle("View Referral");
     stage.setScene(scene);
   }
 

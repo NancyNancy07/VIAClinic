@@ -97,7 +97,7 @@ public class Referral
 
   @Override public String toString()
   {
-    return ", dateCreated=" + dateCreated + ", reason='" + reason + '\''
-        + ", comment='" + comment + '\'';
+    return "Referral for " + reason + " " + comment + ", created on "
+        + dateCreated;
   }
 }

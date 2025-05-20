@@ -25,4 +25,5 @@ public interface AuthenticationService
       NewDateTime startDate, NewDateTime endDate, String frequency,
       String status, String comment, int doctorId, int patientId);
   void addReferral(Referral referral);
+  List<Referral> getReferralsForPatient(int patientId);
 }

@@ -174,12 +174,12 @@ public class PatientClient
       {
         Referral addedReferral = response.getReferral();
         System.out.println("Referral added: " + addedReferral.getReason());
-//
-//        if (listener != null)
-//        {
-//          listener.onDiagnosisAdded(true,
-//              addedDiagnosis.getDiagnosisName() + "is added");
-//        }
+        //
+        //        if (listener != null)
+        //        {
+        //          listener.onDiagnosisAdded(true,
+        //              addedDiagnosis.getDiagnosisName() + "is added");
+        //        }
       }
 
     }
@@ -265,6 +265,49 @@ public class PatientClient
       {
         System.err.println(
             "Failed to retrieve prescriptions: " + response.getMessage());
+        return null;
+      }
+
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<Referral> getPatientReferral(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("getReferralList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getReferrals();
+      }
+      else
+      {
+        System.err.println(
+            "Failed to retrieve referrals: " + response.getMessage());
         return null;
       }
 

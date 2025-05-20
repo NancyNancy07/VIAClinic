@@ -330,4 +330,18 @@ public class AuthenticationServiceImp implements AuthenticationService
       e.printStackTrace();
     }
   }
+
+  @Override public List<Referral> getReferralsForPatient(int patientId)
+  {
+    ReferralDAO referralDAO = ReferralDAO.getInstance();
+    try
+    {
+      return referralDAO.getReferralsByPatientId(patientId);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
 }
