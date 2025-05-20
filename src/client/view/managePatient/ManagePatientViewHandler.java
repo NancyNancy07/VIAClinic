@@ -2,9 +2,10 @@ package client.view.managePatient;
 
 import client.view.managePatient.addDiagnosis.AddDiagnosisController;
 import client.view.managePatient.addPrescription.AddPrescriptionController;
+import client.view.managePatient.addReferral.AddReferralController;
 import client.view.managePatient.viewPatients.ViewPatientsController;
-import client.viewModel.patients.PatientJournalViewModelFactory;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientJournalViewModelFactory;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,7 +24,7 @@ public class ManagePatientViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, PRESCRIPTION, MODE, TIME, CONFIRMATION
+    FRONT, DIAGNOSIS, PRESCRIPTION, REFERRAL, TIME, CONFIRMATION
   }
 
   private static Stage stage;
@@ -47,7 +48,7 @@ public class ManagePatientViewHandler
         case FRONT -> showFrontView();
         case DIAGNOSIS -> showDiagnosisView();
         case PRESCRIPTION -> showPrescriptionView();
-        //        case MODE -> showModeView();
+        case REFERRAL -> showReferralView();
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
 
@@ -87,7 +88,7 @@ public class ManagePatientViewHandler
 
     Scene scene = new Scene(fxmlLoader.load());
     controller.init(factory.getAddPrescriptionViewModel());
-    stage.setTitle("Patients Data");
+    stage.setTitle("View Prescription");
     stage.setScene(scene);
   }
 
@@ -107,57 +108,21 @@ public class ManagePatientViewHandler
     stage.setScene(scene);
   }
 
+  private static void showReferralView() throws IOException
+  {
+    AddReferralController controller = new AddReferralController();
 
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        ManagePatientViewHandler.class.getResource(
+            "./addReferral/addReferral.fxml"));
 
-  //  private static void showModeView() throws IOException
-  //  {
-  //    ModeViewController controller = new ModeViewController();
-  //
-  //    FXMLLoader fxmlLoader = new FXMLLoader(
-  //        ManagePatientViewHandler.class.getResource(
-  //            "./modeofconsultation/mode.fxml"));
-  //
-  //    fxmlLoader.setControllerFactory(ignore -> controller);
-  //
-  //    Scene scene = new Scene(fxmlLoader.load());
-  //    controller.init(viewModel, sharedData);
-  //
-  //    stage.setTitle("Select Mode of Consultation");
-  //    stage.setScene(scene);
-  //  }
-  //
-  //  private static void showTimeView() throws IOException
-  //  {
-  //    TimeViewController controller = new TimeViewController();
-  //
-  //    FXMLLoader fxmlLoader = new FXMLLoader(
-  //        ManagePatientViewHandler.class.getResource(
-  //            "./dateandtime/time.fxml"));
-  //
-  //    fxmlLoader.setControllerFactory(ignore -> controller);
-  //
-  //    Scene scene = new Scene(fxmlLoader.load());
-  //    controller.init(viewModel, sharedData);
-  //
-  //    stage.setTitle("Select Date and Time");
-  //    stage.setScene(scene);
-  //  }
-  //
-  //  private static void showConfirmationView() throws IOException
-  //  {
-  //    ConfirmationViewController controller = new ConfirmationViewController();
-  //
-  //    FXMLLoader fxmlLoader = new FXMLLoader(
-  //        ManagePatientViewHandler.class.getResource(
-  //            "./confirmation/confirmation.fxml"));
-  //
-  //    fxmlLoader.setControllerFactory(ignore -> controller);
-  //
-  //    Scene scene = new Scene(fxmlLoader.load());
-  //    controller.init(viewModel, sharedData);
-  //
-  //    stage.setTitle("Confirmation");
-  //    stage.setScene(scene);
-  //  }
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(factory.getAddReferralViewModel());
+    stage.setTitle("View Referral");
+    stage.setScene(scene);
+  }
+
 }
 

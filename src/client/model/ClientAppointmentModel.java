@@ -2,9 +2,6 @@ package client.model;
 
 import server.model.bookAppointment.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class ClientAppointmentModel implements AppointmentModel
 {
   private AppointmentList appointmentList;
@@ -19,7 +16,7 @@ public class ClientAppointmentModel implements AppointmentModel
   @Override public Appointment bookAppointment(NewDateTime dateTime,
       int patientId, Doctor doctor, String mode)
   {
-    return new Appointment(dateTime, patientId, doctor, mode); // Example stub
+    return new Appointment(dateTime, patientId, doctor, mode);
   }
 
   @Override public boolean cancelAppointment(int appointmentId)

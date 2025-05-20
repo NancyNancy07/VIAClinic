@@ -3,6 +3,7 @@ package shared;
 import server.model.bookAppointment.Appointment;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Referral;
 
 public class RequestObject
 {
@@ -14,6 +15,7 @@ public class RequestObject
   private Diagnosis diagnosis;
   private Appointment appointment;
   private Prescription prescription;
+  private Referral referral;
 
   public String getType()
   {
@@ -65,17 +67,19 @@ public class RequestObject
     this.id = id;
   }
 
-  public void setDiagnosis(Diagnosis diagnosis) {
+  public void setDiagnosis(Diagnosis diagnosis)
+  {
     this.diagnosis = diagnosis;
   }
 
-  public Diagnosis getDiagnosis() {
+  public Diagnosis getDiagnosis()
+  {
     return diagnosis;
   }
 
   public void setAppointment(Appointment appointment)
   {
-    this.appointment=appointment;
+    this.appointment = appointment;
   }
 
   public Appointment getAppointment()
@@ -85,11 +89,21 @@ public class RequestObject
 
   public void setPrescription(Prescription prescription)
   {
-    this.prescription=prescription;
+    this.prescription = prescription;
   }
 
   public Prescription getPrescription()
   {
     return prescription;
+  }
+
+  public void setReferral(Referral referral)
+  {
+    this.referral = referral;
+  }
+
+  public Referral getReferral()
+  {
+    return referral;
   }
 }

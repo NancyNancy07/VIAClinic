@@ -9,8 +9,7 @@ import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
-import server.util.LocalDateAdapter;
-import server.util.LocalTimeAdapter;
+import server.model.patientJournal.Referral;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -131,20 +130,9 @@ public class ClientHandler implements Runnable
 
             if (diagnosis != null)
             {
-              AuthenticationServiceImp.getInstance().addDiagnosis(diagnosis);
+              authService.addDiagnosis(diagnosis);
             }
             System.out.println("Received diagnosis:");
-            System.out.println("  Name: " + (diagnosis != null ?
-                diagnosis.getDiagnosisName() :
-                null));
-            System.out.println("  Status: " + diagnosis.getStatus());
-            System.out.println(
-                "  Date Diagnosed: " + diagnosis.getDateDiagnosed());
-            System.out.println("  Comment: " + diagnosis.getComment());
-            System.out.println("  Doctor ID: " + diagnosis.getDoctorId());
-            System.out.println("  Patient ID: " + diagnosis.getPatientId());
-            System.out.println(
-                "  Prescription: " + diagnosis.getPrescription());
 
             ResponseObject diagnosisResponse = new ResponseObject();
             diagnosisResponse.setSuccess(true);
@@ -207,13 +195,12 @@ public class ClientHandler implements Runnable
 
             if (prescription != null)
             {
-              AuthenticationServiceImp.getInstance()
-                  .addPrescription(prescription.getMedicineName(),
-                      prescription.getDoseAmount(), prescription.getDoseUnit(),
-                      prescription.getStartDate(), prescription.getEndDate(),
-                      prescription.getFrequency(), prescription.getStatus(),
-                      prescription.getComment(), prescription.getDoctorId(),
-                      prescription.getPatientId());
+              authService.addPrescription(prescription.getMedicineName(),
+                  prescription.getDoseAmount(), prescription.getDoseUnit(),
+                  prescription.getStartDate(), prescription.getEndDate(),
+                  prescription.getFrequency(), prescription.getStatus(),
+                  prescription.getComment(), prescription.getDoctorId(),
+                  prescription.getPatientId());
             }
             System.out.println("Received prescription");
 
@@ -232,8 +219,7 @@ public class ClientHandler implements Runnable
             ResponseObject appointmentResponse = new ResponseObject();
             if (appointment != null)
             {
-              AuthenticationServiceImp.getInstance()
-                  .bookAppointment(appointment);
+              authService.bookAppointment(appointment);
 
               System.out.println("Received prescription");
 
@@ -251,6 +237,24 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(appointmentResponse));
+          }
+
+          case "addReferral" ->
+          {
+            Referral referral = req.getReferral();
+
+            if (referral != null)
+            {
+              authService.addReferral(referral);
+            }
+            System.out.println("Received referral:" + referral);
+
+            ResponseObject referralResponse = new ResponseObject();
+            referralResponse.setSuccess(true);
+            referralResponse.setMessage("Referral received by server");
+            referralResponse.setReferral(referral);
+
+            output.println(gson.toJson(referralResponse));
           }
 
           default ->

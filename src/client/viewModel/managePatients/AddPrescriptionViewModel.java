@@ -1,4 +1,4 @@
-package client.viewModel.patients;
+package client.viewModel.managePatients;
 
 import client.clientNetwork.PatientClient;
 import client.clientNetwork.PrescriptionListener;
@@ -8,7 +8,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.bookAppointment.NewDateTime;
-import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 
 public class AddPrescriptionViewModel implements PrescriptionListener
@@ -75,5 +74,9 @@ public class AddPrescriptionViewModel implements PrescriptionListener
   @Override public void onPrescriptionAdded(boolean success, String message)
   {
     System.out.println("Prescription result: " + message);
+  }
+
+  @Override public void addedPrescription(Prescription prescription)
+  {
   }
 }

@@ -1,6 +1,7 @@
 package client.view.managePatient.addDiagnosis;
 
-import client.viewModel.patients.AddDiagnosisViewModel;
+import client.view.managePatient.ManagePatientViewHandler;
+import client.viewModel.managePatients.AddDiagnosisViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,7 +25,9 @@ public class AddDiagnosisController
 
   @FXML private TableView<Diagnosis> diagnosisTableView;
   @FXML private TableColumn<Diagnosis, String> diagnosisCol;
+
   private AddDiagnosisViewModel viewModel;
+  private Prescription addNewPlaceholder;
 
   public void init(AddDiagnosisViewModel viewModel)
   {
@@ -37,6 +40,11 @@ public class AddDiagnosisController
     diagnosisTableView.setItems(
         viewModel.getDiagnoses(viewModel.getPatientId()));
 
+    // Placeholder item
+    addNewPlaceholder = new Prescription("➕ Add new prescription...", 0, "",
+        null, null, "", "", "", 0, 0);
+
+    // Set up ComboBox display
     prescription.setCellFactory(param -> new ListCell<>()
     {
       @Override protected void updateItem(Prescription item, boolean empty)
@@ -44,6 +52,8 @@ public class AddDiagnosisController
         super.updateItem(item, empty);
         if (empty || item == null)
           setText(null);
+        else if (item.getMedicineName().equals("➕ Add new prescription..."))
+          setText(item.getMedicineName());
         else
           setText(item.getMedicineName() + " - " + item.getDoseAmount()
               + item.getDoseUnit());
@@ -57,14 +67,28 @@ public class AddDiagnosisController
         super.updateItem(item, empty);
         if (empty || item == null)
           setText(null);
+        else if (item.getMedicineName().equals("➕ Add new prescription..."))
+          setText(item.getMedicineName());
         else
           setText(item.getMedicineName() + " - " + item.getDoseAmount()
               + item.getDoseUnit());
       }
     });
 
+    // Add items
+    prescription.getItems().add(addNewPlaceholder);
     prescription.getItems()
         .addAll(viewModel.getAllPrescriptions(viewModel.getPatientId()));
+    prescription.getSelectionModel().selectFirst();
+
+    // Listener to detect "Add new prescription"
+    prescription.setOnAction(e -> {
+      Prescription selected = prescription.getValue();
+      if (selected != null && selected.equals(addNewPlaceholder))
+      {
+        openNewPrescriptionDialog();
+      }
+    });
   }
 
   @FXML private void setDiagnosisName()
@@ -74,6 +98,12 @@ public class AddDiagnosisController
     String comment = commentField.getText();
     NewDateTime date = new NewDateTime(LocalDate.now().getDayOfMonth(),
         LocalDate.now().getMonthValue(), LocalDate.now().getYear(), 0, 0);
+
+    if (startDatePicker.getValue() == null || endDatePicker.getValue() == null)
+    {
+      showAlert("Please select start and end date.");
+      return;
+    }
 
     NewDateTime startDate = new NewDateTime(
         startDatePicker.getValue().getDayOfMonth(),
@@ -86,28 +116,35 @@ public class AddDiagnosisController
 
     Prescription selectedPrescription = prescription.getValue();
 
-    Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
-        startDate, endDate, "Twice a day", "Ongoing", "Take with food", 100,
-        100);
-
-    if (diagnosis.isEmpty() || status.isEmpty() || date == null
-        || selectedPrescription == null)
+    if (diagnosis.isEmpty() || status.isEmpty() || selectedPrescription == null)
     {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Input Required");
-      alert.setHeaderText(null);
-      alert.setContentText("Field cannot be empty.");
-      alert.showAndWait();
+      showAlert("Field cannot be empty.");
       return;
     }
 
     viewModel.addDiagnosis(diagnosis, status, date, selectedPrescription);
+
+    // Clear fields
     patientName.clear();
     diagnosisName.clear();
     statusField.clear();
-    prescriptionField.clear();
     startDatePicker.setValue(null);
     endDatePicker.setValue(null);
+  }
 
+  private void showAlert(String message)
+  {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Input Required");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  // Simulate dialog to enter new prescription
+  private void openNewPrescriptionDialog()
+  {
+    ManagePatientViewHandler.showView(
+        ManagePatientViewHandler.ViewType.PRESCRIPTION);
   }
 }

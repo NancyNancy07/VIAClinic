@@ -5,6 +5,7 @@ import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Referral;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ResponseObject
   private List<Diagnosis> diagnoses;
   private Prescription prescription;
   private List<Prescription> prescriptions;
+  private Referral referral;
+  private List<Referral> referrals;
 
   public ResponseObject()
   {
@@ -152,5 +155,25 @@ public class ResponseObject
   public void setPrescription(Prescription prescription)
   {
     this.prescription = prescription;
+  }
+
+  public void setReferrals(List<Referral> referrals)
+  {
+    this.referrals = referrals;
+  }
+
+  public List<Referral> getReferrals()
+  {
+    return referrals;
+  }
+
+  public void setReferral(Referral referral)
+  {
+    this.referral = referral;
+  }
+
+  public Referral getReferral()
+  {
+    return referral;
   }
 }

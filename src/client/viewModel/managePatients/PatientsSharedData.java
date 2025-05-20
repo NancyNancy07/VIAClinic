@@ -1,4 +1,4 @@
-package client.viewModel.patients;
+package client.viewModel.managePatients;
 
 import client.viewModel.loginSystem.LoginSharedData;
 import server.model.bookAppointment.NewDateTime;
@@ -10,6 +10,7 @@ public class PatientsSharedData
 
   private String patientName;
   private String diagnosis;
+  private String referral;
   private String prescription;
   private int patientId;
 
@@ -63,15 +64,26 @@ public class PatientsSharedData
   }
 
   public void setPrescription(String medicineName, double doseAmount,
-      String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
-      String status, String comment, int doctorId, int patientId)
+      String doseUnit, NewDateTime startDate, NewDateTime endDate,
+      String frequency, String status, String comment, int doctorId,
+      int patientId)
   {
     this.prescription = medicineName;
   }
+
   public String getPrescription()
   {
     return prescription;
   }
 
+  public void setReferral(NewDateTime date, String reason, String comment,
+      int doctorId, int patientId)
+  {
+    this.referral = reason;
+  }
 
+  public String getReferral()
+  {
+    return referral;
+  }
 }

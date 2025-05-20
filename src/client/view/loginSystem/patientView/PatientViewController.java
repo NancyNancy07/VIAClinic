@@ -6,7 +6,7 @@ import client.view.patientJournal.PatientJournalGUI;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.loginSystem.LoginViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;

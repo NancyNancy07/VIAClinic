@@ -1,7 +1,6 @@
 package client.viewModel.patientJournal;
 
 import client.viewModel.loginSystem.LoginSharedData;
-import client.viewModel.patients.PatientsSharedData;
 import server.model.bookAppointment.NewDateTime;
 
 public class PatientJournalSharedData

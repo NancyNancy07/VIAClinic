@@ -1,7 +1,7 @@
 package client.view.managePatient.viewPatients;
 
 import client.view.managePatient.ManagePatientViewHandler;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,9 +38,14 @@ public class ViewPatientsController
 
   @FXML private void managePatientData()
   {
+    Patient selected = patientsTable.getSelectionModel().getSelectedItem();
+    if (selected == null)
+    {
+      return;
+    }
     pane.setVisible(true);
 
-    Patient selected = patientsTable.getSelectionModel().getSelectedItem();
+    patientsTable.getSelectionModel().getSelectedItem();
     patientName.setText(selected.getName());
     viewModel.setPatientName(selected.getName());
     viewModel.setPatientId(selected);
@@ -56,6 +61,11 @@ public class ViewPatientsController
     addPrescriptionView();
   }
 
+  public void setAddReferralView()
+  {
+    addReferralView();
+  }
+
   @FXML private void addDiagnosisView()
   {
     ManagePatientViewHandler.showView(
@@ -66,6 +76,12 @@ public class ViewPatientsController
   {
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
+  }
+
+  @FXML private void addReferralView()
+  {
+    ManagePatientViewHandler.showView(
+        ManagePatientViewHandler.ViewType.REFERRAL);
   }
 
   @FXML private void back()

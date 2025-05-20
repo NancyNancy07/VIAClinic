@@ -6,6 +6,7 @@ import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.PrescriptionDAO;
+import server.model.patientJournal.Referral;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -119,7 +120,8 @@ public class PatientClient
       output.println(jsonRequest);
 
       String jsonResponse = input.readLine();
-      System.out.println("Received from server AddPrescription: " + jsonResponse);
+      System.out.println(
+          "Received from server AddPrescription: " + jsonResponse);
 
       ResponseObject response = gson.fromJson(jsonResponse,
           ResponseObject.class);
@@ -135,6 +137,49 @@ public class PatientClient
           listener.onDiagnosisAdded(true,
               addedPrescription.getMedicineName() + "is added");
         }
+      }
+
+    }
+    catch (IOException e)
+
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public void sendAddReferral(Referral referral)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("addReferral");
+      request.setReferral(referral);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        Referral addedReferral = response.getReferral();
+        System.out.println("Referral added: " + addedReferral.getReason());
+//
+//        if (listener != null)
+//        {
+//          listener.onDiagnosisAdded(true,
+//              addedDiagnosis.getDiagnosisName() + "is added");
+//        }
       }
 
     }
@@ -230,4 +275,5 @@ public class PatientClient
       return null;
     }
   }
+
 }

@@ -2,11 +2,7 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
-import server.model.patientJournal.Address;
-import server.model.patientJournal.DatabaseDiagnosisDAO;
-import server.model.patientJournal.Diagnosis;
-import server.model.patientJournal.Prescription;
-import server.model.patientJournal.PrescriptionDAO;
+import server.model.patientJournal.*;
 import shared.ResponseObject;
 
 import java.sql.SQLException;
@@ -191,7 +187,7 @@ public class AuthenticationServiceImp implements AuthenticationService
     //    return result;
   }
 
-  public void bookAppointment(Appointment appointment)
+  @Override public void bookAppointment(Appointment appointment)
   {
     appointmentList.addAppointment(appointment);
     try
@@ -263,7 +259,7 @@ public class AuthenticationServiceImp implements AuthenticationService
     //    return patientDiagnoses;
   }
 
-  public void addDiagnosis(Diagnosis diagnosis)
+  @Override public void addDiagnosis(Diagnosis diagnosis)
   {
     try
     {
@@ -313,6 +309,21 @@ public class AuthenticationServiceImp implements AuthenticationService
           prescription.getFrequency(), prescription.getStatus(),
           prescription.getComment(), prescription.getDoctorId(),
           prescription.getPatientId());
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  @Override public void addReferral(Referral referral)
+  {
+    try
+    {
+      ReferralDAO.getInstance()
+          .create(referral.getDateCreated(), referral.getReason(),
+              referral.getComment(), referral.getDoctorId(),
+              referral.getPatientId());
     }
     catch (SQLException e)
     {

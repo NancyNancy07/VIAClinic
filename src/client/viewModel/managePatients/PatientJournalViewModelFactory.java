@@ -1,4 +1,4 @@
-package client.viewModel.patients;
+package client.viewModel.managePatients;
 
 public class PatientJournalViewModelFactory
 {
@@ -6,12 +6,14 @@ public class PatientJournalViewModelFactory
   private AddDiagnosisViewModel addDiagnosisViewModel;
   private PatientsSharedData sharedData;
   private AddPrescriptionViewModel addPrescriptionViewModel;
+  private AddReferralViewModel addReferralViewModel;
 
   public PatientJournalViewModelFactory()
   {
     patientsViewModel = new PatientsViewModel();
     addDiagnosisViewModel = new AddDiagnosisViewModel();
     addPrescriptionViewModel = new AddPrescriptionViewModel();
+    addReferralViewModel = new AddReferralViewModel();
     sharedData = PatientsSharedData.getInstance();
   }
 
@@ -28,5 +30,10 @@ public class PatientJournalViewModelFactory
   public AddPrescriptionViewModel getAddPrescriptionViewModel()
   {
     return addPrescriptionViewModel;
+  }
+
+  public AddReferralViewModel getAddReferralViewModel()
+  {
+    return addReferralViewModel;
   }
 }

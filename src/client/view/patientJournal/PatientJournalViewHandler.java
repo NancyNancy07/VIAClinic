@@ -4,7 +4,7 @@ import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
 import client.view.patientJournal.prescription.PrescriptionController;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

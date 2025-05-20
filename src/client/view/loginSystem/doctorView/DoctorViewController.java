@@ -2,7 +2,7 @@ package client.view.loginSystem.doctorView;
 
 import client.view.managePatient.PatientGUI;
 import client.viewModel.loginSystem.LoginViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

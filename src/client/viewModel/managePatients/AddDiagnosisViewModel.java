@@ -1,4 +1,4 @@
-package client.viewModel.patients;
+package client.viewModel.managePatients;
 
 import client.clientNetwork.DiagnosisListener;
 import client.clientNetwork.PatientClient;

@@ -1,6 +1,6 @@
 package client.view.managePatient.addPrescription;
 
-import client.viewModel.patients.AddPrescriptionViewModel;
+import client.viewModel.managePatients.AddPrescriptionViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
