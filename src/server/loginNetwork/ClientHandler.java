@@ -231,6 +231,8 @@ public class ClientHandler implements Runnable
           {
             LabResult labResult = req.getLabResult();
 
+            System.out.println("ClientHandler LabResult: " + labResult.getTestName()+ " " +labResult.getPatientId());
+
             if (labResult != null) {
              authService.addLabResult(labResult.getTestName(),
                  labResult.getSampleType(),
@@ -238,6 +240,7 @@ public class ClientHandler implements Runnable
 
                   labResult.getComment(), labResult.getDoctorId(),
                   labResult.getPatientId());
+              System.out.println("LabResult was Null");
             }
             System.out.println("Received labResult");
 
@@ -245,6 +248,7 @@ public class ClientHandler implements Runnable
             labResultResponse.setSuccess(true);
             labResultResponse.setMessage("LabResult received by server");
             labResultResponse.setLabResult(labResult);
+            System.out.println("LabResultResponse: " + labResultResponse.getLabResult().getTestName());
 
             output.println(gson.toJson(labResultResponse));
           }
