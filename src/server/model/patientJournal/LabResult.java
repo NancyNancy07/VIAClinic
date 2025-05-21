@@ -9,11 +9,18 @@ public class LabResult
   private String comment;
   private int doctorId;
   private int patientId;
+
   public  LabResult(String testName, String sampleType,
       NewDateTime dateCollected, String comment, int doctorId, int patientId)
   {
-
+    this.testName = testName;
+    this.sampleType = sampleType;
+    this.dateCollected = dateCollected;
+    this.comment = comment;
+    this.doctorId = doctorId;
+    this.patientId = patientId;
   }
+
   public LabResult( int labResultId,String testName, String sampleType, NewDateTime dateCollected, String comment, int doctorId, int patientId)
   {this.labResultId=labResultId;
     this.testName=testName;

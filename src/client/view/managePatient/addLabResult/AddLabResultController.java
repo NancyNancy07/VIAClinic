@@ -51,11 +51,13 @@ public class AddLabResultController
 
       viewModel.addLabResult(testName, sampleType, dateCollected, comment,
           viewModel.getDoctorId(), viewModel.getPatientId());
-
+      System.out.println("Doctor id: "+viewModel.getDoctorId());
+      System.out.println("Patient id: "+viewModel.getPatientId());
       clearForm();
     }
     catch (Exception e)
     {
+      System.out.println("Error: " + e.getMessage());
       showAlert(
           "Invalid input. Please make sure all fields are filled in correctly.");
     }

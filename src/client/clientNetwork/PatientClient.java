@@ -156,8 +156,10 @@ public class PatientClient
     {
       Gson gson = new Gson();
 
+      System.out.println("LabResult: " + labResult.getTestName()+ " " +labResult.getPatientId());
       RequestObject request = new RequestObject();
       request.setType("addLabResult");
+      request.setLabResult(labResult);
 
       String jsonRequest = gson.toJson(request);
       System.out.println("Sending to server AddLabResult: " + jsonRequest);
@@ -169,6 +171,7 @@ public class PatientClient
       ResponseObject response = gson.fromJson(jsonResponse,
           ResponseObject.class);
 
+      System.out.println("Response class type: "+ response.getClass());
       if (response.isSuccess())
       {
         LabResult addedLabResult = response.getLabResult();
@@ -180,6 +183,11 @@ public class PatientClient
            listener.onDiagnosisAdded(true,
              addedLabResult.getTestName() + "is added");
         }
+      }
+      else
+      {
+        System.out.println(
+            "Failed to add lab result: " + response.getMessage());
       }
 
     }
