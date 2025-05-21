@@ -55,6 +55,7 @@ public class ViewPatientsController
   {
     addPrescriptionView();
   }
+  public void setADDLabResultView(){addLabResultView();}
 
   @FXML private void addDiagnosisView()
   {
@@ -67,6 +68,12 @@ public class ViewPatientsController
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
   }
+  @FXML private void addLabResultView()
+  {
+    ManagePatientViewHandler.showView(
+        ManagePatientViewHandler.ViewType.LABRESULT);
+  }
+
 
   @FXML private void back()
   {

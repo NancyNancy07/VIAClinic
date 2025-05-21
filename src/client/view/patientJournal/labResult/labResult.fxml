@@ -1,0 +1,35 @@
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.view.patientJournal.labResult.LabResultController">
+    <children>
+        <Label layoutX="249.0" layoutY="28.0" text="VIAClinic">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+        <Label layoutX="231.0" layoutY="91.0" text="Patient Name:"/>
+        <Label fx:id="patientName" layoutX="321.0" layoutY="91.0" text="Patient 1"/>
+
+        <ScrollPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
+            <content>
+                <TableView fx:id="labResultTable" prefWidth="1200.0">
+                    <columns>
+                        <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+                        <TableColumn fx:id="testNameColumn" text="Test" prefWidth="100"/>
+                        <TableColumn fx:id="sampleTypeColumn" text="Sample" prefWidth="80"/>
+                        <TableColumn fx:id="dateCollectedColumn" text="Date Collected" prefWidth="150" minWidth="100" maxWidth="250"/>
+                        <TableColumn fx:id="commentColumn" text="Comment" prefWidth="300"/>
+                    </columns>
+                </TableView>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
+

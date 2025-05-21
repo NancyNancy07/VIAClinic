@@ -11,6 +11,7 @@ public class PatientsSharedData
   private String patientName;
   private String diagnosis;
   private String prescription;
+  private String labResult;
   private int patientId;
 
   private PatientsSharedData()
@@ -72,6 +73,17 @@ public class PatientsSharedData
   {
     return prescription;
   }
+  public void setLabResult(String testName,
+      String dateCollected, NewDateTime sampleType,
+       String comment, int doctorId, int patientId)
+  {
+    this.labResult = testName;
+  }
+  public String getLabResult()
+  {
+    return labResult;
+  }
+
 
 
 }

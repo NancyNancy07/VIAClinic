@@ -4,6 +4,7 @@ import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public class ResponseObject
   private List<Diagnosis> diagnoses;
   private Prescription prescription;
   private List<Prescription> prescriptions;
+  private LabResult labResult;
+  private List<LabResult> labResults;
 
   public ResponseObject()
   {
@@ -153,4 +156,26 @@ public class ResponseObject
   {
     this.prescription = prescription;
   }
+
+  public LabResult getLabResult()
+
+  {
+    return labResult;
+  }
+
+  public void setLabResult(LabResult labResults)
+  {
+    this.labResult = labResults;
+  }
+
+  public List<LabResult> getLabResults()
+  {
+    return labResults;
+  }
+
+  public void setLabResults(List<LabResult> labResults)
+  {
+    this.labResults = labResults;
+  }
 }
+

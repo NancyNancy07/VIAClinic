@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.PrescriptionDAO;
 import shared.RequestObject;
@@ -119,7 +120,8 @@ public class PatientClient
       output.println(jsonRequest);
 
       String jsonResponse = input.readLine();
-      System.out.println("Received from server AddPrescription: " + jsonResponse);
+      System.out.println(
+          "Received from server AddPrescription: " + jsonResponse);
 
       ResponseObject response = gson.fromJson(jsonResponse,
           ResponseObject.class);
@@ -134,6 +136,49 @@ public class PatientClient
         {
           listener.onDiagnosisAdded(true,
               addedPrescription.getMedicineName() + "is added");
+        }
+      }
+
+    }
+    catch (IOException e)
+
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public void sendaddLabResult(LabResult labResult)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("addLabResult");
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server AddLabResult: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server AddLabResult: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        LabResult addedLabResult = response.getLabResult();
+         System.out.println(
+          "LabResult added: " + addedLabResult.getTestName());
+
+          if (listener != null)
+        {
+           listener.onDiagnosisAdded(true,
+             addedLabResult.getTestName() + "is added");
         }
       }
 
@@ -230,4 +275,48 @@ public class PatientClient
       return null;
     }
   }
+
+  public List<LabResult> getPatientLabResults(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("getLabResultList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server LabResults: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server LabResults: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getLabResults();
+      }
+      else
+      {
+        System.err.println(
+            "Failed to retrieve labResults: " + response.getMessage());
+        return null;
+      }
+
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
 }

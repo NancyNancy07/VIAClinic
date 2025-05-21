@@ -35,4 +35,9 @@ public class PatientJournalController
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.PRESCRIPTION);
   }
+  @FXML private void labResultClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.LABRESULT);
+  }
 }

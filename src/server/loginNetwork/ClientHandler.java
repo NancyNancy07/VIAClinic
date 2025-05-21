@@ -9,6 +9,7 @@ import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 import server.util.LocalDateAdapter;
 import server.util.LocalTimeAdapter;
@@ -209,6 +210,45 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(prescriptionResponse));
           }
+          case "getLabResultList" ->
+          {
+            int patientId = req.getId();
+
+            List<LabResult> labResultList = authService.getLabResultsForPatient(patientId);
+
+            ResponseObject labResultResponse;
+
+            if (labResultList != null && !labResultList.isEmpty()) {
+              labResultResponse = new ResponseObject(true, "LabResult found", patientId);
+              labResultResponse.setLabResults(labResultList);
+            } else {
+              labResultResponse = new ResponseObject(false, "No labResults found", patientId);
+            }
+
+            output.println(gson.toJson(labResultResponse));
+          }
+          case "addLabResult" ->
+          {
+            LabResult labResult = req.getLabResult();
+
+            if (labResult != null) {
+             authService.addLabResult(labResult.getTestName(),
+                 labResult.getSampleType(),
+                  labResult.getDateCollected(),
+
+                  labResult.getComment(), labResult.getDoctorId(),
+                  labResult.getPatientId());
+            }
+            System.out.println("Received labResult");
+
+            ResponseObject labResultResponse = new ResponseObject();
+            labResultResponse.setSuccess(true);
+            labResultResponse.setMessage("LabResult received by server");
+            labResultResponse.setLabResult(labResult);
+
+            output.println(gson.toJson(labResultResponse));
+          }
+
 
           default ->
           {

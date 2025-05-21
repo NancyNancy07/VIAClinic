@@ -2,6 +2,7 @@ package shared;
 
 import server.model.bookAppointment.Appointment;
 import server.model.patientJournal.Diagnosis;
+import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 
 public class RequestObject
@@ -14,6 +15,7 @@ public class RequestObject
   private Diagnosis diagnosis;
   private Appointment appointment;
   private Prescription prescription;
+  private LabResult labResult;
 
   public String getType()
   {
@@ -92,4 +94,21 @@ public class RequestObject
   {
     return prescription;
   }
+
+
+  public void setLabResult(LabResult labResult)
+  {
+    this.labResult=labResult;
+  }
+  public LabResult getLabResult()
+  {
+    return labResult;
+  }
 }
+
+
+
+
+
+
+

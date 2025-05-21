@@ -2,10 +2,7 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
-import server.model.patientJournal.Address;
-import server.model.patientJournal.Diagnosis;
-import server.model.patientJournal.Prescription;
-import server.model.patientJournal.PrescriptionDAO;
+import server.model.patientJournal.*;
 import shared.ResponseObject;
 
 import java.sql.SQLException;
@@ -21,7 +18,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
   private List<Prescription> allPrescriptions;
-
+private List <LabResult> allLabResults;
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()
@@ -65,7 +62,9 @@ public class AuthenticationServiceImp implements AuthenticationService
     allDiagnoses = new ArrayList<>();
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
-
+allLabResults=new ArrayList<>();
+LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
+    doctor1.getDoctorID(), patient1.getPatientID());
 
     allPrescriptions = new ArrayList<>();
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
@@ -217,7 +216,6 @@ public class AuthenticationServiceImp implements AuthenticationService
       return new ArrayList<>();
     }
   }
-
   @Override public void addPrescription(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
       String status, String comment, int doctorId, int patientId)
@@ -242,9 +240,46 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  @Override public List<LabResult> getLabResultsForPatient(int patientId)
+  {
+    {
+      LabResultDAO labResultDAO = LabResultDAO.getInstance();
+      try
+      {
+        return labResultDAO.getLabResultsByPatientId(patientId);
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+        return new ArrayList<>();
+      }
+    }
+
+  }
+  @Override public void addLabResult(String testName,
+      String sampleType, NewDateTime dateCollected,
+       String comment, int doctorId, int patientId)
+  {
+    LabResult labResult = new LabResult(testName,sampleType,
+        dateCollected, comment, doctorId, patientId);
+
+
+    allLabResults.add(labResult);
+    LabResultDAO labResultDAO = LabResultDAO.getInstance();
+    try
+    {
+      labResultDAO.create(labResult.getTestName(), labResult.getSampleType(),
+          labResult.getDateCollected(),
+          labResult.getComment(),
+          labResult.getDoctorId(), labResult.getPatientId());
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+  }
   public void addDiagnosis(Diagnosis diagnosis)
   {
     allDiagnoses.add(diagnosis);
   }
-
 }

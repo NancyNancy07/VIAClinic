@@ -2,6 +2,7 @@ package client.view.patientJournal;
 
 import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
+import client.view.patientJournal.labResult.LabResultController;
 import client.view.patientJournal.prescription.PrescriptionController;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import client.viewModel.patients.PatientsViewModel;
@@ -22,7 +23,7 @@ public class PatientJournalViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, CONFIRMATION
+    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, LABRESULT, CONFIRMATION
   }
 
   private static Stage stage;
@@ -46,6 +47,7 @@ public class PatientJournalViewHandler
         case FRONT -> showFrontView();
         case DIAGNOSIS -> showDiagnosisView();
         case PRESCRIPTION -> showPrescriptionView();
+        case LABRESULT -> showLabResultView();
         //        case MODE -> showModeView();
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
@@ -105,5 +107,21 @@ public class PatientJournalViewHandler
     stage.setTitle("View Prescription");
     stage.setScene(scene);
   }
+  private static void showLabResultView() throws IOException
+  {
+    LabResultController controller = new LabResultController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource(
+            "./labResult/labResult.fxml"));
+
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(viewModel);
+
+    stage.setTitle("View LabResult");
+    stage.setScene(scene);
+  }
+
 
 }

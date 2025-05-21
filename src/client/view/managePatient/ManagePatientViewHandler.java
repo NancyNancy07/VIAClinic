@@ -1,6 +1,7 @@
 package client.view.managePatient;
 
 import client.view.managePatient.addDiagnosis.AddDiagnosisController;
+import client.view.managePatient.addLabResult.AddLabResultController;
 import client.view.managePatient.addPrescription.AddPrescriptionController;
 import client.view.managePatient.viewPatients.ViewPatientsController;
 import client.viewModel.patients.PatientJournalViewModelFactory;
@@ -23,7 +24,7 @@ public class ManagePatientViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, PRESCRIPTION, MODE, TIME, CONFIRMATION
+    FRONT, DIAGNOSIS, PRESCRIPTION, LABRESULT, TIME, CONFIRMATION
   }
 
   private static Stage stage;
@@ -47,6 +48,7 @@ public class ManagePatientViewHandler
         case FRONT -> showFrontView();
         case DIAGNOSIS -> showDiagnosisView();
         case PRESCRIPTION -> showPrescriptionView();
+        case LABRESULT -> showLabResultView();
         //        case MODE -> showModeView();
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
@@ -106,6 +108,22 @@ public class ManagePatientViewHandler
     stage.setTitle("View Diagnosis");
     stage.setScene(scene);
   }
+  private static void showLabResultView() throws IOException
+  {
+    AddLabResultController controller = new AddLabResultController();
+
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        ManagePatientViewHandler.class.getResource(
+            "./addLabResult/addLabResult.fxml"));
+
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(factory.getAddLabResultViewModel());
+    stage.setTitle(" View labResult");
+    stage.setScene(scene);
+  }
+
 
 
 

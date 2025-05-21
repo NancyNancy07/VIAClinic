@@ -65,6 +65,17 @@ public class TestDatabaseDiagnosis
 
       Diagnosis diagnosis = diagnosisDAO.create("Flu", "Active", dateDiagnosed, "Patient is sick", doctor, patient, prescription);
       System.out.println("Diagnosis created: " + diagnosis.getDiagnosisName());
+      LabResultDAO labResultDAO = LabResultDAO.getInstance();
+
+      String testName = "Hiv";
+      String sampleType ="Blood";
+      NewDateTime dateCollected = new NewDateTime(1, 10, 2023, 12, 0);
+
+
+
+      LabResult labResult = labResultDAO.create(testName, sampleType, dateCollected, comment, doctor.getDoctorID(), patient.getPatientID());
+
+
     }
     catch (Exception e)
     {

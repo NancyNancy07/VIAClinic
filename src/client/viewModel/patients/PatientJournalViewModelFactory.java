@@ -6,12 +6,14 @@ public class PatientJournalViewModelFactory
   private AddDiagnosisViewModel addDiagnosisViewModel;
   private PatientsSharedData sharedData;
   private AddPrescriptionViewModel addPrescriptionViewModel;
+  private AddLabResultViewModel addLabResultViewModel;
 
   public PatientJournalViewModelFactory()
   {
     patientsViewModel = new PatientsViewModel();
     addDiagnosisViewModel = new AddDiagnosisViewModel();
     addPrescriptionViewModel = new AddPrescriptionViewModel();
+    addLabResultViewModel = new AddLabResultViewModel();
     sharedData = PatientsSharedData.getInstance();
   }
 
@@ -28,5 +30,14 @@ public class PatientJournalViewModelFactory
   public AddPrescriptionViewModel getAddPrescriptionViewModel()
   {
     return addPrescriptionViewModel;
+  }
+
+
+
+  public AddLabResultViewModel getAddLabResultViewModel() {
+    if (addLabResultViewModel == null) {
+      addLabResultViewModel = new AddLabResultViewModel();
+    }
+    return addLabResultViewModel;
   }
 }
