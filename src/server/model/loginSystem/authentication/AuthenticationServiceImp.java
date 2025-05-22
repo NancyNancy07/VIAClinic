@@ -19,6 +19,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   private List<Diagnosis> allDiagnoses;
   private List<Prescription> allPrescriptions;
 private List <LabResult> allLabResults;
+
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()

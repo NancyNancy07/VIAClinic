@@ -40,6 +40,7 @@ public class LabResultController
     labResultTable.setItems(viewModel.getLabResultList(patientId));
   }
 
+
 }
 
 

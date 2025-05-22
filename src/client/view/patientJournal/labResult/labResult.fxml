@@ -26,6 +26,7 @@
                         <TableColumn fx:id="sampleTypeColumn" text="Sample" prefWidth="80"/>
                         <TableColumn fx:id="dateCollectedColumn" text="Date Collected" prefWidth="150" minWidth="100" maxWidth="250"/>
                         <TableColumn fx:id="commentColumn" text="Comment" prefWidth="300"/>
+
                     </columns>
                 </TableView>
             </content>
