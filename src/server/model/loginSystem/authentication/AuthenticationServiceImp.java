@@ -27,7 +27,7 @@ private List <LabResult> allLabResults;
     appointmentList = new AppointmentList();
 
     // Sample doctors
-    Doctor doctor1 = new Doctor(4, "Dr. Smith", "Smith","tobias@gmail.com","87654321", "drsmith", "doctorpassword");
+    Doctor doctor1 = new Doctor(1, "Dr. Smith", "Smith","tobias@gmail.com","87654321", "drsmith", "doctorpassword");
 //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
 //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
 //    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
@@ -38,7 +38,7 @@ private List <LabResult> allLabResults;
 
     // Sample patients
     Address address1 = new Address("Horsens", "8700", "Street 1");
-    Patient patient1 = new Patient(7, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1);
+    Patient patient1 = new Patient(1, "John", "Doe", "asdasd@gmail.com", "12345678", "asq123", "123", "1234567890", address1);
 
     users.add(patient1);
 //    users.add(new Patient(5, "John Doe", "asq123", "123"));
