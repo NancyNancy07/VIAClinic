@@ -1,12 +1,12 @@
 package client.view.bookAppointment.confirmation;
 
+import client.model.clientBookAppointment.ClientDoctor;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 import client.viewModel.bookAppointment.ConfirmationViewModel;
 import client.viewModel.bookAppointment.SelectDoctorViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import server.model.bookAppointment.Doctor;
 
 public class ConfirmationViewController
 {
@@ -20,7 +20,7 @@ public class ConfirmationViewController
   {
     this.viewModel = new ConfirmationViewModel(frontViewModel,selectDoctorViewModel);
 
-    Doctor doctor = viewModel.getSelectedDoctor();
+    ClientDoctor doctor = viewModel.getSelectedDoctor();
     doctorName.setText(doctor != null ? doctor.getName() : "Unknown");
 
     mode.setText(viewModel.getConsultationMode());

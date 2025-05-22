@@ -1,7 +1,5 @@
 package shared;
 
-import server.model.bookAppointment.Appointment;
-import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
@@ -15,9 +13,9 @@ public class ResponseObject
   private String status;
   private String message;
   private int patientId;
-  private Appointment appointment;
-  private List<Appointment> appointments;
-  private List<Doctor> doctors;
+  private AppointmentDTO appointment;
+  private List<AppointmentDTO> appointments;
+  private List<DoctorDTO> doctors;
   private List<Patient> patients;
   private Diagnosis diagnosis;
   private List<Diagnosis> diagnoses;
@@ -77,32 +75,32 @@ public class ResponseObject
     this.patientId = patientId;
   }
 
-  public Appointment getAppointment()
+  public AppointmentDTO getAppointment()
   {
     return appointment;
   }
 
-  public void setAppointment(Appointment appointment)
+  public void setAppointment(AppointmentDTO appointment)
   {
     this.appointment = appointment;
   }
 
-  public List<Appointment> getAppointments()
+  public List<AppointmentDTO> getAppointments()
   {
     return appointments;
   }
 
-  public void setAppointments(List<Appointment> appointments)
+  public void setAppointments(List<AppointmentDTO> appointments)
   {
     this.appointments = appointments;
   }
 
-  public List<Doctor> getDoctors()
+  public List<DoctorDTO> getDoctors()
   {
     return doctors;
   }
 
-  public void setDoctors(List<Doctor> doctors)
+  public void setDoctors(List<DoctorDTO> doctors)
   {
     this.doctors = doctors;
   }

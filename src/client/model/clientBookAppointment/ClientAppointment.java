@@ -1,23 +1,22 @@
-package server.model.bookAppointment;
+package client.model.clientBookAppointment;
 
-import java.util.Random;
-
-public class Appointment
+public class ClientAppointment
 {
-  private NewDateTime dateTime;
+  private ClientNewDateTime dateTime;
   private int appointmentID;
   private String mode;
   private int patientID;
-  private Doctor doctor;
+  private int doctorId;
+  private ClientDoctor doctor;
 
-  public Appointment(NewDateTime dateTime, int patientID, Doctor doctor,
-      String mode)
+  public ClientAppointment(ClientNewDateTime dateTime, int patientID,
+      int doctorId, String mode)
   {
     this.dateTime = dateTime;
     this.appointmentID = appointmentId();
-    this.doctor = doctor;
+    this.doctorId = doctorId;
     this.mode = mode;
-    this.doctor = doctor;
+    //    this.doctor = doctor;
     this.patientID = patientID;
   }
 
@@ -44,7 +43,7 @@ public class Appointment
 
   public int getDoctorID()
   {
-    return doctor.getDoctorID();
+    return doctorId;
   }
 
   public int getPatientID()
@@ -52,7 +51,7 @@ public class Appointment
     return patientID;
   }
 
-  public void setDateTime(NewDateTime dateTime)
+  public void setDateTime(ClientNewDateTime dateTime)
   {
     this.dateTime = dateTime;
   }
@@ -101,7 +100,7 @@ public class Appointment
     {
       return false;
     }
-    Appointment other = (Appointment) obj;
+    ClientAppointment other = (ClientAppointment) obj;
     return dateTime.equals(other.dateTime)
         && appointmentID == other.appointmentID && doctor == other.doctor
         && patientID == other.patientID && mode.equals(other.mode);

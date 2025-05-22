@@ -192,9 +192,21 @@ public class AuthenticationServiceImp implements AuthenticationService
     appointmentList.addAppointment(appointment);
     try
     {
+      String date = appointment.getDate();
+      String time = appointment.getTime();
+      String[] dateParts = date.split("/");
+      String[] timeParts = time.split(":");
+
+      int day = Integer.parseInt(dateParts[0]);
+      int month = Integer.parseInt(dateParts[1]);
+      int year = Integer.parseInt(dateParts[2]);
+
+      int hour = Integer.parseInt(timeParts[0]);
+      int minute = Integer.parseInt(timeParts[1]);
+
+      NewDateTime dateTime = new NewDateTime(day, month, year, hour, minute);
       AppointmentDAO.getInstance()
-          .create(appointment.getDate(), appointment.getMode(),
-              appointment.getPatientID(),
+          .create(dateTime, appointment.getMode(), appointment.getPatientID(),
               getDoctorById(appointment.getDoctorID()));
     }
     catch (SQLException e)
@@ -203,7 +215,7 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
-  private Doctor getDoctorById(int doctorId)
+  public Doctor getDoctorById(int doctorId)
   {
     for (User user : users)
     {

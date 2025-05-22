@@ -1,5 +1,6 @@
 package client.view.bookAppointment.selectdoctor;
 
+import client.model.clientBookAppointment.ClientDoctor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import server.model.bookAppointment.Doctor;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.SelectDoctorViewModel;
 
@@ -15,14 +15,14 @@ public class SelectDoctorViewController
 {
   private SelectDoctorViewModel viewModel;
 
-  @FXML private TableView<Doctor> doctorTable;
-  @FXML private TableColumn<Doctor, String> doctor;
+  @FXML private TableView<ClientDoctor> doctorTable;
+  @FXML private TableColumn<ClientDoctor, String> doctor;
 
   public void init(SelectDoctorViewModel viewModel)
   {
     this.viewModel = viewModel;
 
-    ObservableList<Doctor> observableDoctor = FXCollections.observableArrayList(
+    ObservableList<ClientDoctor> observableDoctor = FXCollections.observableArrayList(
         viewModel.getDoctorList());
 
     doctor.setCellValueFactory(
@@ -33,7 +33,7 @@ public class SelectDoctorViewController
 
   public void nextView()
   {
-    Doctor selectedDoctor = doctorTable.getSelectionModel().getSelectedItem();
+    ClientDoctor selectedDoctor = doctorTable.getSelectionModel().getSelectedItem();
 
     if (selectedDoctor != null)
     {

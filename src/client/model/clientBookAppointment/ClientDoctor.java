@@ -1,8 +1,8 @@
-package server.model.bookAppointment;
+package client.model.clientBookAppointment;
 
-import server.model.loginSystem.entities.User;
+import client.model.clientLoginSystem.clientEntities.ClientUser;
 
-public class Doctor extends User
+public class ClientDoctor extends ClientUser
 {
   private int doctorID;
   private String firstName;
@@ -10,8 +10,8 @@ public class Doctor extends User
   private String email;
   private String phoneNumber;
 
-  public Doctor(int doctorID, String firstName, String lastName, String email,
-      String phoneNumber, String userName, String password)
+  public ClientDoctor(int doctorID, String firstName, String lastName,
+      String email, String phoneNumber, String userName, String password)
   {
 
     super(userName, password);
@@ -21,8 +21,7 @@ public class Doctor extends User
     this.email = email;
     this.phoneNumber = phoneNumber;
   }
-
-  public Doctor(String firstName, String lastName, String email,
+  public ClientDoctor(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password)
   {
     super(userName, password);
@@ -32,39 +31,10 @@ public class Doctor extends User
     this.phoneNumber = phoneNumber;
   }
 
+
   public int getDoctorID()
   {
     return doctorID;
-  }
-
-  public String getFirstName()
-  {
-    return firstName;
-  }
-
-  public String getLastName()
-  {
-    return lastName;
-  }
-
-  public String getEmail()
-  {
-    return email;
-  }
-
-  public String getPhoneNumber()
-  {
-    return phoneNumber;
-  }
-
-  @Override public String getPassword()
-  {
-    return super.getPassword();
-  }
-
-  @Override public String getUsername()
-  {
-    return super.getUsername();
   }
 
   public String getName()
@@ -83,26 +53,6 @@ public class Doctor extends User
     this.lastName = name.split(" ")[1];
   }
 
-  public void setPhoneNumber(String phoneNumber)
-  {
-    this.phoneNumber = phoneNumber;
-  }
-
-  public void setEmail(String email)
-  {
-    this.email = email;
-  }
-
-  public void setFirstName(String firstName)
-  {
-    this.firstName = firstName;
-  }
-
-  public void setLastName(String lastName)
-  {
-    this.lastName = lastName;
-  }
-
   @Override public String toString()
   {
     return "Name: '" + getName() + '\'';
@@ -114,7 +64,7 @@ public class Doctor extends User
     {
       return false;
     }
-    Doctor other = (Doctor) obj;
+    ClientDoctor other = (ClientDoctor) obj;
     return doctorID == other.doctorID && getName().equals(other.getName());
   }
 }

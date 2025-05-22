@@ -1,9 +1,9 @@
 package client.viewModel.bookAppointment;
 
+import client.model.clientBookAppointment.ClientAppointment;
+import client.model.clientBookAppointment.ClientDoctor;
+import client.model.clientBookAppointment.ClientNewDateTime;
 import client.viewModel.loginSystem.LoginSharedData;
-import server.model.bookAppointment.Doctor;
-import server.model.bookAppointment.NewDateTime;
-import server.model.bookAppointment.Appointment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,11 +22,11 @@ public class ConfirmationViewModel
     this.selectDoctorViewModel = selectDoctorViewModel;
   }
 
-  public Doctor getSelectedDoctor()
+  public ClientDoctor getSelectedDoctor()
   {
     int selectedDoctorId = sharedData.getSelectedDoctorId();
-    List<Doctor> doctors = selectDoctorViewModel.getDoctorList();
-    for (Doctor doctor : doctors)
+    List<ClientDoctor> doctors = selectDoctorViewModel.getDoctorList();
+    for (ClientDoctor doctor : doctors)
     {
       if (doctor.getDoctorID() == selectedDoctorId)
       {
@@ -53,20 +53,20 @@ public class ConfirmationViewModel
 
   public boolean confirmAppointment()
   {
-    Doctor doctor = getSelectedDoctor();
+    ClientDoctor doctor = getSelectedDoctor();
     if (doctor == null || getConsultationMode() == null
         || getAppointmentDate() == null || getAppointmentTime() == null)
       return false;
 
-    NewDateTime newDateTime = new NewDateTime(
+    ClientNewDateTime newDateTime = new ClientNewDateTime(
         getAppointmentDate().getDayOfMonth(),
         getAppointmentDate().getMonthValue(), getAppointmentDate().getYear(),
         getAppointmentTime().getHour(), getAppointmentTime().getMinute());
 
     int patientId = LoginSharedData.getInstance().getId();
 
-    Appointment appointment = frontViewModel.addAppointment(newDateTime,
-        patientId, doctor, getConsultationMode());
+    ClientAppointment appointment = frontViewModel.addAppointment(newDateTime,
+        patientId, doctor.getDoctorID(), getConsultationMode());
     return appointment != null;
   }
 }

@@ -3,6 +3,7 @@ package server.loginNetwork;
 import com.google.gson.Gson;
 import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
+import server.model.bookAppointment.NewDateTime;
 import server.model.bookAppointment.Patient;
 import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
@@ -10,6 +11,8 @@ import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.Referral;
+import shared.AppointmentDTO;
+import shared.DoctorDTO;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientHandler implements Runnable
@@ -51,7 +55,6 @@ public class ClientHandler implements Runnable
 
         // Parse the request JSON
         RequestObject req = gson.fromJson(request, RequestObject.class);
-        System.out.println(req.getType());
         switch (req.getType())
         {
           case "login" ->
@@ -66,6 +69,7 @@ public class ClientHandler implements Runnable
           case "patientAppointments" ->
           {
             int patientId = req.getId();
+
             List<Appointment> patientAppointments = authService.getAppointmentsForPatient(
                 patientId);
 
@@ -75,7 +79,16 @@ public class ClientHandler implements Runnable
               patientResponse = new ResponseObject(true, "Appointments found",
                   patientId);
 
-              patientResponse.setAppointments(patientAppointments);
+              List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+              for (Appointment app : patientAppointments)
+              {
+                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
+                    app.getTime(), app.getDoctorID(), app.getPatientID(),
+                    app.getMode());
+                appointmentDTOs.add(dto);
+              }
+
+              patientResponse.setAppointments(appointmentDTOs);
             }
             else
             {
@@ -94,7 +107,17 @@ public class ClientHandler implements Runnable
             if (doctorList != null && !doctorList.isEmpty())
             {
               doctorResponse = new ResponseObject(true, "Doctors found", -1);
-              doctorResponse.setDoctors(doctorList);
+
+              List<DoctorDTO> doctorDTOs = new ArrayList<>();
+              for (Doctor doc : doctorList)
+              {
+                DoctorDTO dto = new DoctorDTO(doc.getDoctorID(),
+                    doc.getFirstName(), doc.getLastName(), doc.getEmail(),
+                    doc.getPhoneNumber(), doc.getUsername(), doc.getPassword());
+                doctorDTOs.add(dto);
+              }
+
+              doctorResponse.setDoctors(doctorDTOs);
             }
             else
             {
@@ -214,7 +237,27 @@ public class ClientHandler implements Runnable
 
           case "bookAppointment" ->
           {
-            Appointment appointment = req.getAppointment();
+            AppointmentDTO dto = req.getAppointment();
+
+            Doctor doctor = AuthenticationServiceImp.getInstance()
+                .getDoctorById(dto.getDoctorId());
+
+            String[] dateParts = dto.getDate().split("/");
+            String[] timeParts = dto.getTime().split(":");
+
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+
+            NewDateTime dateTime = new NewDateTime(day, month, year, hour,
+                minute);
+
+            // Convert DTO to server model
+            Appointment appointment = new Appointment(dateTime,
+                dto.getPatientId(), doctor, dto.getMode());
 
             ResponseObject appointmentResponse = new ResponseObject();
             if (appointment != null)
@@ -225,8 +268,12 @@ public class ClientHandler implements Runnable
 
               appointmentResponse.setSuccess(true);
               appointmentResponse.setMessage("Appointment received by server");
-              appointmentResponse.setAppointment(appointment);
+              AppointmentDTO responseDto = new AppointmentDTO(
+                  appointment.getDate(), appointment.getTime(),
+                  appointment.getDoctorID(), appointment.getPatientID(),
+                  appointment.getMode());
 
+              appointmentResponse.setAppointment(responseDto);
               output.println(gson.toJson(appointmentResponse));
             }
             else
@@ -292,10 +339,12 @@ public class ClientHandler implements Runnable
     }
 
     catch (IOException e)
+
     {
       e.printStackTrace();
     }
     finally
+
     {
       try
       {

@@ -1,5 +1,6 @@
 package client.view.bookAppointment.front;
 
+import client.model.clientBookAppointment.ClientAppointment;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,15 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import server.model.bookAppointment.Appointment;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 
 public class FrontViewController
 {
   private BookAppointmentFrontViewModel viewModel;
-  @FXML private TableView<Appointment> appointmentTable;
-  @FXML private TableColumn<Appointment, String> appointment;
+  @FXML private TableView<ClientAppointment> appointmentTable;
+  @FXML private TableColumn<ClientAppointment, String> appointment;
   @FXML private AnchorPane pane;
   @FXML private Label doctorName;
   @FXML private Label mode;
@@ -25,8 +25,8 @@ public class FrontViewController
   public void init(BookAppointmentFrontViewModel viewModel)
   {
     this.viewModel = viewModel;
-    ObservableList<Appointment> observableAppointments = FXCollections.observableArrayList(
-        viewModel.getAppointmentList());
+    ObservableList<ClientAppointment> observableAppointments = FXCollections.observableArrayList(
+        viewModel.getAppointmentList().getAllAppointments());
 
     appointment.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().toString()));
@@ -40,10 +40,10 @@ public class FrontViewController
   {
     pane.setVisible(true);
 
-    Appointment selected = appointmentTable.getSelectionModel()
+    ClientAppointment selected = appointmentTable.getSelectionModel()
         .getSelectedItem();
 
-//    doctorName.setText(selected.getDoctorName());
+    //    doctorName.setText(selected.getDoctorName());
 
     mode.setText(selected.getMode());
     date.setText(selected.getDate().toString());
@@ -51,9 +51,9 @@ public class FrontViewController
 
   public void cancelAppointment()
   {
-    Appointment selected = appointmentTable.getSelectionModel()
+    ClientAppointment selected = appointmentTable.getSelectionModel()
         .getSelectedItem();
-    viewModel.getAppointmentList().remove(selected);
+    viewModel.getAppointmentList().removeAppointment(selected);
     back();
   }
 

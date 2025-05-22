@@ -1,6 +1,7 @@
 package client.view.loginSystem.patientView;
 
-import client.model.ClientAppointmentModel;
+import client.model.clientBookAppointment.ClientAppointmentModel;
+import client.model.clientBookAppointment.ClientAppointmentService;
 import client.view.bookAppointment.BookAppointmentGUI;
 import client.view.patientJournal.PatientJournalGUI;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
@@ -10,7 +11,6 @@ import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import server.model.bookAppointment.AppointmentModel;
 
 public class PatientViewController
 {
@@ -30,7 +30,7 @@ public class PatientViewController
 
   @FXML private void onAppointmentButtonClick() throws Exception
   {
-    AppointmentModel model = new ClientAppointmentModel();
+    ClientAppointmentModel model = new ClientAppointmentService();
     BookAppointmentFrontViewModel viewModel = new BookAppointmentFrontViewModel(model);
     startBookAppointmentGUI(viewModel);
   }

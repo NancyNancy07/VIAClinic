@@ -1,6 +1,5 @@
 package shared;
 
-import server.model.bookAppointment.Appointment;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.Referral;
@@ -13,7 +12,7 @@ public class RequestObject
   private String userType;
   private int id;
   private Diagnosis diagnosis;
-  private Appointment appointment;
+  private AppointmentDTO appointment;
   private Prescription prescription;
   private Referral referral;
 
@@ -77,12 +76,12 @@ public class RequestObject
     return diagnosis;
   }
 
-  public void setAppointment(Appointment appointment)
+  public void setAppointment(AppointmentDTO appointment)
   {
     this.appointment = appointment;
   }
 
-  public Appointment getAppointment()
+  public AppointmentDTO getAppointment()
   {
     return appointment;
   }
