@@ -5,23 +5,19 @@ import client.view.managePatient.addPrescription.AddPrescriptionController;
 import client.view.managePatient.addReferral.AddReferralController;
 import client.view.managePatient.addVaccination.AddVaccinationController;
 import client.view.managePatient.viewPatients.ViewPatientsController;
-import client.viewModel.managePatients.PatientJournalViewModelFactory;
+import client.viewModel.managePatients.ManagePatientViewModelFactory;
 import client.viewModel.managePatients.PatientsViewModel;
-import client.view.patientJournal.vaccination.VaccinationController;
-import client.viewModel.patients.AddVaccinationViewModel;
-import client.viewModel.patients.PatientJournalViewModelFactory;
-import client.viewModel.patients.PatientsViewModel;
+
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static client.view.patientJournal.PatientJournalViewHandler.showVaccinationView;
-
 public class ManagePatientViewHandler
 {
-  public static void start(Stage s, PatientJournalViewModelFactory factory)
+  public static void start(Stage s, ManagePatientViewModelFactory factory)
   {
     stage = s;
     ManagePatientViewHandler.factory = factory;
@@ -36,11 +32,11 @@ public class ManagePatientViewHandler
 
   private static Stage stage;
   private static PatientsViewModel viewModel;
-  private static PatientJournalViewModelFactory factory;
+  private static ManagePatientViewModelFactory factory;
 
 
   public ManagePatientViewHandler(Stage stage,
-      PatientJournalViewModelFactory factory)
+      ManagePatientViewModelFactory factory)
   {
     ManagePatientViewHandler.stage = stage;
     ManagePatientViewHandler.viewModel = viewModel;
@@ -58,9 +54,6 @@ public class ManagePatientViewHandler
         case PRESCRIPTION -> showPrescriptionView();
         case REFERRAL -> showReferralView();
         case VACCINATION -> showVaccinationView();
-        //        case MODE -> showModeView();
-        //        case TIME -> showTimeView();
-        //        case CONFIRMATION -> showConfirmationView();
 
       }
     }

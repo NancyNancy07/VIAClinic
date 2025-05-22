@@ -5,10 +5,7 @@ import client.view.patientJournal.front.PatientJournalController;
 import client.view.patientJournal.prescription.PrescriptionController;
 import client.view.patientJournal.referral.ReferralController;
 import client.view.patientJournal.vaccination.VaccinationController;
-import client.viewModel.patientJournal.PatientDiagnosisViewModel;
-import client.viewModel.patientJournal.PatientVaccinationViewModel;
-import client.viewModel.patients.AddVaccinationViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.AddVaccinationViewModel;
 import client.viewModel.managePatients.PatientsViewModel;
 import client.viewModel.patientJournal.PatientJournalViewModelFactory;
 import javafx.fxml.FXMLLoader;
@@ -28,27 +25,18 @@ public class PatientJournalViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, REFERRAL, TIME, PRESCRIPTION, CONFIRMATION, VACCINATION
-    }
+    FRONT, DIAGNOSIS, REFERRAL, PRESCRIPTION, VACCINATION
+  }
 
   private static Stage stage;
   private static PatientJournalViewModelFactory factory;
-  private static PatientDiagnosisViewModel viewModel;
-  private static PatientsViewModel patientsViewModel;
-  private static AddVaccinationViewModel addVaccinationViewModel;
-  private static PatientVaccinationViewModel patientVaccinationViewModel;
 
   public PatientJournalViewHandler(Stage stage,
       PatientJournalViewModelFactory factory)
-      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel,
-      AddVaccinationViewModel vaccinationViewModel, PatientVaccinationViewModel patientVaccinationViewModel)
+
   {
     PatientJournalViewHandler.stage = stage;
     this.factory = factory;
-    PatientJournalViewHandler.viewModel = viewModel;
-    PatientJournalViewHandler.patientsViewModel = patientsViewModel;
-    PatientJournalViewHandler.addVaccinationViewModel = vaccinationViewModel;
-    PatientJournalViewHandler.patientVaccinationViewModel = patientVaccinationViewModel;
   }
 
   public static void showView(ViewType view)
@@ -62,10 +50,6 @@ public class PatientJournalViewHandler
         case PRESCRIPTION -> showPrescriptionView();
         case REFERRAL -> showReferralView();
         case VACCINATION -> showVaccinationView();
-        //        case MODE -> showModeView();
-        //        case TIME -> showTimeView();
-        //        case CONFIRMATION -> showConfirmationView();
-
       }
     }
     catch (Exception e)
@@ -85,7 +69,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(patientsViewModel);
+    controller.init(factory.getPatientsViewModel());
     stage.setTitle("My Journal");
     stage.setScene(scene);
   }
@@ -116,7 +100,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientDiagnosisViewModel());
 
     stage.setTitle("View Prescription");
     stage.setScene(scene);
@@ -142,16 +126,18 @@ public class PatientJournalViewHandler
   {
     VaccinationController controller = new VaccinationController();
     FXMLLoader fxmlLoader = new FXMLLoader(
-        PatientJournalViewHandler.class.getResource("./vaccination/vaccination.fxml"));
+        PatientJournalViewHandler.class.getResource(
+            "./vaccination/vaccination.fxml"));
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     try
     {
       Scene scene = new Scene(fxmlLoader.load());
-      controller.init(patientVaccinationViewModel);
+      controller.init(factory.getPatientVaccinationViewModel());
       stage.setTitle("View Vaccination");
       stage.setScene(scene);
-    } catch (Exception e)
+    }
+    catch (Exception e)
     {
       e.printStackTrace();
     }

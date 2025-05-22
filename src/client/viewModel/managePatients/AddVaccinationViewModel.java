@@ -1,4 +1,4 @@
-package client.viewModel.patients;
+package client.viewModel.managePatients;
 
 import client.clientNetwork.PatientClient;
 import client.viewModel.patientJournal.PatientJournalSharedData;
@@ -26,13 +26,16 @@ public class AddVaccinationViewModel
     patientName.set(patientsSharedData.getPatientName());
   }
 
-  public void addVaccination(String vaccinationName, NewDateTime dateTaken, boolean isRecommended,
-      String comment, NewDateTime nextDoseDate, int doctorId, int patientId)
+  public void addVaccination(String vaccinationName, NewDateTime dateTaken,
+      boolean isRecommended, String comment, NewDateTime nextDoseDate,
+      int doctorId, int patientId)
   {
-    Vaccination vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended, comment, nextDoseDate, doctorId, patientId);
+    Vaccination vaccination = new Vaccination(vaccinationName, dateTaken,
+        isRecommended, comment, nextDoseDate, doctorId, patientId);
     vaccinations.add(vaccination);
     patientClient.sendAddVaccination(vaccination);
-    patientsSharedData.setVaccination(vaccinationName, dateTaken, isRecommended, comment, nextDoseDate);
+    patientsSharedData.setVaccination(vaccinationName, dateTaken, isRecommended,
+        comment, nextDoseDate);
     patientJournalSharedData.setPatientId(patientsSharedData.getPatientId());
   }
 
@@ -65,6 +68,5 @@ public class AddVaccinationViewModel
   {
     return patientsSharedData.getDoctorId();
   }
-
 
 }

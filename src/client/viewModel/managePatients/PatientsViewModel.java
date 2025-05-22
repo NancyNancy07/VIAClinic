@@ -21,7 +21,6 @@ public class PatientsViewModel implements DiagnosisListener
 
   public PatientsViewModel()
   {
-    this.patientsSharedData = patientsSharedData;
     patientClient = new PatientClient();
     patientClient.setDiagnosisListener(this); // Register as listener
 

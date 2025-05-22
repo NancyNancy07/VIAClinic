@@ -59,5 +59,6 @@
         <TextField fx:id="commentField" layoutX="500.0" layoutY="416.0" />
 
         <Button layoutX="314.0" layoutY="484.0" onAction="#onAddPrescription" text="Add Prescription" />
+      <Button layoutX="14.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" text="Back" />
     </children>
 </AnchorPane>

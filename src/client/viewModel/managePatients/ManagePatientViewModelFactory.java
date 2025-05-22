@@ -2,7 +2,7 @@ package client.viewModel.managePatients;
 
 import client.viewModel.patientJournal.PatientVaccinationViewModel;
 
-public class PatientJournalViewModelFactory
+public class ManagePatientViewModelFactory
 {
   private PatientsViewModel patientsViewModel;
   private AddDiagnosisViewModel addDiagnosisViewModel;
@@ -10,9 +10,8 @@ public class PatientJournalViewModelFactory
   private AddPrescriptionViewModel addPrescriptionViewModel;
   private AddReferralViewModel addReferralViewModel;
   private AddVaccinationViewModel addVaccinationViewModel;
-  private PatientVaccinationViewModel patientVaccinationViewModel;
 
-  public PatientJournalViewModelFactory()
+  public ManagePatientViewModelFactory()
   {
     patientsViewModel = new PatientsViewModel();
     addDiagnosisViewModel = new AddDiagnosisViewModel();
@@ -20,7 +19,6 @@ public class PatientJournalViewModelFactory
     addReferralViewModel = new AddReferralViewModel();
     addVaccinationViewModel = new AddVaccinationViewModel();
     sharedData = PatientsSharedData.getInstance();
-    patientVaccinationViewModel = new PatientVaccinationViewModel();
   }
 
   public AddDiagnosisViewModel getAddDiagnosisViewModel()
@@ -46,10 +44,5 @@ public class PatientJournalViewModelFactory
   public AddVaccinationViewModel getAddVaccinationViewModel()
   {
     return addVaccinationViewModel;
-  }
-
-  public PatientVaccinationViewModel getPatientVaccinationViewModel()
-  {
-    return patientVaccinationViewModel;
   }
 }

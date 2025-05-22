@@ -147,4 +147,9 @@ public class AddDiagnosisController
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
   }
+  @FXML
+  private void back()
+  {
+    ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.FRONT);
+  }
 }

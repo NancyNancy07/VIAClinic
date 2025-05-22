@@ -1,5 +1,6 @@
 package client.view.managePatient.addPrescription;
 
+import client.view.managePatient.ManagePatientViewHandler;
 import client.viewModel.managePatients.AddPrescriptionViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -101,5 +102,11 @@ public class AddPrescriptionController
     alert.setHeaderText(null);
     alert.setContentText(msg);
     alert.showAndWait();
+  }
+
+  @FXML
+  private void back()
+  {
+    ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.FRONT);
   }
 }

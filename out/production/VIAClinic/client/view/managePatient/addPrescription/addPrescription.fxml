@@ -9,13 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.view.managePatient.addPrescription.AddPrescriptionController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.managePatient.addPrescription.AddPrescriptionController">
     <children>
         <Label layoutX="320.0" layoutY="20.0" text="VIAClinic">
             <font>
-                <Font name="System Bold" size="24.0"/>
+                <Font name="System Bold" size="24.0" />
             </font>
         </Label>
 
@@ -36,29 +34,29 @@
         </TableView>
 
         <!-- Form to add a prescription -->
-        <Label layoutX="50.0" layoutY="330.0" text="Medicine:"/>
-        <TextField fx:id="medicineField" layoutX="150.0" layoutY="326.0"/>
+        <Label layoutX="50.0" layoutY="330.0" text="Medicine:" />
+        <TextField fx:id="medicineField" layoutX="150.0" layoutY="326.0" />
 
-        <Label layoutX="50.0" layoutY="360.0" text="Dose Amount:"/>
-        <TextField fx:id="doseAmountField" layoutX="150.0" layoutY="356.0"/>
+        <Label layoutX="50.0" layoutY="360.0" text="Dose Amount:" />
+        <TextField fx:id="doseAmountField" layoutX="150.0" layoutY="356.0" />
 
-        <Label layoutX="50.0" layoutY="390.0" text="Dose Unit:"/>
-        <TextField fx:id="doseUnitField" layoutX="150.0" layoutY="386.0"/>
+        <Label layoutX="50.0" layoutY="390.0" text="Dose Unit:" />
+        <TextField fx:id="doseUnitField" layoutX="150.0" layoutY="386.0" />
 
-        <Label layoutX="50.0" layoutY="420.0" text="Frequency:"/>
-        <TextField fx:id="frequencyField" layoutX="150.0" layoutY="416.0"/>
+        <Label layoutX="50.0" layoutY="420.0" text="Frequency:" />
+        <TextField fx:id="frequencyField" layoutX="150.0" layoutY="416.0" />
 
-        <Label layoutX="400.0" layoutY="330.0" text="Start Date:"/>
-        <DatePicker fx:id="startDatePicker" layoutX="500.0" layoutY="326.0"/>
+        <Label layoutX="400.0" layoutY="330.0" text="Start Date:" />
+        <DatePicker fx:id="startDatePicker" layoutX="500.0" layoutY="326.0" />
 
-        <Label layoutX="400.0" layoutY="360.0" text="End Date:"/>
-        <DatePicker fx:id="endDatePicker" layoutX="500.0" layoutY="356.0"/>
+        <Label layoutX="400.0" layoutY="360.0" text="End Date:" />
+        <DatePicker fx:id="endDatePicker" layoutX="500.0" layoutY="356.0" />
 
-        <Label layoutX="400.0" layoutY="390.0" text="Status:"/>
-        <TextField fx:id="statusField" layoutX="500.0" layoutY="386.0"/>
+        <Label layoutX="400.0" layoutY="390.0" text="Status:" />
+        <TextField fx:id="statusField" layoutX="500.0" layoutY="386.0" />
 
-        <Label layoutX="400.0" layoutY="420.0" text="Comment:"/>
-        <TextField fx:id="commentField" layoutX="500.0" layoutY="416.0"/>
+        <Label layoutX="400.0" layoutY="420.0" text="Comment:" />
+        <TextField fx:id="commentField" layoutX="500.0" layoutY="416.0" />
 
         <Button layoutX="314.0" layoutY="484.0" onAction="#onAddPrescription" text="Add Prescription" />
     </children>

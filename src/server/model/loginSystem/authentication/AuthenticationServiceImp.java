@@ -58,19 +58,15 @@ public class AuthenticationServiceImp implements AuthenticationService
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
 
     allVaccinations = new ArrayList<>();
-    Vaccination vaccination1 = new Vaccination("COVID-19",
-        dateTime3, true, "2nd dose done", dateTime4,
-        doctor1.getDoctorID(), patient1.getPatientID()
-    );
+    Vaccination vaccination1 = new Vaccination("COVID-19", dateTime3, true,
+        "2nd dose done", dateTime4, doctor1.getDoctorID(),
+        patient1.getPatientID());
     allVaccinations.add(vaccination1);
 
-    Vaccination vaccination2 = new Vaccination(
-        "Tetanus", dateTime3,
-        true, "Completed - No follow-up needed",
-        doctor1.getDoctorID(), patient1.getPatientID()
-    );
+    Vaccination vaccination2 = new Vaccination("Tetanus", dateTime3, true,
+        "Completed - No follow-up needed", doctor1.getDoctorID(),
+        patient1.getPatientID());
     allVaccinations.add(vaccination2);
-
 
     allPrescriptions = new ArrayList<>();
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
@@ -149,7 +145,8 @@ public class AuthenticationServiceImp implements AuthenticationService
       if (patient.getPassword().equals(password))
       {
         loggedInUser = patient;
-        return new ResponseObject(true, "Patient login successful", patient.getPatientID());
+        return new ResponseObject(true, "Patient login successful",
+            patient.getPatientID());
       }
       else
       {
@@ -352,49 +349,55 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
-  @Override
-  public List<Vaccination> getVaccinationsForPatient(int patientId) {
+  @Override public List<Vaccination> getVaccinationsForPatient(int patientId)
+  {
     VaccinationDAO vaccinationDAO = VaccinationDAO.getInstance();
-    try {
+    try
+    {
       return vaccinationDAO.getVaccinationByPatientId(patientId);
-    } catch (SQLException e) {
+    }
+    catch (SQLException e)
+    {
       e.printStackTrace();
       return new ArrayList<>();
     }
   }
 
-  @Override
-  public Vaccination addVaccination(String vaccinationName, NewDateTime dateTaken, boolean isRecommended,
-      String comment, NewDateTime nextDoseDate, int doctorId, int patientId)
+  @Override public Vaccination addVaccination(String vaccinationName,
+      NewDateTime dateTaken, boolean isRecommended, String comment,
+      NewDateTime nextDoseDate, int doctorId, int patientId)
   {
     Vaccination vaccination;
 
-    if (nextDoseDate == null) {
-      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended, comment, doctorId, patientId);
-    } else {
-      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended, comment, nextDoseDate, doctorId, patientId);
+    if (nextDoseDate == null)
+    {
+      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended,
+          comment, doctorId, patientId);
+    }
+    else
+    {
+      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended,
+          comment, nextDoseDate, doctorId, patientId);
     }
 
     allVaccinations.add(vaccination);
 
-    try {
-      VaccinationDAO.getInstance().create(
-          vaccination.getVaccinationName(),
-          vaccination.getDateTaken(),
-          vaccination.isRecommended(),
-          vaccination.getComment(),
-          vaccination.getNextDoseDate(),
-          vaccination.getDoctorId(),
-          vaccination.getPatientId()
-      );
-    } catch (SQLException e) {
+    try
+    {
+      VaccinationDAO.getInstance()
+          .create(vaccination.getVaccinationName(), vaccination.getDateTaken(),
+              vaccination.isRecommended(), vaccination.getComment(),
+              vaccination.getNextDoseDate(), vaccination.getDoctorId(),
+              vaccination.getPatientId());
+    }
+    catch (SQLException e)
+    {
       e.printStackTrace();
     }
 
     return vaccination;
   }
 
-  public void addDiagnosis(Diagnosis diagnosis)
   @Override public void addReferral(Referral referral)
   {
     try

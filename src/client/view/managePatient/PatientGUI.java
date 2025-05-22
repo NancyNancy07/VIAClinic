@@ -1,6 +1,6 @@
 package client.view.managePatient;
 
-import client.viewModel.managePatients.PatientJournalViewModelFactory;
+import client.viewModel.managePatients.ManagePatientViewModelFactory;
 import client.viewModel.managePatients.PatientsViewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -10,7 +10,7 @@ public class PatientGUI extends Application
   @Override public void start(Stage primaryStage) throws Exception
   {
     PatientsViewModel viewModel = new PatientsViewModel();
-    PatientJournalViewModelFactory factory = new PatientJournalViewModelFactory();
+    ManagePatientViewModelFactory factory = new ManagePatientViewModelFactory();
     ManagePatientViewHandler viewHandler = new ManagePatientViewHandler(
         primaryStage, factory);
     viewHandler.start(primaryStage, factory);

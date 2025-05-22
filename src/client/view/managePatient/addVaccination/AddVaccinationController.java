@@ -1,7 +1,7 @@
 package client.view.managePatient.addVaccination;
 
 import client.view.managePatient.ManagePatientViewHandler;
-import client.viewModel.patients.AddVaccinationViewModel;
+import client.viewModel.managePatients.AddVaccinationViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

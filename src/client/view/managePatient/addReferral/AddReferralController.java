@@ -1,5 +1,6 @@
 package client.view.managePatient.addReferral;
 
+import client.view.managePatient.ManagePatientViewHandler;
 import client.viewModel.managePatients.AddReferralViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -69,5 +70,10 @@ public class AddReferralController
     alert.setHeaderText(null);
     alert.setContentText(msg);
     alert.showAndWait();
+  }
+  @FXML
+  private void back()
+  {
+    ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.FRONT);
   }
 }
