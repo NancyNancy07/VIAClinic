@@ -6,6 +6,7 @@ import server.model.bookAppointment.NewDateTime;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 import shared.ResponseObject;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface AuthenticationService
   void addPrescription(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
       String status, String comment, int doctorId, int patientId);
+  List<Vaccination> getVaccinationsForPatient(int patientId);
+  Vaccination addVaccination(String vaccinationName, NewDateTime dateTaken,
+      boolean isRecommended, String comment, NewDateTime nextDoseDate, int doctorId, int patientId);
 }

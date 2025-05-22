@@ -10,6 +10,7 @@ import server.model.loginSystem.authentication.AuthenticationServiceImp;
 import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 import server.util.LocalDateAdapter;
 import server.util.LocalTimeAdapter;
 import shared.RequestObject;
@@ -168,6 +169,49 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(diagnosisResponse));
+          }
+
+          case "addVaccination" ->
+          {
+            Vaccination vaccination = req.getVaccination();
+
+            if (vaccination != null) {
+              Vaccination created = AuthenticationServiceImp.getInstance().addVaccination(
+                  vaccination.getVaccinationName(),
+                  vaccination.getDateTaken(),
+                  vaccination.isRecommended(),
+                  vaccination.getComment(),
+                  vaccination.getNextDoseDate(),
+                  vaccination.getDoctorId(),
+                  vaccination.getPatientId()
+              );
+              System.out.println("Received vaccination");
+            }
+
+            ResponseObject vaccinationResponse = new ResponseObject();
+            vaccinationResponse.setSuccess(true);
+            vaccinationResponse.setMessage("Vaccination received by server");
+            vaccinationResponse.setVaccination(vaccination);
+
+            output.println(gson.toJson(vaccinationResponse));
+          }
+
+          case "getVaccinationList" ->
+          {
+            int patientId = req.getId();
+
+            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(patientId);
+
+            ResponseObject vaccinationResponse;
+
+            if (vaccinationList != null && !vaccinationList.isEmpty()) {
+              vaccinationResponse = new ResponseObject(true, "Vaccinations found", patientId);
+              vaccinationResponse.setVaccinations(vaccinationList);
+            } else {
+              vaccinationResponse = new ResponseObject(false, "No vaccinations found", patientId);
+            }
+
+            output.println(gson.toJson(vaccinationResponse));
           }
 
           case "getPrescriptionList" ->

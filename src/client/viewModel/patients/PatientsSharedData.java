@@ -12,6 +12,7 @@ public class PatientsSharedData
   private String diagnosis;
   private String prescription;
   private int patientId;
+  private String vaccination;
 
   private PatientsSharedData()
   {
@@ -63,15 +64,27 @@ public class PatientsSharedData
   }
 
   public void setPrescription(String medicineName, double doseAmount,
-      String doseUnit, NewDateTime startDate, NewDateTime endDate, String frequency,
-      String status, String comment, int doctorId, int patientId)
+      String doseUnit, NewDateTime startDate, NewDateTime endDate,
+      String frequency, String status, String comment, int doctorId,
+      int patientId)
   {
     this.prescription = medicineName;
   }
+
   public String getPrescription()
   {
     return prescription;
   }
 
+  public void setVaccination(String vaccinationName, NewDateTime dateTaken,
+      boolean isRecommended, String comment, NewDateTime nextDoseDate)
+  {
+    this.vaccination = vaccinationName;
+  }
+
+  public String getVaccination()
+  {
+    return vaccination;
+  }
 
 }

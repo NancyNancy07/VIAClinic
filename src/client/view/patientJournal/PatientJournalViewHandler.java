@@ -3,7 +3,10 @@ package client.view.patientJournal;
 import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
 import client.view.patientJournal.prescription.PrescriptionController;
+import client.view.patientJournal.vaccination.VaccinationController;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
+import client.viewModel.patientJournal.PatientVaccinationViewModel;
+import client.viewModel.patients.AddVaccinationViewModel;
 import client.viewModel.patients.PatientsViewModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,19 +25,24 @@ public class PatientJournalViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, CONFIRMATION
+    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, CONFIRMATION, VACCINATION
   }
 
   private static Stage stage;
   private static PatientDiagnosisViewModel viewModel;
   private static PatientsViewModel patientsViewModel;
+  private static AddVaccinationViewModel addVaccinationViewModel;
+  private static PatientVaccinationViewModel patientVaccinationViewModel;
 
   public PatientJournalViewHandler(Stage stage,
-      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel)
+      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel,
+      AddVaccinationViewModel vaccinationViewModel, PatientVaccinationViewModel patientVaccinationViewModel)
   {
     PatientJournalViewHandler.stage = stage;
     PatientJournalViewHandler.viewModel = viewModel;
     PatientJournalViewHandler.patientsViewModel = patientsViewModel;
+    PatientJournalViewHandler.addVaccinationViewModel = vaccinationViewModel;
+    PatientJournalViewHandler.patientVaccinationViewModel = patientVaccinationViewModel;
   }
 
   public static void showView(ViewType view)
@@ -46,6 +54,7 @@ public class PatientJournalViewHandler
         case FRONT -> showFrontView();
         case DIAGNOSIS -> showDiagnosisView();
         case PRESCRIPTION -> showPrescriptionView();
+        case VACCINATION -> showVaccinationView();
         //        case MODE -> showModeView();
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
@@ -104,6 +113,30 @@ public class PatientJournalViewHandler
 
     stage.setTitle("View Prescription");
     stage.setScene(scene);
+  }
+
+  public static void showVaccinationView() throws IOException
+  {
+    VaccinationController controller = new VaccinationController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource("./vaccination/vaccination.fxml"));
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    try
+    {
+      Scene scene = new Scene(fxmlLoader.load());
+      controller.init(patientVaccinationViewModel);
+      stage.setTitle("View Vaccination");
+      stage.setScene(scene);
+    } catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public AddVaccinationViewModel getAddVaccinationViewModel()
+  {
+    return new AddVaccinationViewModel();
   }
 
 }

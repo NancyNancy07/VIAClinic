@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PatientDiagnosisViewModel
     prescriptionList.setAll(prescriptions);
     return prescriptionList;
   }
+
 
   public void loadDiagnosesForPatient(int patientId)
   {

@@ -56,6 +56,11 @@ public class ViewPatientsController
     addPrescriptionView();
   }
 
+  public void setAddVaccinationView()
+  {
+    addVaccinationView();
+  }
+
   @FXML private void addDiagnosisView()
   {
     ManagePatientViewHandler.showView(
@@ -66,6 +71,11 @@ public class ViewPatientsController
   {
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
+  }
+
+  @FXML private void addVaccinationView()
+  {
+    ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.VACCINATION);
   }
 
   @FXML private void back()

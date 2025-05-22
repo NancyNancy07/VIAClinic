@@ -35,4 +35,10 @@ public class PatientJournalController
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.PRESCRIPTION);
   }
+
+  @FXML
+  private void vaccinationClick()
+  {
+    PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.VACCINATION);
+  }
 }

@@ -5,6 +5,7 @@ import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ResponseObject
   private List<Diagnosis> diagnoses;
   private Prescription prescription;
   private List<Prescription> prescriptions;
+  private Vaccination vaccination;
+  private List<Vaccination> vaccinations;
 
   public ResponseObject()
   {
@@ -152,5 +155,25 @@ public class ResponseObject
   public void setPrescription(Prescription prescription)
   {
     this.prescription = prescription;
+  }
+
+  public void setVaccinations(List<Vaccination> vaccinations)
+  {
+    this.vaccinations = vaccinations;
+  }
+
+  public List<Vaccination> getVaccinations()
+  {
+    return vaccinations;
+  }
+
+  public void setVaccination(Vaccination vaccination)
+  {
+    this.vaccination = vaccination;
+  }
+
+  public Vaccination getVaccination()
+  {
+    return vaccination;
   }
 }

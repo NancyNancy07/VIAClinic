@@ -3,6 +3,7 @@ package shared;
 import server.model.bookAppointment.Appointment;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 
 public class RequestObject
 {
@@ -14,6 +15,7 @@ public class RequestObject
   private Diagnosis diagnosis;
   private Appointment appointment;
   private Prescription prescription;
+  private Vaccination vaccination;
 
   public String getType()
   {
@@ -91,5 +93,14 @@ public class RequestObject
   public Prescription getPrescription()
   {
     return prescription;
+  }
+
+  public Vaccination getVaccination() {
+    return vaccination;
+  }
+
+  public void setVaccination(Vaccination vaccination)
+  {
+    this.vaccination = vaccination;
   }
 }
