@@ -19,6 +19,6 @@
       <Button fx:id="prescriptionBtn" layoutX="238.0" layoutY="180.0" mnemonicParsing="false" onAction="#prescriptionClick" prefHeight="25.0" prefWidth="120.0" text="Prescriptions" />
       <Button fx:id="referralBtn" layoutX="238.0" layoutY="230.0" mnemonicParsing="false" onAction="#referralClick" prefHeight="25.0" prefWidth="120.0" text="Referral" />
       <Button fx:id="labResultBtn" layoutX="61.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Lab Result" />
-      <Button fx:id="vaccinationBtn" layoutX="419.0" layoutY="180.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Vaccination" />
+      <Button fx:id="vaccinationBtn" layoutX="419.0" layoutY="180.0" mnemonicParsing="false" onAction="#vaccinationClick" prefHeight="25.0" prefWidth="120.0" text="Vaccination" />
    </children>
 </AnchorPane>

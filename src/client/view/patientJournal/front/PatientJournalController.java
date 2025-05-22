@@ -41,4 +41,10 @@ public class PatientJournalController
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.REFERRAL);
   }
+
+  @FXML
+  private void vaccinationClick()
+  {
+    PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.VACCINATION);
+  }
 }

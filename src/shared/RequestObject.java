@@ -3,6 +3,7 @@ package shared;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.Referral;
+import server.model.patientJournal.Vaccination;
 
 public class RequestObject
 {
@@ -15,6 +16,7 @@ public class RequestObject
   private AppointmentDTO appointment;
   private Prescription prescription;
   private Referral referral;
+  private Vaccination vaccination;
 
   public String getType()
   {
@@ -104,5 +106,14 @@ public class RequestObject
   public Referral getReferral()
   {
     return referral;
+  }
+
+  public Vaccination getVaccination() {
+    return vaccination;
+  }
+
+  public void setVaccination(Vaccination vaccination)
+  {
+    this.vaccination = vaccination;
   }
 }

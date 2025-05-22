@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class PatientDiagnosisViewModel implements DiagnosisListener
     prescriptionList.setAll(prescriptions);
     return prescriptionList;
   }
+
 
   public void loadDiagnosesForPatient(int patientId)
   {

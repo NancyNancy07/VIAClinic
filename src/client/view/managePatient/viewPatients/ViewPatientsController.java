@@ -64,6 +64,9 @@ public class ViewPatientsController
   public void setAddReferralView()
   {
     addReferralView();
+  public void setAddVaccinationView()
+  {
+    addVaccinationView();
   }
 
   @FXML private void addDiagnosisView()
@@ -82,6 +85,9 @@ public class ViewPatientsController
   {
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.REFERRAL);
+  @FXML private void addVaccinationView()
+  {
+    ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.VACCINATION);
   }
 
   @FXML private void back()

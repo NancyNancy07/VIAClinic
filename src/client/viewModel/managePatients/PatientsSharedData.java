@@ -13,6 +13,7 @@ public class PatientsSharedData
   private String referral;
   private String prescription;
   private int patientId;
+  private String vaccination;
 
   private PatientsSharedData()
   {
@@ -76,6 +77,16 @@ public class PatientsSharedData
     return prescription;
   }
 
+  public void setVaccination(String vaccinationName, NewDateTime dateTaken,
+      boolean isRecommended, String comment, NewDateTime nextDoseDate)
+  {
+    this.vaccination = vaccinationName;
+  }
+
+  public String getVaccination()
+  {
+    return vaccination;
+  }
   public void setReferral(NewDateTime date, String reason, String comment,
       int doctorId, int patientId)
   {

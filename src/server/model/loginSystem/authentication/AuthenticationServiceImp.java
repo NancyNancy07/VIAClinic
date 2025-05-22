@@ -4,6 +4,7 @@ import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.*;
 import shared.ResponseObject;
+import server.model.patientJournal.PatientDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ public class AuthenticationServiceImp implements AuthenticationService
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
   private List<Prescription> allPrescriptions;
+  private List<Vaccination> allVaccinations;
 
   private AppointmentList appointmentList;
 
   private AuthenticationServiceImp()
   {
     appointmentList = new AppointmentList();
+
     // Sample doctors
     Doctor doctor1 = new Doctor(1, "Dr. Smith", "Smith", "tobias@gmail.com",
         "87654321", "drsmith", "doctorpassword");
@@ -53,6 +56,21 @@ public class AuthenticationServiceImp implements AuthenticationService
     allDiagnoses = new ArrayList<>();
     NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
     NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
+
+    allVaccinations = new ArrayList<>();
+    Vaccination vaccination1 = new Vaccination("COVID-19",
+        dateTime3, true, "2nd dose done", dateTime4,
+        doctor1.getDoctorID(), patient1.getPatientID()
+    );
+    allVaccinations.add(vaccination1);
+
+    Vaccination vaccination2 = new Vaccination(
+        "Tetanus", dateTime3,
+        true, "Completed - No follow-up needed",
+        doctor1.getDoctorID(), patient1.getPatientID()
+    );
+    allVaccinations.add(vaccination2);
+
 
     allPrescriptions = new ArrayList<>();
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
@@ -119,24 +137,30 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   private ResponseObject loginPatient(String username, String password)
   {
-    for (User user : users)
+    try
     {
-      if (user instanceof Patient)
+      Patient patient = PatientDAO.getInstance().getPatientByUsername(username);
+
+      if (patient == null)
       {
-        if (user.getUsername().equals(username))
-        {
-          if (user.getPassword().equals(password))
-          {
-            loggedInUser = user;
-            return new ResponseObject(true, "Patient login successful",
-                ((Patient) user).getPatientID());
-          }
-          return new ResponseObject(false, "Incorrect password for patient",
-              -1);
-        }
+        return new ResponseObject(false, "Patient username not found", -1);
+      }
+
+      if (patient.getPassword().equals(password))
+      {
+        loggedInUser = patient;
+        return new ResponseObject(true, "Patient login successful", patient.getPatientID());
+      }
+      else
+      {
+        return new ResponseObject(false, "Incorrect password for patient", -1);
       }
     }
-    return new ResponseObject(false, "Patient username not found", -1);
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      return new ResponseObject(false, "Database error", -1);
+    }
   }
 
   @Override public List<Doctor> getAllDoctors()
@@ -328,6 +352,49 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  @Override
+  public List<Vaccination> getVaccinationsForPatient(int patientId) {
+    VaccinationDAO vaccinationDAO = VaccinationDAO.getInstance();
+    try {
+      return vaccinationDAO.getVaccinationByPatientId(patientId);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
+  @Override
+  public Vaccination addVaccination(String vaccinationName, NewDateTime dateTaken, boolean isRecommended,
+      String comment, NewDateTime nextDoseDate, int doctorId, int patientId)
+  {
+    Vaccination vaccination;
+
+    if (nextDoseDate == null) {
+      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended, comment, doctorId, patientId);
+    } else {
+      vaccination = new Vaccination(vaccinationName, dateTaken, isRecommended, comment, nextDoseDate, doctorId, patientId);
+    }
+
+    allVaccinations.add(vaccination);
+
+    try {
+      VaccinationDAO.getInstance().create(
+          vaccination.getVaccinationName(),
+          vaccination.getDateTaken(),
+          vaccination.isRecommended(),
+          vaccination.getComment(),
+          vaccination.getNextDoseDate(),
+          vaccination.getDoctorId(),
+          vaccination.getPatientId()
+      );
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return vaccination;
+  }
+
+  public void addDiagnosis(Diagnosis diagnosis)
   @Override public void addReferral(Referral referral)
   {
     try
