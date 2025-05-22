@@ -1,6 +1,7 @@
 package client.viewModel.patientJournal;
 
 import client.clientNetwork.PatientClient;
+import client.viewModel.loginSystem.LoginSharedData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import server.model.patientJournal.Prescription;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class PatientVaccinationViewModel
 {
-  private  PatientClient patientClient;
+  private PatientClient patientClient;
   private final ObservableList<Vaccination> vaccinationList = FXCollections.observableArrayList();
 
   public PatientVaccinationViewModel()
@@ -20,11 +21,15 @@ public class PatientVaccinationViewModel
 
   public ObservableList<Vaccination> getVaccinationList(int patientId)
   {
-    List<Vaccination> vaccination = patientClient.getPatientVaccination(patientId);
+    List<Vaccination> vaccination = patientClient.getPatientVaccination(
+        patientId);
 
-    if (vaccination == null) {
+    if (vaccination == null)
+    {
       vaccinationList.clear(); // or just return empty list
-    } else {
+    }
+    else
+    {
       vaccinationList.setAll(vaccination);
     }
 
@@ -38,6 +43,7 @@ public class PatientVaccinationViewModel
 
   public int getPatientId()
   {
-    return PatientJournalSharedData.getInstance().getPatientId();
+    return LoginSharedData.getInstance().getId();
+
   }
 }
