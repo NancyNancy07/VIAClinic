@@ -22,6 +22,9 @@ public class LabResultController
   public void init(PatientDiagnosisViewModel viewModel)
   {
     this.viewModel = viewModel;
+    labResultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    commentColumn.setMaxWidth(300);
+    commentColumn.setPrefWidth(300);
     patientName.setText(LoginSharedData.getInstance().getUsername());
 
     idColumn.setCellValueFactory(cellData ->

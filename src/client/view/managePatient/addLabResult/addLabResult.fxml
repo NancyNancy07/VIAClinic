@@ -26,21 +26,21 @@
                 <TableColumn fx:id="testNameColumn" prefWidth="100" text="Test" />
                 <TableColumn fx:id="sampleTypeColumn" prefWidth="100" text="Sample" />
                 <TableColumn fx:id="dateCollectedColumn" prefWidth="120" text="Date" />
-                <TableColumn fx:id="commentColumn" prefWidth="140" text="Comment" />
+                <TableColumn fx:id="commentColumn" prefWidth="378.66668701171875" text="Comment" />
             </columns>
         </TableView>
 
 
         <Label layoutX="50.0" layoutY="330.0" text="Test" />
-        <TextField fx:id="testNameField" layoutX="150.0" layoutY="326.0" text="" />
+        <TextField fx:id="testNameField" layoutX="110.0" layoutY="326.0" text="" />
 
-        <Label layoutX="50.0" layoutY="360.0" text="Sample:" />
-        <TextField fx:id="sampleTypeField" layoutX="150.0" layoutY="356.0" text="" />
-        <Label layoutX="400.0" layoutY="360.0" text=" DateCollected:" />
-        <DatePicker fx:id="dateCollectedPicker" layoutX="500.0" layoutY="356.0" />
-        <Label layoutX="400.0" layoutY="420.0" text="Comment:" />
-        <TextField fx:id="commentField" layoutX="500.0" layoutY="416.0" text="" />
+        <Label layoutX="40.0" layoutY="375.0" text="Sample:" />
+        <TextField fx:id="sampleTypeField" layoutX="110.0" layoutY="371.0" text="" />
+        <Label layoutX="402.0" layoutY="330.0" text=" DateCollected:" />
+        <DatePicker fx:id="dateCollectedPicker" layoutX="500.0" layoutY="326.0" />
+        <Label layoutX="414.0" layoutY="374.0" text="Comment:" />
+        <TextField fx:id="commentField" layoutX="500.0" layoutY="370.0" prefHeight="25.0" prefWidth="175.0" text="" />
 
-        <Button layoutX="350.0" layoutY="470.0" onAction="#onAddLabResult" text="Add LabResult" />
+        <Button layoutX="304.0" layoutY="436.0" onAction="#onAddLabResult" text="Add LabResult" />
     </children>
 </AnchorPane>

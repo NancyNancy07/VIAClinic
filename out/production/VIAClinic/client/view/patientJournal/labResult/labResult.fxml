@@ -1,36 +1,29 @@
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.view.patientJournal.labResult.LabResultController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.patientJournal.labResult.LabResultController">
     <children>
         <Label layoutX="249.0" layoutY="28.0" text="VIAClinic">
             <font>
-                <Font name="System Bold" size="24.0"/>
+                <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <Label layoutX="231.0" layoutY="91.0" text="Patient Name:"/>
-        <Label fx:id="patientName" layoutX="321.0" layoutY="91.0" text="Patient 1"/>
-
-        <ScrollPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
-            <content>
-                <TableView fx:id="labResultTable" prefWidth="1200.0">
-                    <columns>
-                        <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
-                        <TableColumn fx:id="testNameColumn" text="Test" prefWidth="100"/>
-                        <TableColumn fx:id="sampleTypeColumn" text="Sample" prefWidth="80"/>
-                        <TableColumn fx:id="dateCollectedColumn" text="Date Collected" prefWidth="150" minWidth="100" maxWidth="250"/>
-                        <TableColumn fx:id="commentColumn" text="Comment" prefWidth="300"/>
+        <Label layoutX="231.0" layoutY="91.0" text="Patient Name:" />
+        <Label fx:id="patientName" layoutX="321.0" layoutY="91.0" text="Patient 1" />
+          <TableView fx:id="labResultTable" layoutX="-2.0" layoutY="122.0" pickOnBounds="false" prefHeight="279.0" prefWidth="600.0">
+              <columns>
+                  <TableColumn fx:id="idColumn" prefWidth="48.666688323020935" text="ID" />
+                  <TableColumn fx:id="testNameColumn" prefWidth="94.0" text="Test" />
+                  <TableColumn fx:id="sampleTypeColumn" prefWidth="98.66665649414062" text="Sample" />
+                  <TableColumn fx:id="dateCollectedColumn" maxWidth="164.66661071777344" minWidth="80.66668701171875" prefWidth="118.0" text="Date Collected" />
+                  <TableColumn fx:id="commentColumn" prefWidth="236.66668701171875" text="Comment" />
 
                     </columns>
-                </TableView>
-            </content>
-        </ScrollPane>
+          </TableView>
     </children>
 </AnchorPane>
-
