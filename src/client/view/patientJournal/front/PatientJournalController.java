@@ -2,7 +2,7 @@ package client.view.patientJournal.front;
 
 import client.view.patientJournal.PatientJournalViewHandler;
 import client.viewModel.loginSystem.LoginSharedData;
-import client.viewModel.patients.PatientsViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,5 +39,17 @@ public class PatientJournalController
   {
     PatientJournalViewHandler.showView(
         PatientJournalViewHandler.ViewType.LABRESULT);
+  }
+
+  @FXML private void referralClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.REFERRAL);
+  }
+
+  @FXML
+  private void vaccinationClick()
+  {
+    PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.VACCINATION);
   }
 }

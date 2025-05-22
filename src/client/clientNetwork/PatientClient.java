@@ -7,6 +7,8 @@ import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.PrescriptionDAO;
+import server.model.patientJournal.Referral;
+import server.model.patientJournal.Vaccination;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -21,10 +23,16 @@ import java.util.List;
 public class PatientClient
 {
   private DiagnosisListener listener;
+  private VaccinationListener vaccinationListener;
 
   public void setDiagnosisListener(DiagnosisListener listener)
   {
     this.listener = listener;
+  }
+
+  public void setVaccinationListener(VaccinationListener vaccinationListener)
+  {
+    this.vaccinationListener = vaccinationListener;
   }
 
   public List<Patient> getPatientList()
@@ -120,8 +128,7 @@ public class PatientClient
       output.println(jsonRequest);
 
       String jsonResponse = input.readLine();
-      System.out.println(
-          "Received from server AddPrescription: " + jsonResponse);
+      System.out.println("Received from server AddPrescription: " + jsonResponse);
 
       ResponseObject response = gson.fromJson(jsonResponse,
           ResponseObject.class);
@@ -188,6 +195,49 @@ public class PatientClient
       {
         System.out.println(
             "Failed to add lab result: " + response.getMessage());
+      }
+
+    }
+    catch (IOException e)
+
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public void sendAddReferral(Referral referral)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("addReferral");
+      request.setReferral(referral);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        Referral addedReferral = response.getReferral();
+        System.out.println("Referral added: " + addedReferral.getReason());
+        //
+        //        if (listener != null)
+        //        {
+        //          listener.onDiagnosisAdded(true,
+        //              addedDiagnosis.getDiagnosisName() + "is added");
+        //        }
       }
 
     }
@@ -326,5 +376,129 @@ public class PatientClient
       return null;
     }
   }
+
+  public List<Vaccination> getPatientVaccination(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234))
+    {
+      PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+      BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+      Gson gson = new Gson();
+      RequestObject request = new RequestObject();
+      request.setType("getVaccinationList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server Vaccinations: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server Vaccinations: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse, ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getVaccinations();
+      }
+      else
+      {
+        System.err.println("Failed to retrieve vaccinations: " + response.getMessage());
+        return null;
+      }
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<Referral> getPatientReferral(int id)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+
+      Gson gson = new Gson();
+
+      RequestObject request = new RequestObject();
+      request.setType("getReferralList");
+      request.setId(id);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        return response.getReferrals();
+      }
+      else
+      {
+        System.err.println(
+            "Failed to retrieve referrals: " + response.getMessage());
+        return null;
+      }
+
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+
+  public void sendAddVaccination(Vaccination vaccination)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      // Create and set up the request
+      RequestObject request = new RequestObject();
+      request.setType("addVaccination");
+      request.setVaccination(vaccination);
+
+      // Convert request to JSON and send to server
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server AddVaccination: " + jsonRequest);
+      output.println(jsonRequest);
+
+      // Read and parse the server response
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server AddVaccination: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse, ResponseObject.class);
+
+      if (response.isSuccess())
+      {
+        Vaccination addedVaccination = response.getVaccination();
+        System.out.println("Vaccination added: " + addedVaccination.getVaccinationName());
+      }
+      else
+      {
+        System.err.println("Failed to add vaccination: " + response.getMessage());
+      }
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+}
 
 }

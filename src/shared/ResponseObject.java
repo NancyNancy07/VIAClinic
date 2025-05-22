@@ -1,11 +1,11 @@
 package shared;
 
-import server.model.bookAppointment.Appointment;
-import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Referral;
+import server.model.patientJournal.Vaccination;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ public class ResponseObject
   private String status;
   private String message;
   private int patientId;
-  private Appointment appointment;
-  private List<Appointment> appointments;
-  private List<Doctor> doctors;
+  private AppointmentDTO appointment;
+  private List<AppointmentDTO> appointments;
+  private List<DoctorDTO> doctors;
   private List<Patient> patients;
   private Diagnosis diagnosis;
   private List<Diagnosis> diagnoses;
@@ -25,6 +25,10 @@ public class ResponseObject
   private List<Prescription> prescriptions;
   private LabResult labResult;
   private List<LabResult> labResults;
+  private Referral referral;
+  private List<Referral> referrals;
+  private Vaccination vaccination;
+  private List<Vaccination> vaccinations;
 
   public ResponseObject()
   {
@@ -77,32 +81,32 @@ public class ResponseObject
     this.patientId = patientId;
   }
 
-  public Appointment getAppointment()
+  public AppointmentDTO getAppointment()
   {
     return appointment;
   }
 
-  public void setAppointment(Appointment appointment)
+  public void setAppointment(AppointmentDTO appointment)
   {
     this.appointment = appointment;
   }
 
-  public List<Appointment> getAppointments()
+  public List<AppointmentDTO> getAppointments()
   {
     return appointments;
   }
 
-  public void setAppointments(List<Appointment> appointments)
+  public void setAppointments(List<AppointmentDTO> appointments)
   {
     this.appointments = appointments;
   }
 
-  public List<Doctor> getDoctors()
+  public List<DoctorDTO> getDoctors()
   {
     return doctors;
   }
 
-  public void setDoctors(List<Doctor> doctors)
+  public void setDoctors(List<DoctorDTO> doctors)
   {
     this.doctors = doctors;
   }
@@ -176,6 +180,46 @@ public class ResponseObject
   public void setLabResults(List<LabResult> labResults)
   {
     this.labResults = labResults;
+  }
+
+  public void setReferrals(List<Referral> referrals)
+  {
+    this.referrals = referrals;
+  }
+
+  public List<Referral> getReferrals()
+  {
+    return referrals;
+  }
+
+  public void setReferral(Referral referral)
+  {
+    this.referral = referral;
+  }
+
+  public Referral getReferral()
+  {
+    return referral;
+  }
+
+  public void setVaccinations(List<Vaccination> vaccinations)
+  {
+    this.vaccinations = vaccinations;
+  }
+
+  public List<Vaccination> getVaccinations()
+  {
+    return vaccinations;
+  }
+
+  public void setVaccination(Vaccination vaccination)
+  {
+    this.vaccination = vaccination;
+  }
+
+  public Vaccination getVaccination()
+  {
+    return vaccination;
   }
 }
 

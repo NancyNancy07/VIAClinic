@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -31,6 +32,7 @@
                         </Label>
                         <Label layoutX="209.0" layoutY="57.0" text="Patient Name:" />
                         <Label fx:id="patientName2" layoutX="312.0" layoutY="57.0" text="Patient 1" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Back" />
                      </children>
                   </AnchorPane>
             </content>
@@ -44,17 +46,22 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="207.0" layoutY="107.0" text="Patient Name:" />
-                        <Label layoutX="192.0" layoutY="139.0" text="Diagnosis Name:" />
+                        <Label layoutX="58.0" layoutY="123.0" text="Patient Name:" />
+                        <Label layoutX="302.0" layoutY="123.0" text="Diagnosis Name:" />
                         <Button layoutX="254.0" layoutY="289.0" mnemonicParsing="false" onAction="#setDiagnosisName" text="Add Diagnosis" />
-                        <TextField fx:id="diagnosisName" layoutX="322.0" layoutY="135.0" />
-                        <Label layoutX="173.0" layoutY="170.0" text="Diagnosis added on:" />
-                        <DatePicker fx:id="dateAddedField" layoutX="322.0" layoutY="166.0" prefHeight="25.0" prefWidth="150.0" />
-                        <Label layoutX="244.0" layoutY="202.0" text="Status:" />
-                        <TextField fx:id="statusField" layoutX="322.0" layoutY="198.0" />
-                        <TextField fx:id="patientName" disable="true" editable="false" layoutX="322.0" layoutY="103.0" />
-                        <Label layoutX="211.0" layoutY="234.0" text="Perscription:" />
-                        <TextField fx:id="prescriptionField" layoutX="322.0" layoutY="230.0" prefHeight="25.0" prefWidth="247.0" />
+                        <TextField fx:id="diagnosisName" layoutX="392.0" layoutY="119.0" />
+                        <Label layoutX="59.0" layoutY="164.0" text="Start From:" />
+                        <DatePicker fx:id="startDatePicker" layoutX="137.0" layoutY="160.0" prefHeight="25.0" prefWidth="150.0" />
+                        <Label layoutX="58.0" layoutY="208.0" text="Status:" />
+                        <TextField fx:id="statusField" layoutX="136.0" layoutY="204.0" />
+                        <TextField fx:id="patientName" disable="true" editable="false" layoutX="138.0" layoutY="119.0" />
+                        <Label layoutX="303.0" layoutY="208.0" text="Perscription:" />
+                        <TextField fx:id="commentField" layoutX="136.0" layoutY="245.0" prefHeight="25.0" prefWidth="149.0" />
+                        <Label layoutX="303.0" layoutY="164.0" text="Ends On:" />
+                        <DatePicker fx:id="endDatePicker" layoutX="392.0" layoutY="160.0" prefHeight="25.0" prefWidth="150.0" />
+                        <ComboBox fx:id="prescription" layoutX="392.0" layoutY="204.0" prefWidth="150.0" />
+                        <Label layoutX="58.0" layoutY="249.0" text="Comment:" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Back" />
                      </children>
                   </AnchorPane>
             </content>

@@ -1,10 +1,10 @@
 package client.view.bookAppointment;
 
-import client.model.ClientAppointmentModel;
+import client.model.clientBookAppointment.ClientAppointmentModel;
+import client.model.clientBookAppointment.ClientAppointmentService;
 import client.viewModel.bookAppointment.BookAppointmentViewModelFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import server.model.bookAppointment.*;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
@@ -14,7 +14,7 @@ public class BookAppointmentGUI extends Application
 
   @Override public void start(Stage primaryStage) throws Exception
   {
-    AppointmentModel model = new ClientAppointmentModel();
+    ClientAppointmentModel model = new ClientAppointmentService();
     BookAppointmentSharedData sharedData = BookAppointmentSharedData.getInstance();
     viewModel = new BookAppointmentFrontViewModel(model);
     BookAppointmentViewModelFactory factory = new BookAppointmentViewModelFactory();

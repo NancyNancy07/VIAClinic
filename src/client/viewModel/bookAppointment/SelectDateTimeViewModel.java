@@ -1,7 +1,8 @@
 package client.viewModel.bookAppointment;
 
 import client.clientNetwork.PatientAppointmentClient;
-import server.model.bookAppointment.Doctor;
+import client.model.clientBookAppointment.ClientDoctor;
+import client.model.clientBookAppointment.ClientDoctorList;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,8 +50,8 @@ public class SelectDateTimeViewModel
   public String getDoctorName()
   {
     PatientAppointmentClient client = new PatientAppointmentClient();
-    List<Doctor> doctors = client.getDoctorList();
-    for (Doctor doc : doctors)
+    ClientDoctorList doctors = client.getDoctorList();
+    for (ClientDoctor doc : doctors.getAllDoctors())
     {
       if (doc.getDoctorID() == sharedData.getSelectedDoctorId())
       {

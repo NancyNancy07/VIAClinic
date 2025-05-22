@@ -2,6 +2,7 @@ package client.view.loginSystem.loginAsDoctor;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import client.view.loginSystem.LoginSystemViewHandler;
 import client.viewModel.loginSystem.LoginViewModel;
@@ -9,7 +10,7 @@ import client.viewModel.loginSystem.LoginViewModel;
 public class DoctorLoginViewController
 {
   @FXML private TextField username;
-  @FXML private TextField password;
+  @FXML private PasswordField password;
   @FXML private Button loginBtn;
 
   private LoginViewModel loginViewModel;

@@ -5,7 +5,7 @@ import client.view.bookAppointment.confirmation.ConfirmationViewController;
 import client.view.bookAppointment.dateandtime.TimeViewController;
 import client.view.bookAppointment.front.FrontViewController;
 import client.view.bookAppointment.modeofconsultation.ModeViewController;
-import client.view.bookAppointment.selectdoctor.DoctorViewController;
+import client.view.bookAppointment.selectdoctor.SelectDoctorViewController;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -77,7 +77,7 @@ public class BookAppointmentViewHandler
 
   private static void showDoctorView() throws IOException
   {
-    DoctorViewController controller = new DoctorViewController();
+    SelectDoctorViewController controller = new SelectDoctorViewController();
 
     FXMLLoader fxmlLoader = new FXMLLoader(
         BookAppointmentViewHandler.class.getResource(

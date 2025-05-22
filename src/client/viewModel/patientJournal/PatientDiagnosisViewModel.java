@@ -1,5 +1,6 @@
 package client.viewModel.patientJournal;
 
+import client.clientNetwork.DiagnosisListener;
 import client.clientNetwork.PatientClient;
 import client.viewModel.loginSystem.LoginSharedData;
 import javafx.application.Platform;
@@ -10,11 +11,12 @@ import server.model.patientJournal.Diagnosis;
 
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Vaccination;
 
 
 import java.util.List;
 
-public class PatientDiagnosisViewModel
+public class PatientDiagnosisViewModel implements DiagnosisListener
 {
   private final PatientClient patientClient;
   private final ObservableList<Diagnosis> diagnosisList;
@@ -32,14 +34,31 @@ public class PatientDiagnosisViewModel
 
   public ObservableList<Diagnosis> getDiagnosisList(int patientId)
   {
+
     List<Diagnosis> diagnoses = patientClient.getPatientDiagnosis(patientId);
-    diagnosisList.setAll(diagnoses);
+    if (diagnoses == null || diagnoses.isEmpty())
+    {
+      Platform.runLater(() -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("No Diagnoses");
+        alert.setHeaderText(null);
+        alert.setContentText("No diagnoses found for this patient.");
+        alert.showAndWait();
+      });
+    }
+    else
+    {
+      diagnosisList.setAll(diagnoses);
+    }
+
     return diagnosisList;
+
   }
 
   public ObservableList<Prescription> getPrescriptionList(int patientId)
   {
-    List<Prescription> prescriptions = patientClient.getPatientPrescriptions(patientId);
+    List<Prescription> prescriptions = patientClient.getPatientPrescriptions(
+        patientId);
     prescriptionList.setAll(prescriptions);
     return prescriptionList;
   }
@@ -64,6 +83,7 @@ public class PatientDiagnosisViewModel
 
   }
 
+
   public void loadDiagnosesForPatient(int patientId)
   {
 
@@ -73,6 +93,11 @@ public class PatientDiagnosisViewModel
   {
     return LoginSharedData.getInstance().getId();
 
+  }
+
+  @Override public void onDiagnosisAdded(boolean success, String message)
+  {
+    System.out.println("Diagnosis result: " + message);
   }
 
 

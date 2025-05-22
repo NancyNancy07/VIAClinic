@@ -4,12 +4,15 @@ import client.view.loginSystem.LoginSystemViewHandler;
 import client.viewModel.loginSystem.LoginViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class PatientLoginViewController
 {
   @FXML private TextField username;
-  @FXML private TextField password;
+  @FXML private PasswordField password;
+  //  @FXML private TextField password;
+
   @FXML private Button loginBtn;
   private LoginViewModel loginViewModel;
 

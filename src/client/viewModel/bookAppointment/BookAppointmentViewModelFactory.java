@@ -1,7 +1,6 @@
 package client.viewModel.bookAppointment;
 
-import client.model.ClientAppointmentModel;
-import server.model.bookAppointment.AppointmentModel;
+import client.model.clientBookAppointment.ClientAppointmentService;
 
 public class BookAppointmentViewModelFactory
 {
@@ -16,7 +15,7 @@ public class BookAppointmentViewModelFactory
   {
     this.sharedData = BookAppointmentSharedData.getInstance();
     this.doctorViewModel = new SelectDoctorViewModel();
-    ClientAppointmentModel model = new ClientAppointmentModel();
+    ClientAppointmentService model = new ClientAppointmentService();
     this.frontViewModel = new BookAppointmentFrontViewModel(model);
 
     this.confirmationViewModel = new ConfirmationViewModel(frontViewModel, doctorViewModel);

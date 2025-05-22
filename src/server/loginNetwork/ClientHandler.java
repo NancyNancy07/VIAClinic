@@ -1,9 +1,9 @@
 package server.loginNetwork;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import server.model.bookAppointment.Appointment;
 import server.model.bookAppointment.Doctor;
+import server.model.bookAppointment.NewDateTime;
 import server.model.bookAppointment.Patient;
 import server.model.loginSystem.authentication.AuthenticationService;
 import server.model.loginSystem.authentication.AuthenticationServiceImp;
@@ -11,6 +11,10 @@ import server.model.loginSystem.authentication.LoginRequest;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
+import server.model.patientJournal.Referral;
+import shared.AppointmentDTO;
+import shared.DoctorDTO;
+import server.model.patientJournal.Vaccination;
 import server.util.LocalDateAdapter;
 import server.util.LocalTimeAdapter;
 import shared.RequestObject;
@@ -21,17 +25,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientHandler implements Runnable
 {
-  private Socket socket;
+  private final Socket socket;
   private BufferedReader input;
   private PrintWriter output;
-  private Gson gson;
-  private AuthenticationService authService;
+  private final Gson gson;
+  private final AuthenticationService authService;
 
   public ClientHandler(Socket socket)
   {
@@ -70,6 +73,7 @@ public class ClientHandler implements Runnable
           case "patientAppointments" ->
           {
             int patientId = req.getId();
+
             List<Appointment> patientAppointments = authService.getAppointmentsForPatient(
                 patientId);
 
@@ -79,7 +83,16 @@ public class ClientHandler implements Runnable
               patientResponse = new ResponseObject(true, "Appointments found",
                   patientId);
 
-              patientResponse.setAppointments(patientAppointments);
+              List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+              for (Appointment app : patientAppointments)
+              {
+                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
+                    app.getTime(), app.getDoctorID(), app.getPatientID(),
+                    app.getMode());
+                appointmentDTOs.add(dto);
+              }
+
+              patientResponse.setAppointments(appointmentDTOs);
             }
             else
             {
@@ -98,7 +111,17 @@ public class ClientHandler implements Runnable
             if (doctorList != null && !doctorList.isEmpty())
             {
               doctorResponse = new ResponseObject(true, "Doctors found", -1);
-              doctorResponse.setDoctors(doctorList);
+
+              List<DoctorDTO> doctorDTOs = new ArrayList<>();
+              for (Doctor doc : doctorList)
+              {
+                DoctorDTO dto = new DoctorDTO(doc.getDoctorID(),
+                    doc.getFirstName(), doc.getLastName(), doc.getEmail(),
+                    doc.getPhoneNumber(), doc.getUsername(), doc.getPassword());
+                doctorDTOs.add(dto);
+              }
+
+              doctorResponse.setDoctors(doctorDTOs);
             }
             else
             {
@@ -117,7 +140,7 @@ public class ClientHandler implements Runnable
             if (patientList != null && !patientList.isEmpty())
             {
               patientResponse = new ResponseObject(true, "Patient found", -1);
-            patientResponse.setPatients(patientList);
+              patientResponse.setPatients(patientList);
             }
             else
             {
@@ -132,19 +155,11 @@ public class ClientHandler implements Runnable
           {
             Diagnosis diagnosis = req.getDiagnosis();
 
-            if (diagnosis != null) {
-              AuthenticationServiceImp.getInstance().addDiagnosis(diagnosis);
+            if (diagnosis != null)
+            {
+              authService.addDiagnosis(diagnosis);
             }
             System.out.println("Received diagnosis:");
-            System.out.println("  Name: " + diagnosis.getDiagnosisName());
-            System.out.println("  Status: " + diagnosis.getStatus());
-            System.out.println(
-                "  Date Diagnosed: " + diagnosis.getDateDiagnosed());
-            System.out.println("  Comment: " + diagnosis.getComment());
-            System.out.println("  Doctor ID: " + diagnosis.getDoctorId());
-            System.out.println("  Patient ID: " + diagnosis.getPatientId());
-            System.out.println(
-                "  Prescription: " + diagnosis.getPrescription());
 
             ResponseObject diagnosisResponse = new ResponseObject();
             diagnosisResponse.setSuccess(true);
@@ -157,33 +172,88 @@ public class ClientHandler implements Runnable
           case "getDiagnosisList" ->
           {
             int patientId = req.getId();
-
-            List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(patientId);
+            List<Diagnosis> diagnosisList = authService.getDiagnosesForPatient(
+                patientId);
 
             ResponseObject diagnosisResponse;
-            if (diagnosisList != null && !diagnosisList.isEmpty()) {
-              diagnosisResponse = new ResponseObject(true, "Diagnoses found", patientId);
+
+            if (diagnosisList != null && !diagnosisList.isEmpty())
+            {
+              diagnosisResponse = new ResponseObject(true, "Diagnoses found",
+                  patientId);
               diagnosisResponse.setDiagnoses(diagnosisList);
-            } else {
-              diagnosisResponse = new ResponseObject(false, "No diagnoses found", patientId);
+            }
+            else
+            {
+              diagnosisResponse = new ResponseObject(false,
+                  "No diagnoses found", patientId);
             }
 
             output.println(gson.toJson(diagnosisResponse));
+          }
+
+          case "addVaccination" ->
+          {
+            Vaccination vaccination = req.getVaccination();
+
+            if (vaccination != null) {
+              Vaccination created = AuthenticationServiceImp.getInstance().addVaccination(
+                  vaccination.getVaccinationName(),
+                  vaccination.getDateTaken(),
+                  vaccination.isRecommended(),
+                  vaccination.getComment(),
+                  vaccination.getNextDoseDate(),
+                  vaccination.getDoctorId(),
+                  vaccination.getPatientId()
+              );
+              System.out.println("Received vaccination");
+            }
+
+            ResponseObject vaccinationResponse = new ResponseObject();
+            vaccinationResponse.setSuccess(true);
+            vaccinationResponse.setMessage("Vaccination received by server");
+            vaccinationResponse.setVaccination(vaccination);
+
+            output.println(gson.toJson(vaccinationResponse));
+          }
+
+          case "getVaccinationList" ->
+          {
+            int patientId = req.getId();
+
+            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(patientId);
+
+            ResponseObject vaccinationResponse;
+
+            if (vaccinationList != null && !vaccinationList.isEmpty()) {
+              vaccinationResponse = new ResponseObject(true, "Vaccinations found", patientId);
+              vaccinationResponse.setVaccinations(vaccinationList);
+            } else {
+              vaccinationResponse = new ResponseObject(false, "No vaccinations found", patientId);
+            }
+
+            output.println(gson.toJson(vaccinationResponse));
           }
 
           case "getPrescriptionList" ->
           {
             int patientId = req.getId();
 
-            List<Prescription> prescriptionList = authService.getPrescriptionsForPatient(patientId);
+            List<Prescription> prescriptionList = authService.getPrescriptionsForPatient(
+                patientId);
 
             ResponseObject prescriptionResponse;
 
-            if (prescriptionList != null && !prescriptionList.isEmpty()) {
-              prescriptionResponse = new ResponseObject(true, "Prescription found", patientId);
+            if (prescriptionList != null && !prescriptionList.isEmpty())
+            {
+              prescriptionResponse = new ResponseObject(true,
+                  "Prescription found", patientId);
               prescriptionResponse.setPrescriptions(prescriptionList);
-            } else {
-              prescriptionResponse = new ResponseObject(false, "No prescriptions found", patientId);
+            }
+            else
+            {
+              prescriptionResponse = new ResponseObject(false,
+                  "No prescriptions found", patientId);
             }
 
             output.println(gson.toJson(prescriptionResponse));
@@ -193,8 +263,9 @@ public class ClientHandler implements Runnable
           {
             Prescription prescription = req.getPrescription();
 
-            if (prescription != null) {
-              AuthenticationServiceImp.getInstance().addPrescription(prescription.getMedicineName(),
+            if (prescription != null)
+            {
+              authService.addPrescription(prescription.getMedicineName(),
                   prescription.getDoseAmount(), prescription.getDoseUnit(),
                   prescription.getStartDate(), prescription.getEndDate(),
                   prescription.getFrequency(), prescription.getStatus(),
@@ -255,46 +326,116 @@ public class ClientHandler implements Runnable
           }
 
 
+          case "bookAppointment" ->
+          {
+            AppointmentDTO dto = req.getAppointment();
+
+            Doctor doctor = AuthenticationServiceImp.getInstance()
+                .getDoctorById(dto.getDoctorId());
+
+            String[] dateParts = dto.getDate().split("/");
+            String[] timeParts = dto.getTime().split(":");
+
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+
+            NewDateTime dateTime = new NewDateTime(day, month, year, hour,
+                minute);
+
+            // Convert DTO to server model
+            Appointment appointment = new Appointment(dateTime,
+                dto.getPatientId(), doctor, dto.getMode());
+
+            ResponseObject appointmentResponse = new ResponseObject();
+            if (appointment != null)
+            {
+              authService.bookAppointment(appointment);
+
+              System.out.println("Received prescription");
+
+              appointmentResponse.setSuccess(true);
+              appointmentResponse.setMessage("Appointment received by server");
+              AppointmentDTO responseDto = new AppointmentDTO(
+                  appointment.getDate(), appointment.getTime(),
+                  appointment.getDoctorID(), appointment.getPatientID(),
+                  appointment.getMode());
+
+              appointmentResponse.setAppointment(responseDto);
+              output.println(gson.toJson(appointmentResponse));
+            }
+            else
+            {
+              appointmentResponse.setSuccess(false);
+              appointmentResponse.setMessage(
+                  "Failed to save appointment to database");
+            }
+
+            output.println(gson.toJson(appointmentResponse));
+          }
+
+          case "addReferral" ->
+          {
+            Referral referral = req.getReferral();
+
+            if (referral != null)
+            {
+              authService.addReferral(referral);
+            }
+            System.out.println("Received referral:" + referral);
+
+            ResponseObject referralResponse = new ResponseObject();
+            referralResponse.setSuccess(true);
+            referralResponse.setMessage("Referral received by server");
+            referralResponse.setReferral(referral);
+
+            output.println(gson.toJson(referralResponse));
+          }
+
+          case "getReferralList" ->
+          {
+            int patientId = req.getId();
+            List<Referral> referralList = authService.getReferralsForPatient(
+                patientId);
+
+            ResponseObject referralResponse;
+
+            if (referralList != null && !referralList.isEmpty())
+            {
+              referralResponse = new ResponseObject(true, "Referrals found",
+                  patientId);
+              referralResponse.setReferrals(referralList);
+            }
+            else
+            {
+              referralResponse = new ResponseObject(false, "No referral found",
+                  patientId);
+            }
+
+            output.println(gson.toJson(referralResponse));
+          }
+
           default ->
           {
             output.println(gson.toJson(
                 new ResponseObject(false, "Unknown request type", -1)));
           }
-          case "bookAppointment" ->
-          {
-            Appointment appointment = req.getAppointment();
-            System.out.println("Received appointment:");
-            System.out.println("  date: " + appointment.getDate());
-            System.out.println("  time: " + appointment.getTime());
-            System.out.println("  mode: " + appointment.getMode());
-            System.out.println(
-                "  Appointment ID: " + appointment.getAppointmentID());
-            System.out.println("  Doctor ID: " + appointment.getDoctorID());
-            System.out.println("  Patient ID: " + appointment.getPatientID());
-            
-
-
-            ResponseObject appointmentResponse = new ResponseObject();
-            appointmentResponse.setSuccess(true);
-            appointmentResponse.setMessage("appointment received by server");
-            appointmentResponse.setAppointment(appointment);
-
-            output.println(gson.toJson(appointmentResponse));
-          }
-
         }
 
       }
 
-
-
     }
 
     catch (IOException e)
+
     {
       e.printStackTrace();
     }
     finally
+
     {
       try
       {

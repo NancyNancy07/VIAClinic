@@ -6,7 +6,6 @@ public class Appointment
 {
   private NewDateTime dateTime;
   private int appointmentID;
-  private int doctorID;
   private String mode;
   private int patientID;
   private Doctor doctor;
@@ -16,7 +15,7 @@ public class Appointment
   {
     this.dateTime = dateTime;
     this.appointmentID = appointmentId();
-    this.doctorID = doctorID;
+    this.doctor = doctor;
     this.mode = mode;
     this.doctor = doctor;
     this.patientID = patientID;
@@ -24,18 +23,18 @@ public class Appointment
 
   private int appointmentId()
   {
-    Random random = new Random();
-    return random.nextInt(100) + 1;
+    return appointmentID;
   }
 
-  public NewDateTime getDate()
+  public String getDate()
   {
-    return dateTime;
+    return dateTime.getDay() + "/" + dateTime.getMonth() + "/"
+        + dateTime.getYear();
   }
 
-  public NewDateTime getTime()
+  public String getTime()
   {
-    return dateTime;
+    return dateTime.getHour() + ":" + dateTime.getMinute();
   }
 
   public int getAppointmentID()
@@ -45,7 +44,7 @@ public class Appointment
 
   public int getDoctorID()
   {
-    return doctorID;
+    return doctor.getDoctorID();
   }
 
   public int getPatientID()
@@ -65,7 +64,7 @@ public class Appointment
 
   public void setDoctorID(int doctorID)
   {
-    this.doctorID = doctorID;
+    this.doctor.setDoctorID(doctorID);
   }
 
   public void setMode(String mode)
@@ -104,7 +103,7 @@ public class Appointment
     }
     Appointment other = (Appointment) obj;
     return dateTime.equals(other.dateTime)
-        && appointmentID == other.appointmentID && doctorID == other.doctorID
+        && appointmentID == other.appointmentID && doctor == other.doctor
         && patientID == other.patientID && mode.equals(other.mode);
   }
 }

@@ -10,8 +10,8 @@ public class Doctor extends User
   private String email;
   private String phoneNumber;
 
-  public Doctor(int doctorID, String firstName, String lastName,
-      String email, String phoneNumber, String userName, String password)
+  public Doctor(int doctorID, String firstName, String lastName, String email,
+      String phoneNumber, String userName, String password)
   {
 
     super(userName, password);
@@ -21,6 +21,7 @@ public class Doctor extends User
     this.email = email;
     this.phoneNumber = phoneNumber;
   }
+
   public Doctor(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password)
   {
@@ -31,10 +32,39 @@ public class Doctor extends User
     this.phoneNumber = phoneNumber;
   }
 
-
   public int getDoctorID()
   {
     return doctorID;
+  }
+
+  public String getFirstName()
+  {
+    return firstName;
+  }
+
+  public String getLastName()
+  {
+    return lastName;
+  }
+
+  public String getEmail()
+  {
+    return email;
+  }
+
+  public String getPhoneNumber()
+  {
+    return phoneNumber;
+  }
+
+  @Override public String getPassword()
+  {
+    return super.getPassword();
+  }
+
+  @Override public String getUsername()
+  {
+    return super.getUsername();
   }
 
   public String getName()
@@ -51,6 +81,26 @@ public class Doctor extends User
   {
     this.firstName = name.split(" ")[0];
     this.lastName = name.split(" ")[1];
+  }
+
+  public void setPhoneNumber(String phoneNumber)
+  {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public void setEmail(String email)
+  {
+    this.email = email;
+  }
+
+  public void setFirstName(String firstName)
+  {
+    this.firstName = firstName;
+  }
+
+  public void setLastName(String lastName)
+  {
+    this.lastName = lastName;
   }
 
   @Override public String toString()

@@ -4,8 +4,11 @@ import client.view.patientJournal.diagnosis.DiagnosisController;
 import client.view.patientJournal.front.PatientJournalController;
 import client.view.patientJournal.labResult.LabResultController;
 import client.view.patientJournal.prescription.PrescriptionController;
-import client.viewModel.patientJournal.PatientDiagnosisViewModel;
-import client.viewModel.patients.PatientsViewModel;
+import client.view.patientJournal.referral.ReferralController;
+import client.view.patientJournal.vaccination.VaccinationController;
+import client.viewModel.managePatients.AddVaccinationViewModel;
+import client.viewModel.managePatients.PatientsViewModel;
+import client.viewModel.patientJournal.PatientJournalViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,19 +26,18 @@ public class PatientJournalViewHandler
 
   public enum ViewType
   {
-    FRONT, DIAGNOSIS, MODE, TIME, PRESCRIPTION, LABRESULT, CONFIRMATION
+    FRONT, DIAGNOSIS, REFERRAL, PRESCRIPTION, VACCINATION,LABRESULT
   }
 
   private static Stage stage;
-  private static PatientDiagnosisViewModel viewModel;
-  private static PatientsViewModel patientsViewModel;
+  private static PatientJournalViewModelFactory factory;
 
   public PatientJournalViewHandler(Stage stage,
-      PatientDiagnosisViewModel viewModel, PatientsViewModel patientsViewModel)
+      PatientJournalViewModelFactory factory)
+
   {
     PatientJournalViewHandler.stage = stage;
-    PatientJournalViewHandler.viewModel = viewModel;
-    PatientJournalViewHandler.patientsViewModel = patientsViewModel;
+    this.factory = factory;
   }
 
   public static void showView(ViewType view)
@@ -52,6 +54,8 @@ public class PatientJournalViewHandler
         //        case TIME -> showTimeView();
         //        case CONFIRMATION -> showConfirmationView();
 
+        case REFERRAL -> showReferralView();
+        case VACCINATION -> showVaccinationView();
       }
     }
     catch (Exception e)
@@ -71,7 +75,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(patientsViewModel);
+    controller.init(factory.getPatientsViewModel());
     stage.setTitle("My Journal");
     stage.setScene(scene);
   }
@@ -86,7 +90,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientDiagnosisViewModel());
 
     stage.setTitle("View Diagnosis");
     stage.setScene(scene);
@@ -102,7 +106,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientDiagnosisViewModel());
 
     stage.setTitle("View Prescription");
     stage.setScene(scene);
@@ -123,5 +127,47 @@ public class PatientJournalViewHandler
     stage.setScene(scene);
   }
 
+
+  private static void showReferralView() throws IOException
+  {
+    ReferralController controller = new ReferralController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource(
+            "./referral/referral.fxml"));
+
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    Scene scene = new Scene(fxmlLoader.load());
+    controller.init(factory.getPatientReferralViewModel());
+
+    stage.setTitle("View Referral");
+    stage.setScene(scene);
+  }
+
+  public static void showVaccinationView() throws IOException
+  {
+    VaccinationController controller = new VaccinationController();
+    FXMLLoader fxmlLoader = new FXMLLoader(
+        PatientJournalViewHandler.class.getResource(
+            "./vaccination/vaccination.fxml"));
+    fxmlLoader.setControllerFactory(ignore -> controller);
+
+    try
+    {
+      Scene scene = new Scene(fxmlLoader.load());
+      controller.init(factory.getPatientVaccinationViewModel());
+      stage.setTitle("View Vaccination");
+      stage.setScene(scene);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public AddVaccinationViewModel getAddVaccinationViewModel()
+  {
+    return new AddVaccinationViewModel();
+  }
 
 }

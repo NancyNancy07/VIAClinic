@@ -1,9 +1,7 @@
 package server.model.bookAppointment;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-public class AppointmentService implements AppointmentModel {
+public class AppointmentService implements AppointmentModel
+{
   private AppointmentList appointmentList;
   private DoctorList doctorList;
   private PatientList patientList;
