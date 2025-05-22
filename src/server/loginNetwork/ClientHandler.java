@@ -244,6 +244,7 @@ public class ClientHandler implements Runnable
             }
             System.out.println("Received labResult");
 
+
             ResponseObject labResultResponse = new ResponseObject();
             labResultResponse.setSuccess(true);
             labResultResponse.setMessage("LabResult received by server");

@@ -41,7 +41,7 @@ public class LabResultDAO
     try (Connection connection = getConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          "INSERT INTO LabResult (testName,sampleType,dateCollected,comment, doctorId, patientId) "
+          "INSERT INTO labResult (testName,sampleType,dateCollected,comment, doctorId, patientId) "
               + "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
       statement.setString(1, testName);
       statement.setString(2, sampleType);
@@ -80,7 +80,7 @@ public class LabResultDAO
     try (Connection connection = getConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          " SELECT * FROM LabResult WHERE labResultId = ?");
+          " SELECT * FROM labResult WHERE labResultId = ?");
       statement.setInt(1, labResultId);
 
       ResultSet resultSet = statement.executeQuery();
@@ -108,7 +108,7 @@ public class LabResultDAO
     try (Connection connection = getConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          "SELECT * FROM LabResult WHERE patientId = ?");
+          "SELECT * FROM labResult WHERE patientId = ?");
       statement.setInt(1, patientId);
 
       ResultSet resultSet = statement.executeQuery();

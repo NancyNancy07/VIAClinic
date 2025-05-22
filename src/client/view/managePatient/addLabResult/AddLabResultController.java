@@ -55,9 +55,14 @@ public class AddLabResultController
       System.out.println("Patient id: "+viewModel.getPatientId());
       clearForm();
     }
+
     catch (Exception e)
     {
+<<<<<<< Updated upstream
       System.out.println("Error: " + e.getMessage());
+=======
+      System.out.println("error: "+e.getMessage());
+>>>>>>> Stashed changes
       showAlert(
           "Invalid input. Please make sure all fields are filled in correctly.");
     }
