@@ -1,4 +1,5 @@
 package client.view.patientJournal.labResult;
+import client.view.patientJournal.PatientJournalViewHandler;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import client.viewModel.patientJournal.PatientLabResultViewModel;
@@ -43,7 +44,11 @@ public class LabResultController
     int patientId = viewModel.getPatientId();
     labResultTable.setItems(viewModel.getLabResultList(patientId));
   }
-
+  @FXML private void onBackButtonClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.FRONT);
+  }
 
 }
 

@@ -103,6 +103,39 @@ public class ClientHandler implements Runnable
             output.println(gson.toJson(patientResponse));
           }
 
+          case "doctorAppointments" ->
+          {
+            int doctorId = req.getId();
+
+            List<Appointment> doctorAppointments = authService.getAppointmentsForDoctor(
+                doctorId);
+
+            ResponseObject doctorResponse;
+            if (doctorAppointments != null && !doctorAppointments.isEmpty())
+            {
+              doctorResponse = new ResponseObject(true, "Appointments found",
+                  doctorId);
+
+              List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+              for (Appointment app : doctorAppointments)
+              {
+                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
+                    app.getTime(), app.getDoctorID(), app.getPatientID(),
+                    app.getMode());
+                appointmentDTOs.add(dto);
+              }
+
+              doctorResponse.setAppointments(appointmentDTOs);
+            }
+            else
+            {
+              doctorResponse = new ResponseObject(false,
+                  "No appointments found", doctorId);
+            }
+
+            output.println(gson.toJson(doctorResponse));
+          }
+
           case "doctorList" ->
           {
             List<Doctor> doctorList = authService.getAllDoctors();
@@ -196,16 +229,13 @@ public class ClientHandler implements Runnable
           {
             Vaccination vaccination = req.getVaccination();
 
-            if (vaccination != null) {
-              Vaccination created = AuthenticationServiceImp.getInstance().addVaccination(
-                  vaccination.getVaccinationName(),
-                  vaccination.getDateTaken(),
-                  vaccination.isRecommended(),
-                  vaccination.getComment(),
-                  vaccination.getNextDoseDate(),
-                  vaccination.getDoctorId(),
-                  vaccination.getPatientId()
-              );
+            if (vaccination != null)
+            {
+              Vaccination created = AuthenticationServiceImp.getInstance()
+                  .addVaccination(vaccination.getVaccinationName(),
+                      vaccination.getDateTaken(), vaccination.isRecommended(),
+                      vaccination.getComment(), vaccination.getNextDoseDate(),
+                      vaccination.getDoctorId(), vaccination.getPatientId());
               System.out.println("Received vaccination");
             }
 
@@ -221,15 +251,21 @@ public class ClientHandler implements Runnable
           {
             int patientId = req.getId();
 
-            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(patientId);
+            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(
+                patientId);
 
             ResponseObject vaccinationResponse;
 
-            if (vaccinationList != null && !vaccinationList.isEmpty()) {
-              vaccinationResponse = new ResponseObject(true, "Vaccinations found", patientId);
+            if (vaccinationList != null && !vaccinationList.isEmpty())
+            {
+              vaccinationResponse = new ResponseObject(true,
+                  "Vaccinations found", patientId);
               vaccinationResponse.setVaccinations(vaccinationList);
-            } else {
-              vaccinationResponse = new ResponseObject(false, "No vaccinations found", patientId);
+            }
+            else
+            {
+              vaccinationResponse = new ResponseObject(false,
+                  "No vaccinations found", patientId);
             }
 
             output.println(gson.toJson(vaccinationResponse));
@@ -285,15 +321,21 @@ public class ClientHandler implements Runnable
           {
             int patientId = req.getId();
 
-            List<LabResult> labResultList = authService.getLabResultsForPatient(patientId);
+            List<LabResult> labResultList = authService.getLabResultsForPatient(
+                patientId);
 
             ResponseObject labResultResponse;
 
-            if (labResultList != null && !labResultList.isEmpty()) {
-              labResultResponse = new ResponseObject(true, "LabResult found", patientId);
+            if (labResultList != null && !labResultList.isEmpty())
+            {
+              labResultResponse = new ResponseObject(true, "LabResult found",
+                  patientId);
               labResultResponse.setLabResults(labResultList);
-            } else {
-              labResultResponse = new ResponseObject(false, "No labResults found", patientId);
+            }
+            else
+            {
+              labResultResponse = new ResponseObject(false,
+                  "No labResults found", patientId);
             }
 
             output.println(gson.toJson(labResultResponse));
@@ -302,12 +344,14 @@ public class ClientHandler implements Runnable
           {
             LabResult labResult = req.getLabResult();
 
-            System.out.println("ClientHandler LabResult: " + labResult.getTestName()+ " " +labResult.getPatientId());
+            System.out.println(
+                "ClientHandler LabResult: " + labResult.getTestName() + " "
+                    + labResult.getPatientId());
 
-            if (labResult != null) {
-             authService.addLabResult(labResult.getTestName(),
-                 labResult.getSampleType(),
-                  labResult.getDateCollected(),
+            if (labResult != null)
+            {
+              authService.addLabResult(labResult.getTestName(),
+                  labResult.getSampleType(), labResult.getDateCollected(),
 
                   labResult.getComment(), labResult.getDoctorId(),
                   labResult.getPatientId());
@@ -315,16 +359,16 @@ public class ClientHandler implements Runnable
             }
             System.out.println("Received labResult");
 
-
             ResponseObject labResultResponse = new ResponseObject();
             labResultResponse.setSuccess(true);
             labResultResponse.setMessage("LabResult received by server");
             labResultResponse.setLabResult(labResult);
-            System.out.println("LabResultResponse: " + labResultResponse.getLabResult().getTestName());
+            System.out.println(
+                "LabResultResponse: " + labResultResponse.getLabResult()
+                    .getTestName());
 
             output.println(gson.toJson(labResultResponse));
           }
-
 
           case "bookAppointment" ->
           {

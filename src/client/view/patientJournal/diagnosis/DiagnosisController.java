@@ -1,5 +1,6 @@
 package client.view.patientJournal.diagnosis;
 
+import client.view.patientJournal.PatientJournalViewHandler;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,5 +25,10 @@ public class DiagnosisController
         cellData -> new SimpleStringProperty(cellData.getValue().toString()));
     int patientId = viewModel.getPatientId();
     diagnosisTable.setItems(viewModel.getDiagnosisList(patientId));
+  }
+  @FXML private void onBackButtonClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.FRONT);
   }
 }

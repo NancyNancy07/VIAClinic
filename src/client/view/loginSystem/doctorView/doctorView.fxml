@@ -15,7 +15,7 @@
       <Label layoutX="231.0" layoutY="134.0" text="Doctor Name:" />
       <Label fx:id="doctorName" layoutX="321.0" layoutY="134.0" text="Doctor 1" />
       <Button fx:id="patients" layoutX="139.0" layoutY="201.0" mnemonicParsing="false" onAction="#setPatientView" prefHeight="25.0" prefWidth="91.0" text="Patients" />
-      <Button fx:id="appointments" layoutX="255.0" layoutY="201.0" mnemonicParsing="false" text="Appointments" />
+      <Button fx:id="appointments" layoutX="255.0" layoutY="201.0" mnemonicParsing="false" onAction="#onAppointmentButtonClick" text="Appointments" />
       <Button fx:id="message" layoutX="374.0" layoutY="201.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Message" />
    </children>
 </AnchorPane>

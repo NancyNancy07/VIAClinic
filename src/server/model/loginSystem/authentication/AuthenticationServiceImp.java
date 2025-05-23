@@ -200,15 +200,19 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
       e.printStackTrace();
       return new ArrayList<>();
     }
-    //    List<Appointment> result = new ArrayList<>();
-    //    for (Appointment appointment : appointmentList.getAllAppointments())
-    //    {
-    //      if (appointment.getPatientID() == id)
-    //      {
-    //        result.add(appointment);
-    //      }
-    //    }
-    //    return result;
+  }
+
+  @Override public List<Appointment> getAppointmentsForDoctor(int id)
+  {
+    try
+    {
+      return AppointmentDAO.getInstance().getAppointmentsByDoctorId(id);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
   }
 
   @Override public void bookAppointment(Appointment appointment)

@@ -12,5 +12,5 @@ public interface ClientAppointmentModel
       String newMode);
   ClientDoctorList getDoctorList();
   ClientAppointmentList getAppointmentList(int id);
-
+  ClientAppointmentList getDoctorAppointmentList(int id);
 }

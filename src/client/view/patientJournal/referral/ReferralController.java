@@ -1,5 +1,6 @@
 package client.view.patientJournal.referral;
 
+import client.view.patientJournal.PatientJournalViewHandler;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientReferralViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,5 +25,9 @@ public class ReferralController
         cellData -> new SimpleStringProperty(cellData.getValue().toString()));
     int patientId = viewModel.getPatientId();
     referralTableView.setItems(viewModel.getReferralList(patientId));
+  }
+  @FXML
+  private void onBackButtonClick() {
+    PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.FRONT);
   }
 }

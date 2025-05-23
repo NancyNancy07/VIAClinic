@@ -39,6 +39,11 @@ public class ClientAppointmentService implements ClientAppointmentModel
     return networkClient.getAppointmentByPatientId(id);
   }
 
+  @Override public ClientAppointmentList getDoctorAppointmentList(int id)
+  {
+    return networkClient.getAppointmentByDoctorId(id);
+  }
+
   @Override public ClientDoctorList getDoctorList()
   {
     return networkClient.getDoctorList();

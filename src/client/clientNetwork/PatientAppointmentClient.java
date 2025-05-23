@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatientAppointmentClient<Create>
@@ -71,6 +70,60 @@ public class PatientAppointmentClient<Create>
     }
   }
 
+  public ClientAppointmentList getAppointmentByDoctorId(int doctorId)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+      RequestObject request = new RequestObject();
+      request.setType("doctorAppointments");
+      request.setId(doctorId);
+
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+
+      List<AppointmentDTO> dtoList = response.getAppointments();
+
+      ClientAppointmentList clientAppointments = new ClientAppointmentList();
+      for (AppointmentDTO dto : dtoList)
+      {
+        String[] dateParts = dto.getDate().split("/");
+        String[] timeParts = dto.getTime().split(":");
+
+        int day = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[2]);
+
+        int hour = Integer.parseInt(timeParts[0]);
+        int minute = Integer.parseInt(timeParts[1]);
+
+        ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
+            hour, minute);
+        clientAppointments.addAppointment(
+            new ClientAppointment(dateTime, dto.getPatientId(),
+                dto.getDoctorId(), dto.getMode()));
+      }
+
+      return clientAppointments;
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   public ClientAppointment bookAppointment(ClientAppointment appointment)
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -80,7 +133,7 @@ public class PatientAppointmentClient<Create>
     {
       Gson gson = new Gson();
 
-      // Create a request objecttosend;
+      // Create a request object to send;
 
       AppointmentDTO dto = new AppointmentDTO(appointment.getDate(),
           appointment.getTime(), appointment.getDoctorID(),

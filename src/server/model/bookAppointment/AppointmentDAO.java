@@ -84,6 +84,37 @@ public class AppointmentDAO
     return appointments;
   }
 
+  public List<Appointment> getAppointmentsByDoctorId(int doctorId)
+      throws SQLException
+  {
+    List<Appointment> appointments = new ArrayList<>();
+
+    try (Connection connection = getConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement(
+          "SELECT dateTime, patientid, doctorid, mode FROM Appointment WHERE doctorid = ?");
+      statement.setInt(1, doctorId);
+
+      ResultSet rs = statement.executeQuery();
+      while (rs.next())
+      {
+        Timestamp timestamp = rs.getTimestamp("dateTime");
+        int patientId = rs.getInt("patientid");
+        String mode = rs.getString("mode");
+
+        LocalDateTime ldt = timestamp.toLocalDateTime();
+        NewDateTime dateTime = new NewDateTime(ldt.getDayOfMonth(),
+            ldt.getMonthValue(), ldt.getYear(), ldt.getHour(), ldt.getMinute());
+
+        Doctor doctor = new Doctor(doctorId, null, null, null, null, null,
+            null);
+        appointments.add(new Appointment(dateTime, patientId, doctor, mode));
+      }
+    }
+
+    return appointments;
+  }
+
 }
 
 
