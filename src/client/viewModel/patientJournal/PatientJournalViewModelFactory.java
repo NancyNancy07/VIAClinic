@@ -8,6 +8,7 @@ public class PatientJournalViewModelFactory
   private PatientReferralViewModel patientReferralViewModel;
   private PatientVaccinationViewModel patientVaccinationViewModel;
   private PatientsViewModel patientsViewModel;
+  private PatientLabResultViewModel patientLabResultsViewModel;
 
   public PatientJournalViewModelFactory()
   {
@@ -30,6 +31,11 @@ public class PatientJournalViewModelFactory
   public PatientVaccinationViewModel getPatientVaccinationViewModel()
   {
     return patientVaccinationViewModel;
+  }
+
+  public PatientLabResultViewModel getPatientLabResultsViewModel()
+  {
+    return patientLabResultsViewModel;
   }
 
   public PatientsViewModel getPatientsViewModel()

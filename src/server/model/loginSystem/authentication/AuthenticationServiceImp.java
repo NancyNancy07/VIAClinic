@@ -2,12 +2,8 @@ package server.model.loginSystem.authentication;
 
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
-import server.model.patientJournal.Address;
-import server.model.patientJournal.Diagnosis;
-import server.model.patientJournal.Prescription;
-import server.model.patientJournal.PrescriptionDAO;
+import server.model.patientJournal.*;
 import shared.ResponseObject;
-import server.model.patientJournal.PatientDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

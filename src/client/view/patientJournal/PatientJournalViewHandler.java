@@ -121,7 +121,7 @@ public class PatientJournalViewHandler
     fxmlLoader.setControllerFactory(ignore -> controller);
 
     Scene scene = new Scene(fxmlLoader.load());
-    controller.init(viewModel);
+    controller.init(factory.getPatientLabResultsViewModel());
 
     stage.setTitle("View LabResult");
     stage.setScene(scene);

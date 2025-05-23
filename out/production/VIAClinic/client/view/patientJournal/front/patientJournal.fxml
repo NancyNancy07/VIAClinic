@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.patientJournal.front.PatientJournalController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.patientJournal.front.PatientJournalController">
    <children>
       <Label layoutX="249.0" layoutY="31.0" text="VIAClinic">
          <font>
@@ -17,8 +17,8 @@
       <Label layoutX="269.0" layoutY="145.0" text="My Journal" />
       <Button fx:id="diagnosisBtn" layoutX="61.0" layoutY="180.0" mnemonicParsing="false" onAction="#diagnosisClick" prefHeight="25.0" prefWidth="120.0" text="Diagnoses" />
       <Button fx:id="prescriptionBtn" layoutX="238.0" layoutY="180.0" mnemonicParsing="false" onAction="#prescriptionClick" prefHeight="25.0" prefWidth="120.0" text="Prescriptions" />
-      <Button fx:id="referralBtn" layoutX="238.0" layoutY="230.0" mnemonicParsing="false" onAction="#referralClick" prefHeight="25.0" prefWidth="120.0" text="Referral" />
-      <Button fx:id="labResultBtn" layoutX="61.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Lab Result" />
-      <Button fx:id="vaccinationBtn" layoutX="419.0" layoutY="180.0" mnemonicParsing="false" onAction="#vaccinationClick" prefHeight="25.0" prefWidth="120.0" text="Vaccination" />
+      <Button fx:id="referralBtn" layoutX="238.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Referral" />
+      <Button fx:id="labResultBtn" layoutX="61.0" layoutY="230.0" mnemonicParsing="false" onAction="#labResultClick" prefHeight="25.0" prefWidth="120.0" text="Lab Result" />
+      <Button fx:id="vaccinationBtn" layoutX="419.0" layoutY="180.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Vaccination" />
    </children>
 </AnchorPane>

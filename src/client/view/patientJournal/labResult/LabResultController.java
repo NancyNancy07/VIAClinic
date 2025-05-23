@@ -1,6 +1,7 @@
 package client.view.patientJournal.labResult;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
+import client.viewModel.patientJournal.PatientLabResultViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -13,13 +14,13 @@ public class LabResultController
 { @FXML private TableView<LabResult> labResultTable;
   @FXML private TableColumn<LabResult, String> nameColumn;
   @FXML private Label patientName;
-  private PatientDiagnosisViewModel viewModel;
+  private PatientLabResultViewModel viewModel;
   @FXML private TableColumn<LabResult, String> idColumn;
   @FXML private TableColumn<LabResult, String> testNameColumn;
   @FXML private TableColumn<LabResult, String> dateCollectedColumn;
   @FXML private TableColumn<LabResult, String> sampleTypeColumn;
   @FXML private TableColumn<LabResult, String> commentColumn;
-  public void init(PatientDiagnosisViewModel viewModel)
+  public void init(PatientLabResultViewModel viewModel)
   {
     this.viewModel = viewModel;
     labResultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

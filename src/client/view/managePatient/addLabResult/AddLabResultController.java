@@ -1,5 +1,5 @@
 package client.view.managePatient.addLabResult;
-import client.viewModel.patients.AddLabResultViewModel;
+import client.viewModel.managePatients.AddLabResultViewModel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
