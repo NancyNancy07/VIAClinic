@@ -1,5 +1,7 @@
 package client.view.loginSystem.doctorView;
 
+import client.view.bookAppointment.BookAppointmentViewHandler;
+import client.view.loginSystem.LoginSystemViewHandler;
 import client.view.managePatient.PatientGUI;
 import client.viewModel.loginSystem.LoginViewModel;
 import client.viewModel.managePatients.PatientsViewModel;
@@ -14,6 +16,7 @@ public class DoctorViewController
   @FXML private Button patients;
   @FXML private Button appointments;
   @FXML private Button message;
+  @FXML private Button logout;
 
   private LoginViewModel loginViewModel;
 
@@ -42,5 +45,10 @@ public class DoctorViewController
   {
     PatientGUI patientGUI = new PatientGUI();
     patientGUI.start(new Stage());
+  }
+
+  @FXML private void onLogoutButtonClick()
+  {
+    LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.FRONT);
   }
 }
