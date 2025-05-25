@@ -13,16 +13,19 @@ public class ClientAppointment
       int doctorId, String mode)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentId();
     this.doctorId = doctorId;
     this.mode = mode;
-    //    this.doctor = doctor;
     this.patientID = patientID;
   }
 
-  private int appointmentId()
+  public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
+      int patientID, int doctorId, String mode)
   {
-    return appointmentID;
+    this.appointmentID = appointmentID;
+    this.dateTime = dateTime;
+    this.doctorId = doctorId;
+    this.mode = mode;
+    this.patientID = patientID;
   }
 
   public String getDate()
@@ -63,7 +66,7 @@ public class ClientAppointment
 
   public void setDoctorID(int doctorID)
   {
-    this.doctor.setDoctorID(doctorID);
+    this.doctorId = doctorID;
   }
 
   public void setMode(String mode)
@@ -83,15 +86,9 @@ public class ClientAppointment
 
   @Override public String toString()
   {
-    if (doctor != null)
-    {
-      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
-          + "'\n";
-    }
-    else
-    {
-      return dateTime + ", Doctor= Unknown, Mode='" + mode + "'\n";
-    }
+    return "Appointment ID: " + appointmentID + ", " + dateTime + ", Doctor= "
+        + doctorId + ", Mode='" + mode + "'\n";
+
   }
 
   public boolean equals(Object obj)

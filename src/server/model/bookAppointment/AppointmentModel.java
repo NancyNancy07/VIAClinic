@@ -2,7 +2,7 @@ package server.model.bookAppointment;
 
 public interface AppointmentModel
 {
-  default Appointment bookAppointment(NewDateTime dateTime, int patientID,
+  default Appointment bookAppointment(int id, NewDateTime dateTime, int patientID,
       Doctor doctor, String mode)
   {
     return null;

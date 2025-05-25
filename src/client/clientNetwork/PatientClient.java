@@ -1,12 +1,10 @@
 package client.clientNetwork;
 
 import com.google.gson.Gson;
-import server.model.bookAppointment.Doctor;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
-import server.model.patientJournal.PrescriptionDAO;
 import server.model.patientJournal.Referral;
 import server.model.patientJournal.Vaccination;
 import shared.RequestObject;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.time.LocalDate;
 import java.util.List;
 
 public class PatientClient
@@ -154,7 +151,7 @@ public class PatientClient
     }
   }
 
-  public void sendaddLabResult(LabResult labResult)
+  public void sendAddLabResult(LabResult labResult)
   {
     try (Socket socket = new Socket("localhost", 1234);
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);

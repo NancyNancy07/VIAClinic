@@ -7,11 +7,13 @@ public class AppointmentDTO
   private int doctorId;
   private int patientId;
   private String mode;
+  private int id;
 
   // Constructor
-  public AppointmentDTO(String date, String time, int doctorId, int patientId,
+  public AppointmentDTO(int id ,String date, String time, int doctorId, int patientId,
       String mode)
   {
+    this.id = id;
     this.date = date;
     this.time = time;
     this.doctorId = doctorId;
@@ -68,5 +70,15 @@ public class AppointmentDTO
   public void setMode(String mode)
   {
     this.mode = mode;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
   }
 }

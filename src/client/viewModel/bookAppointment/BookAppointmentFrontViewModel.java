@@ -8,12 +8,10 @@ import client.viewModel.loginSystem.LoginSharedData;
 
 public class BookAppointmentFrontViewModel
 {
-  private ClientAppointmentModel model;
-  private BookAppointmentSharedData sharedData;
+  private final ClientAppointmentModel model;
 
   public BookAppointmentFrontViewModel(ClientAppointmentModel model)
   {
-    sharedData = BookAppointmentSharedData.getInstance();
     this.model = model;
   }
 
@@ -28,6 +26,7 @@ public class BookAppointmentFrontViewModel
   {
     int patientId = LoginSharedData.getInstance().getId();
     return model.getAppointmentList(patientId);
+
   }
 
 }

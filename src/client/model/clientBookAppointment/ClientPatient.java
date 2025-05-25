@@ -1,9 +1,9 @@
-package server.model.bookAppointment;
+package client.model.clientBookAppointment;
 
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.Address;
 
-public class Patient extends User
+public class ClientPatient extends User
 {
   private int patientID;
   private String firstName;
@@ -13,9 +13,9 @@ public class Patient extends User
   private String CPR;
   private Address address;
 
-  public Patient(int patientID, String firstName, String lastName, String email,
-      String phoneNumber, String userName, String password, String CPR,
-      Address address)
+  public ClientPatient(int patientID, String firstName, String lastName,
+      String email, String phoneNumber, String userName, String password,
+      String CPR, Address address)
   {
     super(userName, password);
     this.patientID = patientID;
@@ -27,9 +27,10 @@ public class Patient extends User
     this.address = address;
   }
 
-  public Patient(String firstName, String lastName, String email,
-      String phoneNumber, String userName, String password, String CPR,
-      Address address)
+  public ClientPatient(String firstName, String lastName,
+      String email,
+      String phoneNumber, String userName,
+      String password, String CPR, Address address)
   {
     super(userName, password);
     this.firstName = firstName;
@@ -39,6 +40,7 @@ public class Patient extends User
     this.CPR = CPR;
     this.address = address;
   }
+
 
   public int getPatientID()
   {
@@ -50,9 +52,9 @@ public class Patient extends User
     return firstName + " " + lastName;
   }
 
-  public String getPhoneNumber()
+  public String getFirstName()
   {
-    return phoneNumber;
+    return firstName;
   }
 
   public String getLastName()
@@ -60,9 +62,9 @@ public class Patient extends User
     return lastName;
   }
 
-  @Override public String getPassword()
+  public String getPhoneNumber()
   {
-    return super.getPassword();
+    return phoneNumber;
   }
 
   @Override public String getUsername()
@@ -70,24 +72,14 @@ public class Patient extends User
     return super.getUsername();
   }
 
-  public String getFirstName()
+  @Override public String getPassword()
   {
-    return firstName;
+    return super.getPassword();
   }
 
   public String getEmail()
   {
     return email;
-  }
-
-  public String getCPR()
-  {
-    return CPR;
-  }
-
-  public Address getAddress()
-  {
-    return address;
   }
 
   public void setPatientID(int patientID)
@@ -112,7 +104,7 @@ public class Patient extends User
     {
       return false;
     }
-    Patient other = (Patient) obj;
+    ClientPatient other = (ClientPatient) obj;
     return patientID == other.patientID && firstName.equals(other.firstName)
         && lastName.equals(other.lastName) && email.equals(other.email)
         && phoneNumber.equals(other.phoneNumber) && CPR.equals(other.CPR)

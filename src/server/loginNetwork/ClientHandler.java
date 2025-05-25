@@ -15,8 +15,6 @@ import server.model.patientJournal.Referral;
 import shared.AppointmentDTO;
 import shared.DoctorDTO;
 import server.model.patientJournal.Vaccination;
-import server.util.LocalDateAdapter;
-import server.util.LocalTimeAdapter;
 import shared.RequestObject;
 import shared.ResponseObject;
 
@@ -25,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,9 +85,9 @@ public class ClientHandler implements Runnable
               List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
               for (Appointment app : patientAppointments)
               {
-                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
-                    app.getTime(), app.getDoctorID(), app.getPatientID(),
-                    app.getMode());
+                AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
+                    app.getDate(), app.getTime(), app.getDoctorID(),
+                    app.getPatientID(), app.getMode());
                 appointmentDTOs.add(dto);
               }
 
@@ -119,9 +118,9 @@ public class ClientHandler implements Runnable
               List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
               for (Appointment app : doctorAppointments)
               {
-                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
-                    app.getTime(), app.getDoctorID(), app.getPatientID(),
-                    app.getMode());
+                AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
+                    app.getDate(), app.getTime(), app.getDoctorID(),
+                    app.getPatientID(), app.getMode());
                 appointmentDTOs.add(dto);
               }
 
@@ -395,30 +394,46 @@ public class ClientHandler implements Runnable
                 dto.getPatientId(), doctor, dto.getMode());
 
             ResponseObject appointmentResponse = new ResponseObject();
-            if (appointment != null)
-            {
-              authService.bookAppointment(appointment);
 
-              System.out.println("Received prescription");
+            Appointment createdAppointment = authService.bookAppointment(
+                appointment);
 
-              appointmentResponse.setSuccess(true);
-              appointmentResponse.setMessage("Appointment received by server");
-              AppointmentDTO responseDto = new AppointmentDTO(
-                  appointment.getDate(), appointment.getTime(),
-                  appointment.getDoctorID(), appointment.getPatientID(),
-                  appointment.getMode());
+            appointmentResponse.setSuccess(true);
+            appointmentResponse.setMessage("Appointment received by server");
 
-              appointmentResponse.setAppointment(responseDto);
-              output.println(gson.toJson(appointmentResponse));
-            }
-            else
-            {
-              appointmentResponse.setSuccess(false);
-              appointmentResponse.setMessage(
-                  "Failed to save appointment to database");
-            }
+            AppointmentDTO responseDto = new AppointmentDTO(
+                createdAppointment.getAppointmentID(),
+                createdAppointment.getDate(), createdAppointment.getTime(),
+                createdAppointment.getDoctorID(),
+                createdAppointment.getPatientID(),
+                createdAppointment.getMode());
 
+            appointmentResponse.setAppointment(responseDto);
             output.println(gson.toJson(appointmentResponse));
+            //            if (appointment != null)
+            //            {
+            //              authService.bookAppointment(appointment);
+            //
+            //              System.out.println("Received prescription");
+            //
+            //              appointmentResponse.setSuccess(true);
+            //              appointmentResponse.setMessage("Appointment received by server");
+            //              AppointmentDTO responseDto = new AppointmentDTO(
+            //                  appointment.getAppointmentID(), appointment.getDate(),
+            //                  appointment.getTime(), appointment.getDoctorID(),
+            //                  appointment.getPatientID(), appointment.getMode());
+            //
+            //              appointmentResponse.setAppointment(responseDto);
+            //              output.println(gson.toJson(appointmentResponse));
+            //            }
+            //            else
+            //            {
+            //              appointmentResponse.setSuccess(false);
+            //              appointmentResponse.setMessage(
+            //                  "Failed to save appointment to database");
+            //            }
+            //
+            //            output.println(gson.toJson(appointmentResponse));
           }
 
           case "addReferral" ->
@@ -460,6 +475,58 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(referralResponse));
+          }
+
+          case "modifyAppointment" ->
+          {
+            AppointmentDTO dto = req.getAppointment();
+
+            Doctor doctor = AuthenticationServiceImp.getInstance()
+                .getDoctorById(dto.getDoctorId());
+
+            String[] dateParts = dto.getDate().split("/");
+            String[] timeParts = dto.getTime().split(":");
+
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+
+            NewDateTime dateTime = new NewDateTime(day, month, year, hour,
+                minute);
+
+            Appointment appointmentToUpdate = new Appointment(dateTime,
+                dto.getPatientId(), doctor, dto.getMode());
+
+            appointmentToUpdate.setAppointmentID(dto.getId());
+
+            Appointment updatedAppointment = authService.modifyAppointment(
+                appointmentToUpdate);
+
+            ResponseObject response = new ResponseObject();
+            if (updatedAppointment != null)
+            {
+              response.setSuccess(true);
+              response.setMessage("Appointment modified successfully");
+
+              response.setAppointment(
+                  new AppointmentDTO(updatedAppointment.getAppointmentID(),
+                      updatedAppointment.getDate(),
+                      updatedAppointment.getTime(),
+                      updatedAppointment.getDoctorID(),
+                      updatedAppointment.getPatientID(),
+                      updatedAppointment.getMode()));
+            }
+            else
+            {
+              response.setSuccess(false);
+              response.setMessage("Failed to modify appointment");
+            }
+
+            output.println(gson.toJson(response));
+
           }
 
           default ->

@@ -16,7 +16,7 @@ public class AppointmentService implements AppointmentModel
   }
 
   @Override
-  public Appointment bookAppointment(NewDateTime dateTime, int patientID, Doctor doctor, String mode) {
+  public Appointment bookAppointment(int id, NewDateTime dateTime, int patientID, Doctor doctor, String mode) {
     if (dateTime == null || mode == null) {
       throw new IllegalArgumentException("Date/time and mode cannot be null.");
     }
@@ -27,7 +27,7 @@ public class AppointmentService implements AppointmentModel
     }
 
     Appointment newAppointment = new Appointment(dateTime, patientID, doctor, mode);
-    newAppointment.setDoctorID(doctor.getDoctorID()); // Ensure doctorID is set properly
+    newAppointment.setDoctorID(doctor.getDoctorID());
     appointmentList.addAppointment(newAppointment);
     return newAppointment;
   }

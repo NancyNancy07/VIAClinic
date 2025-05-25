@@ -22,7 +22,7 @@ public interface AuthenticationService
   List<Appointment> getAppointmentsForPatient(int id);
   List<Appointment> getAppointmentsForDoctor(int id);
 
-  void bookAppointment(Appointment appointment);
+  Appointment bookAppointment(Appointment appointment);
   List<Diagnosis> getDiagnosesForPatient(int patientId);
   void addDiagnosis(Diagnosis diagnosis);
   List<Prescription> getPrescriptionsForPatient(int patientId);
@@ -38,4 +38,5 @@ public interface AuthenticationService
       int doctorId, int patientId);
   void addReferral(Referral referral);
   List<Referral> getReferralsForPatient(int patientId);
+  Appointment modifyAppointment(Appointment appointment);
 }

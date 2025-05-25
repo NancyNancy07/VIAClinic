@@ -14,16 +14,9 @@ public class Appointment
       String mode)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentId();
-    this.doctor = doctor;
     this.mode = mode;
     this.doctor = doctor;
     this.patientID = patientID;
-  }
-
-  private int appointmentId()
-  {
-    return appointmentID;
   }
 
   public String getDate()
@@ -86,8 +79,8 @@ public class Appointment
   {
     if (doctor != null)
     {
-      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
-          + "'\n";
+      return "Appointment ID: " + appointmentID + ", " + dateTime + ", Doctor= "
+          + doctor.getName() + ", Mode='" + mode + "'\n";
     }
     else
     {

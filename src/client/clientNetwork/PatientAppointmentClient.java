@@ -56,9 +56,10 @@ public class PatientAppointmentClient<Create>
 
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
-        clientAppointments.addAppointment(
-            new ClientAppointment(dateTime, dto.getPatientId(),
-                dto.getDoctorId(), dto.getMode()));
+
+        ClientAppointment app = new ClientAppointment(dto.getId(), dateTime,
+            dto.getPatientId(), dto.getDoctorId(), dto.getMode());
+        clientAppointments.addAppointment(app);
       }
 
       return clientAppointments;
@@ -110,9 +111,10 @@ public class PatientAppointmentClient<Create>
 
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
-        clientAppointments.addAppointment(
-            new ClientAppointment(dateTime, dto.getPatientId(),
-                dto.getDoctorId(), dto.getMode()));
+
+        ClientAppointment app = new ClientAppointment(dto.getId(), dateTime,
+            dto.getPatientId(), dto.getDoctorId(), dto.getMode());
+        clientAppointments.addAppointment(app);
       }
 
       return clientAppointments;
@@ -135,9 +137,10 @@ public class PatientAppointmentClient<Create>
 
       // Create a request object to send;
 
-      AppointmentDTO dto = new AppointmentDTO(appointment.getDate(),
-          appointment.getTime(), appointment.getDoctorID(),
-          appointment.getPatientID(), appointment.getMode());
+      AppointmentDTO dto = new AppointmentDTO(appointment.getAppointmentID(),
+          appointment.getDate(), appointment.getTime(),
+          appointment.getDoctorID(), appointment.getPatientID(),
+          appointment.getMode());
       RequestObject request = new RequestObject();
       request.setType("bookAppointment");
       request.setAppointment(dto);
@@ -154,6 +157,7 @@ public class PatientAppointmentClient<Create>
           ResponseObject.class);
 
       AppointmentDTO responseDto = response.getAppointment();
+
       if (responseDto != null)
       {
         String[] dateParts = responseDto.getDate().split("/");
@@ -168,8 +172,10 @@ public class PatientAppointmentClient<Create>
 
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
-        return new ClientAppointment(dateTime, responseDto.getPatientId(),
-            responseDto.getDoctorId(), responseDto.getMode());
+
+        return new ClientAppointment(responseDto.getId(), dateTime,
+            responseDto.getPatientId(), responseDto.getDoctorId(),
+            responseDto.getMode());
       }
       else
       {
@@ -216,6 +222,64 @@ public class PatientAppointmentClient<Create>
       }
 
       return clientDoctors;
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public ClientAppointment modifyAppointment(int appointmentId, int patientId,
+      int doctorId, ClientNewDateTime newDateTime, String newMode)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      AppointmentDTO dto = new AppointmentDTO(appointmentId,
+          newDateTime.getDate(), newDateTime.getTime(), doctorId, patientId,
+          newMode);
+
+      RequestObject request = new RequestObject();
+      request.setType("modifyAppointment");
+      request.setId(appointmentId);
+      request.setAppointment(dto);
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse,
+          ResponseObject.class);
+      AppointmentDTO responseDto = response.getAppointment();
+      if (responseDto != null)
+      {
+        String[] dateParts = responseDto.getDate().split("/");
+        String[] timeParts = responseDto.getTime().split(":");
+
+        int day = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[2]);
+
+        int hour = Integer.parseInt(timeParts[0]);
+        int minute = Integer.parseInt(timeParts[1]);
+
+        ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
+            hour, minute);
+        return new ClientAppointment(responseDto.getId(), dateTime,
+            responseDto.getPatientId(), responseDto.getDoctorId(),
+            responseDto.getMode());
+      }
+      else
+      {
+        return null;
+      }
     }
     catch (IOException e)
     {

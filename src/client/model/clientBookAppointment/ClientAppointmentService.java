@@ -29,9 +29,11 @@ public class ClientAppointmentService implements ClientAppointmentModel
   }
 
   @Override public ClientAppointment modifyAppointment(int appointmentId,
-      ClientNewDateTime newDateTime, String newMode)
+      int patientId, int doctorId, ClientNewDateTime newDateTime,
+      String newMode)
   {
-    return null;
+    return networkClient.modifyAppointment(appointmentId, patientId, doctorId,
+        newDateTime, newMode);
   }
 
   @Override public ClientAppointmentList getAppointmentList(int id)
@@ -41,11 +43,19 @@ public class ClientAppointmentService implements ClientAppointmentModel
 
   @Override public ClientAppointmentList getDoctorAppointmentList(int id)
   {
-    return networkClient.getAppointmentByDoctorId(id);
+    ClientAppointmentList fetchedList = networkClient.getAppointmentByPatientId(
+        id);
+    appointmentList.getAllAppointments().clear();
+    appointmentList.getAllAppointments()
+        .addAll(fetchedList.getAllAppointments());
+    return appointmentList;
   }
 
   @Override public ClientDoctorList getDoctorList()
   {
-    return networkClient.getDoctorList();
+    ClientDoctorList fetchedList = networkClient.getDoctorList();
+    doctorList.getAllDoctors().clear();
+    doctorList.getAllDoctors().addAll(fetchedList.getAllDoctors());
+    return doctorList;
   }
 }
