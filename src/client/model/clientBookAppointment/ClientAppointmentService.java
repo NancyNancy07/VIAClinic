@@ -23,9 +23,15 @@ public class ClientAppointmentService implements ClientAppointmentModel
     return networkClient.bookAppointment(appointment);
   }
 
-  @Override public boolean cancelAppointment(int appointmentId)
+//  @Override public boolean cancelAppointment(int appointmentId)
+//  {
+//    return false;
+//  }
+
+  @Override
+  public boolean cancelAppointment(int appointmentId)
   {
-    return false;
+    return networkClient.cancelAppointment(appointmentId);
   }
 
   @Override public ClientAppointment modifyAppointment(int appointmentId,

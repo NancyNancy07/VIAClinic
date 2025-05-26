@@ -32,7 +32,7 @@ public class TestDatabaseDiagnosis
           phoneNumber, userName, password, CPR, address);
 
 
-      DatabaseDoctorDAO databaseDoctorDAO = DatabaseDoctorDAO.getInstance();
+      DoctorDAO databaseDoctorDAO = DoctorDAO.getInstance();
 
       String doctorFirstName = "Dr. Smith";
       String doctorLastName = "Smith";

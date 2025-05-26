@@ -170,5 +170,37 @@ public class PatientAppointmentClient<Create>
       return null;
     }
   }
+
+  public boolean cancelAppointment(int appointmentId)
+  {
+    try (Socket socket = new Socket("localhost", 1234);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream())))
+    {
+      Gson gson = new Gson();
+
+      // Create and configure request
+      RequestObject request = new RequestObject();
+      request.setType("cancelAppointment");
+      request.setId(appointmentId);
+
+      // Send JSON to server
+      String jsonRequest = gson.toJson(request);
+      System.out.println("Sending to server: " + jsonRequest);
+      output.println(jsonRequest);
+
+      // Read JSON from server
+      String jsonResponse = input.readLine();
+      System.out.println("Received from server: " + jsonResponse);
+
+      ResponseObject response = gson.fromJson(jsonResponse, ResponseObject.class);
+      return response.isSuccess();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return false;
+    }
+  }
 }
 

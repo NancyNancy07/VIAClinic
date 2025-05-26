@@ -115,23 +115,29 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
 
   private ResponseObject loginDoctor(String username, String password)
   {
-    for (User user : users)
+    try
     {
-      if (user instanceof Doctor)
+      Doctor doctor = DoctorDAO.getInstance().getDoctorByUsername(username);
+      if (doctor == null)
       {
-        if (user.getUsername().equals(username))
-        {
-          if (user.getPassword().equals(password))
-          {
-            loggedInUser = user;
-            return new ResponseObject(true, "Doctor login successful",
-                ((Doctor) user).getDoctorID());
-          }
-          return new ResponseObject(false, "Incorrect password for doctor", -1);
-        }
+        return new ResponseObject(false, "Doctor username not found", -1);
+      }
+
+      if (doctor.getPassword().equals(password))
+      {
+        loggedInUser = doctor;
+        return new ResponseObject(true, "Doctor login successful", doctor.getDoctorID());
+      }
+      else
+      {
+        return new ResponseObject(false, "Incorrect password for doctor", -1);
       }
     }
-    return new ResponseObject(false, "Doctor username not found", -1);
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      return new ResponseObject(false, "Database error", -1);
+    }
   }
 
   private ResponseObject loginPatient(String username, String password)
@@ -163,20 +169,22 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
     }
   }
 
-  @Override public List<Doctor> getAllDoctors()
+  @Override
+  public List<Doctor> getAllDoctors()
   {
-    DoctorList doctors = new DoctorList();
-    for (User user : users)
+    try
     {
-      if (user instanceof Doctor)
-      {
-        doctors.addDoctor((Doctor) user);
-      }
+      return DoctorDAO.getInstance().getAllDoctors();
     }
-    return doctors.getAllDoctors();
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
   }
 
-  @Override public List<Patient> getAllPatients()
+  @Override
+  public List<Patient> getAllPatients()
   {
     PatientList patients = new PatientList();
     for (User user : users)
@@ -237,6 +245,12 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
     {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public boolean cancelAppointment(int appointmentId) throws SQLException
+  {
+    return AppointmentDAO.getInstance().deleteAppointment(appointmentId);
   }
 
   public Doctor getDoctorById(int doctorId)
@@ -325,6 +339,7 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
       return new ArrayList<>();
     }
   }
+
   @Override public void addPrescription(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
       String frequency, String status, String comment, int doctorId,

@@ -45,4 +45,9 @@ public class BookAppointmentFrontViewModel
     int patientId = LoginSharedData.getInstance().getId();
     return model.getAppointmentList(patientId);
   }
+
+  public boolean cancelAppointment(int appointmentId)
+  {
+    return model.cancelAppointment(appointmentId);
+  }
 }

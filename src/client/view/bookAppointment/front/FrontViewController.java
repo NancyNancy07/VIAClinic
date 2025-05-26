@@ -51,9 +51,23 @@ public class FrontViewController
 
   public void cancelAppointment()
   {
-    ClientAppointment selected = appointmentTable.getSelectionModel()
-        .getSelectedItem();
-    viewModel.getAppointmentList().removeAppointment(selected);
+    ClientAppointment selected = appointmentTable.getSelectionModel().getSelectedItem();
+
+    if (selected == null)
+      return; // Optional: show a message to select an appointment
+
+    boolean cancelled = viewModel.cancelAppointment(selected.getAppointmentId());
+
+    if (cancelled)
+    {
+      viewModel.getAppointmentList().removeAppointment(selected);
+      // Optional: show confirmation message to user
+    }
+    else
+    {
+      // Optional: show error alert to user
+    }
+
     back();
   }
 
