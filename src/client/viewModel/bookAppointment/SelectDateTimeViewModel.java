@@ -23,7 +23,8 @@ public class SelectDateTimeViewModel
   {
     if (time != null)
     {
-      sharedData.setAppointmentTime(LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
+      sharedData.setAppointmentTime(
+          LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
   }
 
@@ -55,7 +56,7 @@ public class SelectDateTimeViewModel
     {
       if (doc.getDoctorID() == sharedData.getSelectedDoctorId())
       {
-        return doc.getName();
+        return doc.getFirstName() + " " + doc.getLastName();
       }
     }
     return "Unknown";

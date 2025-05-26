@@ -105,6 +105,7 @@ public class ClientDoctor extends ClientUser
       return false;
     }
     ClientDoctor other = (ClientDoctor) obj;
-    return doctorID == other.doctorID && getName().equals(other.getName());
+    return doctorID == other.doctorID && firstName.equals(other.firstName)
+        && lastName.equals(other.lastName);
   }
 }

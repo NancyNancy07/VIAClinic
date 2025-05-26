@@ -235,7 +235,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
       Appointment createdAppointment = AppointmentDAO.getInstance()
           .create(dateTime, appointment.getMode(), appointment.getPatientID(),
-              getDoctorById(appointment.getDoctor().getDoctorID()));
+              appointment.getDoctor());
 
       appointment.setAppointmentID(createdAppointment.getAppointmentID());
       appointmentList.addAppointment(appointment);

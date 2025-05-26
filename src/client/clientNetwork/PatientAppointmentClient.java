@@ -153,8 +153,8 @@ public class PatientAppointmentClient<Create>
       // Create a request object to send;
       ClientDoctor clientDoctor = appointment.getDoctor();
       DoctorDTO doctorDTO = new DoctorDTO(clientDoctor.getDoctorID(),
-          clientDoctor.getName(), clientDoctor.getName(),
-          clientDoctor.getUsername(), clientDoctor.getPassword(),
+          clientDoctor.getFirstName(), clientDoctor.getLastName(),
+          clientDoctor.getEmail(), clientDoctor.getPhoneNumber(),
           clientDoctor.getUsername(), clientDoctor.getPassword());
 
       AppointmentDTO dto = new AppointmentDTO(appointment.getAppointmentID(),

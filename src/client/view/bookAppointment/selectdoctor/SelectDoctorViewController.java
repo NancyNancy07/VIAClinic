@@ -1,6 +1,7 @@
 package client.view.bookAppointment.selectdoctor;
 
 import client.model.clientBookAppointment.ClientDoctor;
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,7 @@ public class SelectDoctorViewController
 
     if (selectedDoctor != null)
     {
+      BookAppointmentSharedData.getInstance().setSelectedDoctorId(selectedDoctor.getDoctorID());
       viewModel.setSelectedDoctor(selectedDoctor.getDoctorID());
       BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.MODE);
     }
