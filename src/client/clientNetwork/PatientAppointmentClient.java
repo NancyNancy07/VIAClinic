@@ -59,6 +59,7 @@ public class PatientAppointmentClient<Create>
 
         DoctorDTO doctorDto = dto.getDoctor();
 
+        System.out.println(doctorDto.getFirstName());
         ClientDoctor doctor = new ClientDoctor(doctorDto.getDoctorID(),
             doctorDto.getFirstName(), doctorDto.getLastName(),
             doctorDto.getEmail(), doctorDto.getPhoneNumber(),

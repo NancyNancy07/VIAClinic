@@ -77,7 +77,7 @@ public class AppointmentDAO
       ResultSet rs = statement.executeQuery();
       while (rs.next())
       {
-        int appointmentId = rs.getInt("appointmentId"); // ✅ Get appointment ID
+        int appointmentId = rs.getInt("appointmentId");
         Timestamp timestamp = rs.getTimestamp("dateTime");
         int doctorId = rs.getInt("doctorId");
         String mode = rs.getString("mode");
@@ -86,8 +86,7 @@ public class AppointmentDAO
         NewDateTime dateTime = new NewDateTime(ldt.getDayOfMonth(),
             ldt.getMonthValue(), ldt.getYear(), ldt.getHour(), ldt.getMinute());
 
-        Doctor doctor = new Doctor(doctorId, null, null, null, null, null,
-            null);
+        Doctor doctor = DoctorDAO.getInstance().getDoctorById(doctorId);
         Appointment appointment = new Appointment(dateTime, patientId, doctor,
             mode);
         appointment.setAppointmentID(appointmentId);
