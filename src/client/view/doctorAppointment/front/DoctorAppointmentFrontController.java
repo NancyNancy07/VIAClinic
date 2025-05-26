@@ -119,6 +119,7 @@ public class DoctorAppointmentFrontController
     mode.setDisable(true);
     time.setDisable(true);
     date.setDisable(true);
+    pane.setVisible(false);
   }
 
   public void back()
