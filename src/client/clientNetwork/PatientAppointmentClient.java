@@ -2,10 +2,7 @@ package client.clientNetwork;
 
 import client.model.clientBookAppointment.*;
 import com.google.gson.Gson;
-import shared.AppointmentDTO;
-import shared.DoctorDTO;
-import shared.RequestObject;
-import shared.ResponseObject;
+import shared.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -127,8 +124,16 @@ public class PatientAppointmentClient<Create>
             doctorDto.getEmail(), doctorDto.getPhoneNumber(),
             doctorDto.getUserName(), doctorDto.getPassword());
 
+        PatientDTO patientDto = dto.getPatientDTO();
+
+        ClientPatient patient = new ClientPatient(patientDto.getPatientID(),
+            patientDto.getFirstName(), patientDto.getLastName(),
+            patientDto.getEmail(), patientDto.getPhoneNumber(),
+            patientDto.getUserName(), patientDto.getPassword(),
+            patientDto.getCPR(), patientDto.getAddress());
+
         ClientAppointment app = new ClientAppointment(dto.getId(), dateTime,
-            dto.getPatientId(), doctor, dto.getMode());
+            patient, doctor, dto.getMode());
         clientAppointments.addAppointment(app);
       }
 

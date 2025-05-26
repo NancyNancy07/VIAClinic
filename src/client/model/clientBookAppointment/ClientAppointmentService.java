@@ -1,18 +1,24 @@
 package client.model.clientBookAppointment;
 
 import client.clientNetwork.PatientAppointmentClient;
+import client.clientNetwork.PatientClient;
+import server.model.bookAppointment.Patient;
+
+import java.util.List;
 
 public class ClientAppointmentService implements ClientAppointmentModel
 {
   private final ClientAppointmentList appointmentList;
   private final ClientDoctorList doctorList;
   private final PatientAppointmentClient networkClient;
+  private final PatientClient patientClient;
 
   public ClientAppointmentService()
   {
     this.appointmentList = new ClientAppointmentList();
     this.doctorList = new ClientDoctorList();
     this.networkClient = new PatientAppointmentClient();
+    this.patientClient = new PatientClient();
   }
 
   @Override public ClientAppointment bookAppointment(ClientNewDateTime dateTime,
@@ -43,7 +49,7 @@ public class ClientAppointmentService implements ClientAppointmentModel
 
   @Override public ClientAppointmentList getDoctorAppointmentList(int id)
   {
-    ClientAppointmentList fetchedList = networkClient.getAppointmentByPatientId(
+    ClientAppointmentList fetchedList = networkClient.getAppointmentByDoctorId(
         id);
     appointmentList.getAllAppointments().clear();
     appointmentList.getAllAppointments()

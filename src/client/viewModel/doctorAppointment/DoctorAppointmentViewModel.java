@@ -1,13 +1,9 @@
 package client.viewModel.doctorAppointment;
 
 import client.clientNetwork.PatientClient;
-import client.model.clientBookAppointment.ClientAppointment;
-import client.model.clientBookAppointment.ClientAppointmentList;
-import client.model.clientBookAppointment.ClientAppointmentModel;
-import client.model.clientBookAppointment.ClientNewDateTime;
+import client.model.clientBookAppointment.*;
 import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import client.viewModel.loginSystem.LoginSharedData;
-import server.model.bookAppointment.NewDateTime;
 import server.model.bookAppointment.Patient;
 
 import java.util.List;
@@ -37,18 +33,6 @@ public class DoctorAppointmentViewModel
     return LoginSharedData.getInstance().getUsername();
   }
 
-  public Patient getPatient(int id)
-  {
-    for (Patient patient : cachedPatientList)
-    {
-      if (patient.getPatientID() == id)
-      {
-        return patient;
-      }
-    }
-    return null;
-  }
-
   public void rescheduleAppointment(ClientAppointment appointment, String mode,
       ClientNewDateTime newDateTime)
   {
@@ -56,8 +40,7 @@ public class DoctorAppointmentViewModel
     appointment.setDateTime(newDateTime);
 
     model.modifyAppointment(appointment.getAppointmentID(),
-        appointment.getPatientID(), appointment.getDoctor(), newDateTime,
-        mode);
+        appointment.getPatientID(), appointment.getDoctor(), newDateTime, mode);
 
   }
 }

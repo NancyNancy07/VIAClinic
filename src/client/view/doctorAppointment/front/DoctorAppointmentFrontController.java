@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import server.model.bookAppointment.Patient;
 
 import java.time.LocalDate;
 
@@ -16,7 +17,6 @@ public class DoctorAppointmentFrontController
 {
   private DoctorAppointmentViewModel viewModel;
   @FXML private TableView<ClientAppointment> appointmentTable;
-  @FXML private TableColumn<ClientAppointment, String> appointment;
   @FXML private Label doctorName;
   @FXML private Label doctorN;
   @FXML private Label patientName;
@@ -49,7 +49,7 @@ public class DoctorAppointmentFrontController
         cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
 
     patientCol.setCellValueFactory(cellData -> new SimpleStringProperty(
-        String.valueOf(cellData.getValue().getPatientID())));
+        cellData.getValue().getPatient().getUsername()));
 
     modeCol.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().getMode()));
@@ -68,8 +68,7 @@ public class DoctorAppointmentFrontController
     ClientAppointment selected = appointmentTable.getSelectionModel()
         .getSelectedItem();
     int patientId = selected.getPatientID();
-    System.out.println(selected.getAppointmentID());
-    patientName.setText(viewModel.getPatient(patientId).getName());
+    patientName.setText(selected.getPatient().getName());
     mode.setText(selected.getMode());
 
     String[] parts = selected.getDate().split("/");

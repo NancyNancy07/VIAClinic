@@ -7,6 +7,7 @@ public class Appointment
   private String mode;
   private int patientID;
   private Doctor doctor;
+  private Patient patient;
 
   public Appointment(NewDateTime dateTime, int patientID, Doctor doctor,
       String mode)
@@ -15,6 +16,24 @@ public class Appointment
     this.mode = mode;
     this.doctor = doctor;
     this.patientID = patientID;
+  }
+  public Appointment(NewDateTime dateTime, Patient patient, Doctor doctor,
+      String mode)
+  {
+    this.dateTime = dateTime;
+    this.mode = mode;
+    this.doctor = doctor;
+    this.patient = patient;
+  }
+
+  public Patient getPatient()
+  {
+    return patient;
+  }
+
+  public void setPatient(Patient patient)
+  {
+    this.patient = patient;
   }
 
   public String getDate()

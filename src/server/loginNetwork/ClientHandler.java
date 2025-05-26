@@ -12,11 +12,8 @@ import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.Referral;
-import shared.AppointmentDTO;
-import shared.DoctorDTO;
+import shared.*;
 import server.model.patientJournal.Vaccination;
-import shared.RequestObject;
-import shared.ResponseObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -124,14 +121,22 @@ public class ClientHandler implements Runnable
               for (Appointment app : doctorAppointments)
               {
                 Doctor doctor = app.getDoctor();
+                Patient patient = app.getPatient();
+                PatientDTO patientDTO = new PatientDTO(patient.getPatientID(),
+                    patient.getFirstName(), patient.getLastName(),
+                    patient.getEmail(), patient.getPhoneNumber(),
+                    patient.getUsername(), patient.getPassword(),
+                    patient.getCPR(), patient.getAddress());
+
                 DoctorDTO doctorDTO = new DoctorDTO(doctor.getDoctorID(),
                     doctor.getFirstName(), doctor.getLastName(),
                     doctor.getEmail(), doctor.getPhoneNumber(),
                     doctor.getUsername(), doctor.getPassword());
 
                 AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
-                    app.getDate(), app.getTime(), doctorDTO, app.getPatientID(),
+                    app.getDate(), app.getTime(), doctorDTO, patientDTO,
                     app.getMode());
+
                 appointmentDTOs.add(dto);
               }
 

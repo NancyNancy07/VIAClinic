@@ -1,5 +1,7 @@
 package server.model.bookAppointment;
 
+import server.model.patientJournal.PatientDAO;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -89,6 +91,8 @@ public class AppointmentDAO
         Doctor doctor = DoctorDAO.getInstance().getDoctorById(doctorId);
         Appointment appointment = new Appointment(dateTime, patientId, doctor,
             mode);
+        Patient patient1 = PatientDAO.getInstance().getPatientById(patientId);
+        appointment.setPatient(patient1);
         appointment.setAppointmentID(appointmentId);
         appointments.add(appointment);
       }
@@ -105,14 +109,15 @@ public class AppointmentDAO
     try (Connection connection = getConnection())
     {
       PreparedStatement statement = connection.prepareStatement(
-          "SELECT dateTime, patientid, doctorid, mode FROM Appointment WHERE doctorid = ?");
+          "SELECT appointmentId, dateTime, patientId, doctorId, mode FROM Appointment WHERE doctorId = ?");
       statement.setInt(1, doctorId);
 
       ResultSet rs = statement.executeQuery();
       while (rs.next())
       {
+        int appointmentId = rs.getInt("appointmentId");
         Timestamp timestamp = rs.getTimestamp("dateTime");
-        int patientId = rs.getInt("patientid");
+        int patientId = rs.getInt("patientId");
         String mode = rs.getString("mode");
 
         LocalDateTime ldt = timestamp.toLocalDateTime();
@@ -121,7 +126,14 @@ public class AppointmentDAO
 
         Doctor doctor = new Doctor(doctorId, null, null, null, null, null,
             null);
-        appointments.add(new Appointment(dateTime, patientId, doctor, mode));
+
+        Appointment appointment = new Appointment(dateTime, patientId, doctor,
+            mode);
+        Patient patient = PatientDAO.getInstance().getPatientById(patientId);
+        appointment.setPatient(patient);
+        appointment.setAppointmentID(appointmentId);
+
+        appointments.add(appointment);
       }
     }
 
@@ -172,6 +184,9 @@ public class AppointmentDAO
 
             Appointment updatedAppointment = new Appointment(dateTime,
                 patientId, doctor, mode);
+            Patient patient = PatientDAO.getInstance()
+                .getPatientById(patientId);
+            updatedAppointment.setPatient(patient);
             updatedAppointment.setAppointmentID(appointmentId);
             return updatedAppointment;
           }

@@ -1,5 +1,7 @@
 package client.model.clientBookAppointment;
 
+import server.model.bookAppointment.Patient;
+
 public interface ClientAppointmentModel
 {
   ClientAppointment bookAppointment(ClientNewDateTime dateTime, int patientID,

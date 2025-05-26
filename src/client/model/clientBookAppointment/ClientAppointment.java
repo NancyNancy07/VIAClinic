@@ -8,6 +8,7 @@ public class ClientAppointment
   private int patientID;
   //  private int doctorId;
   private ClientDoctor doctor;
+  private ClientPatient patient;
 
   public ClientAppointment(ClientNewDateTime dateTime, int patientID,
       ClientDoctor doctor, String mode)
@@ -18,6 +19,16 @@ public class ClientAppointment
     this.patientID = patientID;
   }
 
+  public ClientAppointment(ClientNewDateTime dateTime, ClientPatient patient,
+      ClientDoctor doctor, String mode)
+  {
+    this.dateTime = dateTime;
+    this.patient = patient;
+    this.patientID = patient.getPatientID();
+    this.doctor = doctor;
+    this.mode = mode;
+  }
+
   public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
       int patientID, ClientDoctor doctor, String mode)
   {
@@ -26,6 +37,28 @@ public class ClientAppointment
     this.doctor = doctor;
     this.mode = mode;
     this.patientID = patientID;
+  }
+
+  public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
+      ClientPatient patient, ClientDoctor doctor, String mode)
+  {
+    this.appointmentID = appointmentID;
+    this.dateTime = dateTime;
+    this.doctor = doctor;
+    this.mode = mode;
+    this.patient = patient;
+  }
+
+
+  public ClientPatient getPatient()
+  {
+    return patient;
+  }
+
+  public void setPatient(ClientPatient patient)
+  {
+    this.patient = patient;
+    this.patientID = patient.getPatientID();
   }
 
   public String getDate()
