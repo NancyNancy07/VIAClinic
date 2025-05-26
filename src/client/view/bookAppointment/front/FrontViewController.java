@@ -12,6 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import client.view.bookAppointment.BookAppointmentViewHandler;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 
+/**
+ * FrontViewController is responsible for managing the front view of the book appointment feature.
+ * It initializes the appointment table and handles user interactions such as viewing and canceling appointments.
+ */
 public class FrontViewController
 {
   private BookAppointmentFrontViewModel viewModel;
@@ -25,6 +29,10 @@ public class FrontViewController
   @FXML private Label mode;
   @FXML private Label date;
 
+  /**
+   * Initializes the FrontViewController with the provided view model.
+   * @param viewModel the view model containing appointment data
+   */
   public void init(BookAppointmentFrontViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -50,6 +58,10 @@ public class FrontViewController
     appointmentTable.setOnMouseClicked(event -> manageAppointment());
   }
 
+  /**
+   * Manages the appointment by displaying its details in the pane.
+   * This method is called when an appointment is selected from the table.
+   */
   public void manageAppointment()
   {
     pane.setVisible(true);
@@ -62,6 +74,10 @@ public class FrontViewController
     date.setText(selected.getDate());
   }
 
+  /**
+   * Cancels the selected appointment and removes it from the appointment list.
+   * This method is called when the user chooses to cancel an appointment.
+   */
   public void cancelAppointment()
   {
     ClientAppointment selected = appointmentTable.getSelectionModel()
@@ -70,12 +86,20 @@ public class FrontViewController
     back();
   }
 
+  /**
+   * Adds a new appointment by showing the book appointment view.
+   * This method is called when the user chooses to add a new appointment.
+   */
   public void addNewAppointment()
   {
     BookAppointmentViewHandler.showView(
         BookAppointmentViewHandler.ViewType.DOCTOR);
   }
 
+  /**
+   * Navigates back to the front view of the book appointment feature.
+   * This method is called when the user chooses to go back.
+   */
   public void back()
   {
     BookAppointmentViewHandler.showView(

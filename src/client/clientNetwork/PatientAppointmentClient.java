@@ -11,8 +11,20 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
+
+/**
+ * The PatientAppointmentClient class provides methods to interact with the server
+ * for managing patient appointments, including retrieving appointments by patient or doctor ID,
+ * booking new appointments, modifying existing appointments, and retrieving a list of doctors.
+ */
 public class PatientAppointmentClient<Create>
 {
+  /**
+   * Retrieves a list of appointments for a specific patient by their ID.
+   *
+   * @param patientId The ID of the patient whose appointments are to be retrieved.
+   * @return A ClientAppointmentList containing the patient's appointments, or null if an error occurs.
+   */
   public ClientAppointmentList getAppointmentByPatientId(int patientId)
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -76,6 +88,12 @@ public class PatientAppointmentClient<Create>
     }
   }
 
+  /**
+   * Retrieves a list of appointments for a specific doctor by their ID.
+   *
+   * @param doctorId The ID of the doctor whose appointments are to be retrieved.
+   * @return A ClientAppointmentList containing the doctor's appointments, or null if an error occurs.
+   */
   public ClientAppointmentList getAppointmentByDoctorId(int doctorId)
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -146,6 +164,12 @@ public class PatientAppointmentClient<Create>
     }
   }
 
+  /**
+   * Books an appointment for a patient with a specific doctor at a specified date and time.
+   *
+   * @param appointment The ClientAppointment object containing the appointment details.
+   * @return The booked ClientAppointment object, or null if the booking fails.
+   */
   public ClientAppointment bookAppointment(ClientAppointment appointment)
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -218,6 +242,11 @@ public class PatientAppointmentClient<Create>
     }
   }
 
+  /**
+   * Retrieves a list of doctors from the server.
+   *
+   * @return A ClientDoctorList containing the list of doctors, or null if an error occurs.
+   */
   public ClientDoctorList getDoctorList()
   {
     try (Socket socket = new Socket("localhost", 1234);
@@ -259,6 +288,16 @@ public class PatientAppointmentClient<Create>
     }
   }
 
+  /**
+   * Modifies an existing appointment for a patient.
+   *
+   * @param appointmentId The ID of the appointment to be modified.
+   * @param patientId The ID of the patient associated with the appointment.
+   * @param clientDoctor The ClientDoctor object representing the doctor for the appointment.
+   * @param newDateTime The new date and time for the appointment.
+   * @param newMode The new mode of the appointment (e.g., in-person, telehealth).
+   * @return The modified ClientAppointment object, or null if the modification fails.
+   */
   public ClientAppointment modifyAppointment(int appointmentId, int patientId,
       ClientDoctor clientDoctor, ClientNewDateTime newDateTime, String newMode)
   {
