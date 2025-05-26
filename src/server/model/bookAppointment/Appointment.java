@@ -1,7 +1,5 @@
 package server.model.bookAppointment;
 
-import java.util.Random;
-
 public class Appointment
 {
   private NewDateTime dateTime;
@@ -35,9 +33,9 @@ public class Appointment
     return appointmentID;
   }
 
-  public int getDoctorID()
+  public Doctor getDoctor()
   {
-    return doctor.getDoctorID();
+    return doctor;
   }
 
   public int getPatientID()

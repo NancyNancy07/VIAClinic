@@ -41,7 +41,7 @@ public class FrontViewController
         cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
 
     doctorCol.setCellValueFactory(
-        cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDoctorID())));
+        cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDoctor())));
 
     modeCol.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().getMode()));

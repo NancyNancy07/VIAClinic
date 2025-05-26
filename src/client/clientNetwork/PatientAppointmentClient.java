@@ -57,8 +57,15 @@ public class PatientAppointmentClient<Create>
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
 
+        DoctorDTO doctorDto = dto.getDoctor();
+
+        ClientDoctor doctor = new ClientDoctor(doctorDto.getDoctorID(),
+            doctorDto.getFirstName(), doctorDto.getLastName(),
+            doctorDto.getEmail(), doctorDto.getPhoneNumber(),
+            doctorDto.getUserName(), doctorDto.getPassword());
+
         ClientAppointment app = new ClientAppointment(dto.getId(), dateTime,
-            dto.getPatientId(), dto.getDoctorId(), dto.getMode());
+            dto.getPatientId(), doctor, dto.getMode());
         clientAppointments.addAppointment(app);
       }
 
@@ -112,8 +119,15 @@ public class PatientAppointmentClient<Create>
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
 
+        DoctorDTO doctorDto = dto.getDoctor();
+
+        ClientDoctor doctor = new ClientDoctor(doctorDto.getDoctorID(),
+            doctorDto.getFirstName(), doctorDto.getLastName(),
+            doctorDto.getEmail(), doctorDto.getPhoneNumber(),
+            doctorDto.getUserName(), doctorDto.getPassword());
+
         ClientAppointment app = new ClientAppointment(dto.getId(), dateTime,
-            dto.getPatientId(), dto.getDoctorId(), dto.getMode());
+            dto.getPatientId(), doctor, dto.getMode());
         clientAppointments.addAppointment(app);
       }
 
@@ -136,11 +150,15 @@ public class PatientAppointmentClient<Create>
       Gson gson = new Gson();
 
       // Create a request object to send;
+      ClientDoctor clientDoctor = appointment.getDoctor();
+      DoctorDTO doctorDTO = new DoctorDTO(clientDoctor.getDoctorID(),
+          clientDoctor.getName(), clientDoctor.getName(),
+          clientDoctor.getUsername(), clientDoctor.getPassword(),
+          clientDoctor.getUsername(), clientDoctor.getPassword());
 
       AppointmentDTO dto = new AppointmentDTO(appointment.getAppointmentID(),
-          appointment.getDate(), appointment.getTime(),
-          appointment.getDoctorID(), appointment.getPatientID(),
-          appointment.getMode());
+          appointment.getDate(), appointment.getTime(), doctorDTO,
+          appointment.getPatientID(), appointment.getMode());
       RequestObject request = new RequestObject();
       request.setType("bookAppointment");
       request.setAppointment(dto);
@@ -173,9 +191,14 @@ public class PatientAppointmentClient<Create>
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
 
+        DoctorDTO doctorDTO1 = responseDto.getDoctor();
+        ClientDoctor doctor = new ClientDoctor(doctorDTO1.getDoctorID(),
+            doctorDTO1.getFirstName(), doctorDTO1.getLastName(),
+            doctorDTO1.getEmail(), doctorDTO1.getPhoneNumber(),
+            doctorDTO1.getUserName(), doctorDTO1.getPassword());
+
         return new ClientAppointment(responseDto.getId(), dateTime,
-            responseDto.getPatientId(), responseDto.getDoctorId(),
-            responseDto.getMode());
+            responseDto.getPatientId(), doctor, responseDto.getMode());
       }
       else
       {
@@ -231,7 +254,7 @@ public class PatientAppointmentClient<Create>
   }
 
   public ClientAppointment modifyAppointment(int appointmentId, int patientId,
-      int doctorId, ClientNewDateTime newDateTime, String newMode)
+      ClientDoctor clientDoctor, ClientNewDateTime newDateTime, String newMode)
   {
     try (Socket socket = new Socket("localhost", 1234);
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -240,8 +263,13 @@ public class PatientAppointmentClient<Create>
     {
       Gson gson = new Gson();
 
+      DoctorDTO doctorDTO = new DoctorDTO(clientDoctor.getDoctorID(),
+          clientDoctor.getFirstName(), clientDoctor.getLastName(),
+          clientDoctor.getEmail(), clientDoctor.getPhoneNumber(),
+          clientDoctor.getUsername(), clientDoctor.getPassword());
+
       AppointmentDTO dto = new AppointmentDTO(appointmentId,
-          newDateTime.getDate(), newDateTime.getTime(), doctorId, patientId,
+          newDateTime.getDate(), newDateTime.getTime(), doctorDTO, patientId,
           newMode);
 
       RequestObject request = new RequestObject();
@@ -272,9 +300,15 @@ public class PatientAppointmentClient<Create>
 
         ClientNewDateTime dateTime = new ClientNewDateTime(day, month, year,
             hour, minute);
+
+        DoctorDTO doctorDTO1 = responseDto.getDoctor();
+        ClientDoctor doctor = new ClientDoctor(doctorDTO1.getDoctorID(),
+            doctorDTO1.getFirstName(), doctorDTO1.getLastName(),
+            doctorDTO1.getEmail(), doctorDTO1.getPhoneNumber(),
+            doctorDTO1.getUserName(), doctorDTO1.getPassword());
+
         return new ClientAppointment(responseDto.getId(), dateTime,
-            responseDto.getPatientId(), responseDto.getDoctorId(),
-            responseDto.getMode());
+            responseDto.getPatientId(), doctor, responseDto.getMode());
       }
       else
       {

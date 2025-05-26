@@ -165,15 +165,15 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   @Override public List<Doctor> getAllDoctors()
   {
-    DoctorList doctors = new DoctorList();
-    for (User user : users)
+    try
     {
-      if (user instanceof Doctor)
-      {
-        doctors.addDoctor((Doctor) user);
-      }
+      return DoctorDAO.getInstance().getAllDoctors();
     }
-    return doctors.getAllDoctors();
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
   }
 
   @Override public List<Patient> getAllPatients()
@@ -235,7 +235,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
       Appointment createdAppointment = AppointmentDAO.getInstance()
           .create(dateTime, appointment.getMode(), appointment.getPatientID(),
-              getDoctorById(appointment.getDoctorID()));
+              getDoctorById(appointment.getDoctor().getDoctorID()));
 
       appointment.setAppointmentID(createdAppointment.getAppointmentID());
       appointmentList.addAppointment(appointment);
@@ -496,7 +496,7 @@ public class AuthenticationServiceImp implements AuthenticationService
       NewDateTime dateTime = new NewDateTime(day, month, year, hour, minute);
 
       String newMode = appointment.getMode();
-      int newDoctorId = appointment.getDoctorID();
+      int newDoctorId = appointment.getDoctor().getDoctorID();
 
       Appointment updatedAppointment = dao.updateAppointment(appointmentId,
           dateTime, newMode, newDoctorId);

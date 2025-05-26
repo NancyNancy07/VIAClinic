@@ -21,6 +21,7 @@ public class LabResultController
   @FXML private TableColumn<LabResult, String> dateCollectedColumn;
   @FXML private TableColumn<LabResult, String> sampleTypeColumn;
   @FXML private TableColumn<LabResult, String> commentColumn;
+
   public void init(PatientLabResultViewModel viewModel)
   {
     this.viewModel = viewModel;

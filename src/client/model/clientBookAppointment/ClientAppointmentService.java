@@ -16,10 +16,10 @@ public class ClientAppointmentService implements ClientAppointmentModel
   }
 
   @Override public ClientAppointment bookAppointment(ClientNewDateTime dateTime,
-      int patientId, int doctorId, String mode)
+      int patientId, ClientDoctor doctor, String mode)
   {
     ClientAppointment appointment = new ClientAppointment(dateTime, patientId,
-        doctorId, mode);
+        doctor, mode);
     return networkClient.bookAppointment(appointment);
   }
 
@@ -29,10 +29,10 @@ public class ClientAppointmentService implements ClientAppointmentModel
   }
 
   @Override public ClientAppointment modifyAppointment(int appointmentId,
-      int patientId, int doctorId, ClientNewDateTime newDateTime,
+      int patientId, ClientDoctor doctor, ClientNewDateTime newDateTime,
       String newMode)
   {
-    return networkClient.modifyAppointment(appointmentId, patientId, doctorId,
+    return networkClient.modifyAppointment(appointmentId, patientId, doctor,
         newDateTime, newMode);
   }
 

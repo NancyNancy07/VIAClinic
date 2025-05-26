@@ -120,6 +120,11 @@ public class Diagnosis implements Serializable
     return prescription;
   }
 
+  public String getMedicineName()
+  {
+    return prescription.getMedicineName();
+  }
+
   public void setPrescription(Prescription prescription)
   {
     this.prescription = prescription;

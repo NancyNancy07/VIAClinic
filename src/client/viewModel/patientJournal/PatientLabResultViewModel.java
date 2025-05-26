@@ -9,16 +9,18 @@ import javafx.scene.control.Alert;
 import server.model.patientJournal.LabResult;
 
 import java.util.List;
+
 public class PatientLabResultViewModel
 {
   private final PatientClient patientClient;
   private final ObservableList<LabResult> labResultList;
-  private PatientJournalSharedData patientJournalSharedData = PatientJournalSharedData.getInstance();
+
   public PatientLabResultViewModel()
   {
     this.patientClient = new PatientClient();
     this.labResultList = FXCollections.observableArrayList();
   }
+
   public ObservableList<LabResult> getLabResultList(int patientId)
   {
     List<LabResult> labResults = patientClient.getPatientLabResults(patientId);
@@ -37,17 +39,13 @@ public class PatientLabResultViewModel
       labResultList.setAll(labResults);
     }
     return labResultList;
-  }public void loadDiagnosesForPatient(int patientId)
-{
 
-}
+  }
 
   public int getPatientId()
   {
     return LoginSharedData.getInstance().getId();
 
   }
-
-
 
 }

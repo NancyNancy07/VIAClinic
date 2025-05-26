@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,9 +84,15 @@ public class ClientHandler implements Runnable
               List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
               for (Appointment app : patientAppointments)
               {
+                Doctor doctor = app.getDoctor();
+                DoctorDTO doctorDTO = new DoctorDTO(doctor.getDoctorID(),
+                    doctor.getFirstName(), doctor.getLastName(),
+                    doctor.getEmail(), doctor.getPhoneNumber(),
+                    doctor.getUsername(), doctor.getPassword());
+
                 AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
-                    app.getDate(), app.getTime(), app.getDoctorID(),
-                    app.getPatientID(), app.getMode());
+                    app.getDate(), app.getTime(), doctorDTO, app.getPatientID(),
+                    app.getMode());
                 appointmentDTOs.add(dto);
               }
 
@@ -118,9 +123,15 @@ public class ClientHandler implements Runnable
               List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
               for (Appointment app : doctorAppointments)
               {
+                Doctor doctor = app.getDoctor();
+                DoctorDTO doctorDTO = new DoctorDTO(doctor.getDoctorID(),
+                    doctor.getFirstName(), doctor.getLastName(),
+                    doctor.getEmail(), doctor.getPhoneNumber(),
+                    doctor.getUsername(), doctor.getPassword());
+
                 AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
-                    app.getDate(), app.getTime(), app.getDoctorID(),
-                    app.getPatientID(), app.getMode());
+                    app.getDate(), app.getTime(), doctorDTO, app.getPatientID(),
+                    app.getMode());
                 appointmentDTOs.add(dto);
               }
 
@@ -316,6 +327,7 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(prescriptionResponse));
           }
+
           case "getLabResultList" ->
           {
             int patientId = req.getId();
@@ -339,6 +351,7 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(labResultResponse));
           }
+
           case "addLabResult" ->
           {
             LabResult labResult = req.getLabResult();
@@ -373,9 +386,6 @@ public class ClientHandler implements Runnable
           {
             AppointmentDTO dto = req.getAppointment();
 
-            Doctor doctor = AuthenticationServiceImp.getInstance()
-                .getDoctorById(dto.getDoctorId());
-
             String[] dateParts = dto.getDate().split("/");
             String[] timeParts = dto.getTime().split(":");
 
@@ -390,6 +400,13 @@ public class ClientHandler implements Runnable
                 minute);
 
             // Convert DTO to server model
+            DoctorDTO doctorDTO = dto.getDoctor();
+
+            Doctor doctor = new Doctor(doctorDTO.getDoctorID(),
+                doctorDTO.getFirstName(), doctorDTO.getLastName(),
+                doctorDTO.getEmail(), doctorDTO.getPhoneNumber(),
+                doctorDTO.getUserName(), doctorDTO.getPassword());
+
             Appointment appointment = new Appointment(dateTime,
                 dto.getPatientId(), doctor, dto.getMode());
 
@@ -401,11 +418,17 @@ public class ClientHandler implements Runnable
             appointmentResponse.setSuccess(true);
             appointmentResponse.setMessage("Appointment received by server");
 
+            Doctor doctor1 = createdAppointment.getDoctor();
+
+            DoctorDTO doctorDTO1 = new DoctorDTO(doctor1.getDoctorID(),
+                doctor1.getFirstName(), doctor1.getLastName(),
+                doctor1.getEmail(), doctor1.getPhoneNumber(),
+                doctor1.getUsername(), doctor1.getPassword());
             AppointmentDTO responseDto = new AppointmentDTO(
+
                 createdAppointment.getAppointmentID(),
                 createdAppointment.getDate(), createdAppointment.getTime(),
-                createdAppointment.getDoctorID(),
-                createdAppointment.getPatientID(),
+                doctorDTO1, createdAppointment.getPatientID(),
                 createdAppointment.getMode());
 
             appointmentResponse.setAppointment(responseDto);
@@ -481,9 +504,6 @@ public class ClientHandler implements Runnable
           {
             AppointmentDTO dto = req.getAppointment();
 
-            Doctor doctor = AuthenticationServiceImp.getInstance()
-                .getDoctorById(dto.getDoctorId());
-
             String[] dateParts = dto.getDate().split("/");
             String[] timeParts = dto.getTime().split(":");
 
@@ -496,6 +516,12 @@ public class ClientHandler implements Runnable
 
             NewDateTime dateTime = new NewDateTime(day, month, year, hour,
                 minute);
+
+            DoctorDTO doctorDTO = dto.getDoctor();
+            Doctor doctor = new Doctor(doctorDTO.getDoctorID(),
+                doctorDTO.getFirstName(), doctorDTO.getLastName(),
+                doctorDTO.getEmail(), doctorDTO.getPhoneNumber(),
+                doctorDTO.getUserName(), doctorDTO.getPassword());
 
             Appointment appointmentToUpdate = new Appointment(dateTime,
                 dto.getPatientId(), doctor, dto.getMode());
@@ -511,11 +537,16 @@ public class ClientHandler implements Runnable
               response.setSuccess(true);
               response.setMessage("Appointment modified successfully");
 
+              Doctor doctor1 = updatedAppointment.getDoctor();
+              DoctorDTO doctorDTO1 = new DoctorDTO(doctor1.getDoctorID(),
+                  doctor1.getFirstName(), doctor1.getLastName(),
+                  doctor1.getEmail(), doctor1.getPhoneNumber(),
+                  doctor1.getUsername(), doctor1.getPassword());
+
               response.setAppointment(
                   new AppointmentDTO(updatedAppointment.getAppointmentID(),
                       updatedAppointment.getDate(),
-                      updatedAppointment.getTime(),
-                      updatedAppointment.getDoctorID(),
+                      updatedAppointment.getTime(), doctorDTO1,
                       updatedAppointment.getPatientID(),
                       updatedAppointment.getMode()));
             }

@@ -20,4 +20,14 @@ public abstract class ClientUser
   {
     return password;
   }
+
+  public void setPassword(String password)
+  {
+    this.password = password;
+  }
+
+  public void setUsername(String username)
+  {
+    this.username = username;
+  }
 }

@@ -63,28 +63,33 @@ public class AppointmentDAO
     }
   }
 
-  public List<Appointment> getAppointmentsByPatientId(int patientId) throws SQLException {
+  public List<Appointment> getAppointmentsByPatientId(int patientId)
+      throws SQLException
+  {
     List<Appointment> appointments = new ArrayList<>();
 
-    try (Connection connection = getConnection()) {
+    try (Connection connection = getConnection())
+    {
       PreparedStatement statement = connection.prepareStatement(
           "SELECT appointmentId, dateTime, patientId, doctorId, mode FROM Appointment WHERE patientId = ?");
       statement.setInt(1, patientId);
 
       ResultSet rs = statement.executeQuery();
-      while (rs.next()) {
+      while (rs.next())
+      {
         int appointmentId = rs.getInt("appointmentId"); // ✅ Get appointment ID
         Timestamp timestamp = rs.getTimestamp("dateTime");
         int doctorId = rs.getInt("doctorId");
         String mode = rs.getString("mode");
 
         LocalDateTime ldt = timestamp.toLocalDateTime();
-        NewDateTime dateTime = new NewDateTime(
-            ldt.getDayOfMonth(), ldt.getMonthValue(), ldt.getYear(),
-            ldt.getHour(), ldt.getMinute());
+        NewDateTime dateTime = new NewDateTime(ldt.getDayOfMonth(),
+            ldt.getMonthValue(), ldt.getYear(), ldt.getHour(), ldt.getMinute());
 
-        Doctor doctor = new Doctor(doctorId, null, null, null, null, null, null);
-        Appointment appointment = new Appointment(dateTime, patientId, doctor, mode);
+        Doctor doctor = new Doctor(doctorId, null, null, null, null, null,
+            null);
+        Appointment appointment = new Appointment(dateTime, patientId, doctor,
+            mode);
         appointment.setAppointmentID(appointmentId);
         appointments.add(appointment);
       }
@@ -147,7 +152,8 @@ public class AppointmentDAO
       if (rowsUpdated > 0)
       {
         String fetchSql = "SELECT dateTime, patientid, doctorid, mode FROM Appointment WHERE appointmentid = ?";
-        try (PreparedStatement fetchStatement = connection.prepareStatement(fetchSql))
+        try (PreparedStatement fetchStatement = connection.prepareStatement(
+            fetchSql))
         {
           fetchStatement.setInt(1, appointmentId);
           ResultSet rs = fetchStatement.executeQuery();
@@ -163,8 +169,7 @@ public class AppointmentDAO
                 ldt.getMonthValue(), ldt.getYear(), ldt.getHour(),
                 ldt.getMinute());
 
-            Doctor doctor = new Doctor(doctorId, null, null, null, null, null,
-                null);
+            Doctor doctor = DoctorDAO.getInstance().getDoctorById(doctorId);
 
             Appointment updatedAppointment = new Appointment(dateTime,
                 patientId, doctor, mode);

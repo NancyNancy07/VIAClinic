@@ -98,9 +98,14 @@ public class DatabaseDiagnosisDAO
         int doctorId = rs.getInt("doctorId");
         int pid = rs.getInt("patientId");
 
+        int prescriptionId = rs.getInt("prescriptionId");
+        Prescription prescription = null;
+        if (!rs.wasNull()) {
+          prescription = PrescriptionDAO.getInstance().getPrescriptionById(prescriptionId);
+        }
         Diagnosis d = new Diagnosis(diagnosisName, status,
             new NewDateTime(date.getDayOfMonth(), date.getMonthValue(),
-                date.getYear(), 0, 0), comment, doctorId, pid, null
+                date.getYear(), 0, 0), comment, doctorId, pid, prescription
             // no Prescription for now
         );
 

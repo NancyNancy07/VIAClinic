@@ -56,7 +56,7 @@ public class DoctorAppointmentViewModel
     appointment.setDateTime(newDateTime);
 
     model.modifyAppointment(appointment.getAppointmentID(),
-        appointment.getPatientID(), appointment.getDoctorID(), newDateTime,
+        appointment.getPatientID(), appointment.getDoctor(), newDateTime,
         mode);
 
   }

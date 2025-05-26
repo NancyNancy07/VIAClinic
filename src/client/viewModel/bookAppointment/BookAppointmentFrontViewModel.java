@@ -1,9 +1,6 @@
 package client.viewModel.bookAppointment;
 
-import client.model.clientBookAppointment.ClientAppointment;
-import client.model.clientBookAppointment.ClientAppointmentList;
-import client.model.clientBookAppointment.ClientAppointmentModel;
-import client.model.clientBookAppointment.ClientNewDateTime;
+import client.model.clientBookAppointment.*;
 import client.viewModel.loginSystem.LoginSharedData;
 
 public class BookAppointmentFrontViewModel
@@ -16,9 +13,9 @@ public class BookAppointmentFrontViewModel
   }
 
   public ClientAppointment addAppointment(ClientNewDateTime date, int patientId,
-      int doctorId, String mode)
+      ClientDoctor doctor, String mode)
   {
-    return model.bookAppointment(date, patientId, doctorId, mode);
+    return model.bookAppointment(date, patientId, doctor, mode);
 
   }
 

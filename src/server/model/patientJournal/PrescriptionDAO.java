@@ -120,8 +120,6 @@ public class PrescriptionDAO
       }
     }
     return null;
-
-
   }
 
   public List<Prescription> getPrescriptionsByPatientId(int patientId) throws SQLException

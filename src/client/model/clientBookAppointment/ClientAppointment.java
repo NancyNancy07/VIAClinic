@@ -6,24 +6,24 @@ public class ClientAppointment
   private int appointmentID;
   private String mode;
   private int patientID;
-  private int doctorId;
+  //  private int doctorId;
   private ClientDoctor doctor;
 
   public ClientAppointment(ClientNewDateTime dateTime, int patientID,
-      int doctorId, String mode)
+      ClientDoctor doctor, String mode)
   {
     this.dateTime = dateTime;
-    this.doctorId = doctorId;
+    this.doctor = doctor;
     this.mode = mode;
     this.patientID = patientID;
   }
 
   public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
-      int patientID, int doctorId, String mode)
+      int patientID, ClientDoctor doctor, String mode)
   {
     this.appointmentID = appointmentID;
     this.dateTime = dateTime;
-    this.doctorId = doctorId;
+    this.doctor = doctor;
     this.mode = mode;
     this.patientID = patientID;
   }
@@ -44,9 +44,9 @@ public class ClientAppointment
     return appointmentID;
   }
 
-  public int getDoctorID()
+  public ClientDoctor getDoctor()
   {
-    return doctorId;
+    return doctor;
   }
 
   public int getPatientID()
@@ -64,9 +64,9 @@ public class ClientAppointment
     this.appointmentID = appointmentID;
   }
 
-  public void setDoctorID(int doctorID)
+  public void setDoctorID(ClientDoctor doctor)
   {
-    this.doctorId = doctorID;
+    this.doctor = doctor;
   }
 
   public void setMode(String mode)
@@ -87,7 +87,7 @@ public class ClientAppointment
   @Override public String toString()
   {
     return "Appointment ID: " + appointmentID + ", " + dateTime + ", Doctor= "
-        + doctorId + ", Mode='" + mode + "'\n";
+        + doctor.getName() + ", Mode='" + mode + "'\n";
 
   }
 

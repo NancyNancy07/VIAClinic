@@ -4,17 +4,18 @@ import client.viewModel.managePatients.PatientsViewModel;
 
 public class PatientJournalViewModelFactory
 {
-  private PatientDiagnosisViewModel patientDiagnosisViewModel;
-  private PatientReferralViewModel patientReferralViewModel;
-  private PatientVaccinationViewModel patientVaccinationViewModel;
-  private PatientsViewModel patientsViewModel;
-  private PatientLabResultViewModel patientLabResultsViewModel;
+  private final PatientDiagnosisViewModel patientDiagnosisViewModel;
+  private final PatientReferralViewModel patientReferralViewModel;
+  private final PatientVaccinationViewModel patientVaccinationViewModel;
+  private final PatientsViewModel patientsViewModel;
+  private final PatientLabResultViewModel patientLabResultsViewModel;
 
   public PatientJournalViewModelFactory()
   {
     this.patientDiagnosisViewModel = new PatientDiagnosisViewModel();
     this.patientReferralViewModel = new PatientReferralViewModel();
     this.patientVaccinationViewModel = new PatientVaccinationViewModel();
+    this.patientLabResultsViewModel = new PatientLabResultViewModel();
     this.patientsViewModel = new PatientsViewModel();
   }
 

@@ -21,6 +21,7 @@ public class ClientDoctor extends ClientUser
     this.email = email;
     this.phoneNumber = phoneNumber;
   }
+
   public ClientDoctor(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password)
   {
@@ -30,7 +31,6 @@ public class ClientDoctor extends ClientUser
     this.email = email;
     this.phoneNumber = phoneNumber;
   }
-
 
   public int getDoctorID()
   {
@@ -51,6 +51,46 @@ public class ClientDoctor extends ClientUser
   {
     this.firstName = name.split(" ")[0];
     this.lastName = name.split(" ")[1];
+  }
+
+  public String getEmail()
+  {
+    return email;
+  }
+
+  public String getFirstName()
+  {
+    return firstName;
+  }
+
+  public String getLastName()
+  {
+    return lastName;
+  }
+
+  public String getPhoneNumber()
+  {
+    return phoneNumber;
+  }
+
+  public void setLastName(String lastName)
+  {
+    this.lastName = lastName;
+  }
+
+  public void setFirstName(String firstName)
+  {
+    this.firstName = firstName;
+  }
+
+  public void setEmail(String email)
+  {
+    this.email = email;
+  }
+
+  public void setPhoneNumber(String phoneNumber)
+  {
+    this.phoneNumber = phoneNumber;
   }
 
   @Override public String toString()

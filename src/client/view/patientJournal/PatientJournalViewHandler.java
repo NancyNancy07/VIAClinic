@@ -37,7 +37,7 @@ public class PatientJournalViewHandler
 
   {
     PatientJournalViewHandler.stage = stage;
-    this.factory = factory;
+    PatientJournalViewHandler.factory = factory;
   }
 
   public static void showView(ViewType view)
