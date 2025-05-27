@@ -13,6 +13,10 @@ import server.model.bookAppointment.Patient;
 
 import java.time.LocalDate;
 
+/**
+ * DoctorAppointmentFrontController handles the front-end logic for managing doctor appointments.
+ * It allows doctors to view, reschedule, and confirm appointments with patients.
+ */
 public class DoctorAppointmentFrontController
 {
   private DoctorAppointmentViewModel viewModel;
@@ -33,6 +37,11 @@ public class DoctorAppointmentFrontController
   @FXML private TableColumn<ClientAppointment, String> patientCol;
   @FXML private TableColumn<ClientAppointment, String> modeCol;
 
+  /**
+   * Initializes the DoctorAppointmentFrontController with the provided view model.
+   *
+   * @param viewModel the view model containing appointment data and logic
+   */
   public void init(DoctorAppointmentViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -60,6 +69,10 @@ public class DoctorAppointmentFrontController
     appointmentTable.setOnMouseClicked(event -> manageAppointment());
   }
 
+  /**
+   * Manages the selected appointment by displaying its details in the pane.
+   * This method is called when an appointment is selected from the table.
+   */
   public void manageAppointment()
   {
     pane.setVisible(true);
@@ -79,6 +92,10 @@ public class DoctorAppointmentFrontController
     time.setValue(selected.getTime());
   }
 
+  /**
+   * Reschedules the selected appointment by enabling the input fields for mode, date, and time.
+   * This method is called when the reschedule button is clicked.
+   */
   public void rescheduleAppointment()
   {
     mode.setDisable(false);
@@ -89,6 +106,10 @@ public class DoctorAppointmentFrontController
     confirmButton.setVisible(true);
   }
 
+  /**
+   * Sends a reschedule request for the selected appointment with the new mode, date, and time.
+   * This method is called when the confirm button is clicked.
+   */
   public void sendRescheduleRequest()
   {
     ClientAppointment selected = appointmentTable.getSelectionModel()
@@ -122,6 +143,10 @@ public class DoctorAppointmentFrontController
     pane.setVisible(false);
   }
 
+  /**
+   * Confirms the selected appointment by marking it as confirmed in the system.
+   * This method is called when the confirm button is clicked.
+   */
   public void back()
   {
     pane.setVisible(false);

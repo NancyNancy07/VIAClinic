@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * LoginServer is a simple server application that listens for incoming client connections
+ * on a specified port. It creates a new thread for each client connection to handle requests.
+ * The server runs indefinitely until an error occurs or it is manually stopped.
+ */
 public class LoginServer
 {
   private static final int PORT = 1234;

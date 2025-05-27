@@ -13,6 +13,11 @@ import server.model.patientJournal.Vaccination;
 
 import javafx.scene.control.TableView;
 
+/**
+ * VaccinationController handles the logic for displaying and managing vaccinations
+ * in a patient's journal. It initializes the vaccination table and binds it to the
+ * view model's data.
+ */
 public class VaccinationController
 {
   @FXML private TableView<Vaccination> vaccinationTable;
@@ -25,6 +30,12 @@ public class VaccinationController
   @FXML private TableColumn<Vaccination, String> nextDoseDateColumn;
   @FXML private TableColumn<Vaccination, String> commentColumn;
 
+  /**
+   * Initializes the VaccinationController with the provided view model.
+   * Sets up the vaccination table and binds it to the view model's data.
+   *
+   * @param viewModel the view model containing vaccination data and logic
+   */
   public void init(PatientVaccinationViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -48,11 +59,20 @@ public class VaccinationController
     vaccinationTable.setItems(viewModel.getVaccinationList(patientId));
   }
 
+  /**
+   * Handles the action when the "Back" button is clicked.
+   */
   @FXML
   private void onBackButtonClick() {
     PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.FRONT);
   }
 
+  /**
+   * Formats the date from NewDateTime to a string in the format "DD/MM/YYYY".
+   *
+   * @param date the NewDateTime object to format
+   * @return the formatted date string
+   */
   private String formatDate(NewDateTime date) {
     return date.getDay() + "/" + date.getMonth() + "/" + date.getYear();
   }

@@ -4,15 +4,32 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DoctorDAO is responsible for managing database operations related to the Doctor entity.
+ * It provides methods to create, retrieve, and list doctors in the database.
+ */
 public class DoctorDAO
 {
   private static DoctorDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   *
+   * @throws SQLException if there is an error registering the driver
+   */
   private DoctorDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Returns the singleton instance of DoctorDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of DoctorDAO
+   * @throws SQLException if there is an error creating the connection
+   */
   public static synchronized DoctorDAO getInstance() throws SQLException
   {
     if (instance == null)
@@ -22,6 +39,12 @@ public class DoctorDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -29,6 +52,18 @@ public class DoctorDAO
         "postgres", "Via@123");
   }
 
+  /**
+   * Creates a new doctor in the database.
+   *
+   * @param firstName   the first name of the doctor
+   * @param lastName    the last name of the doctor
+   * @param email       the email address of the doctor
+   * @param phoneNumber the phone number of the doctor
+   * @param userName    the username for the doctor
+   * @param password    the password for the doctor
+   * @return a Doctor object representing the created doctor
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Doctor create(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password) throws SQLException
   {
@@ -62,6 +97,13 @@ public class DoctorDAO
     }
   }
 
+  /**
+   * Retrieves a doctor by their username.
+   *
+   * @param username the username of the doctor
+   * @return a Doctor object if found, otherwise null
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Doctor getDoctorByUsername(String username) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -79,6 +121,13 @@ public class DoctorDAO
     return null;
   }
 
+  /**
+   * Retrieves a doctor by their ID.
+   *
+   * @param doctorId the ID of the doctor
+   * @return a Doctor object if found, otherwise null
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Doctor getDoctorById(int doctorId) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -96,6 +145,12 @@ public class DoctorDAO
     return null;
   }
 
+  /**
+   * Retrieves all doctors from the database.
+   *
+   * @return a list of Doctor objects
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public List<Doctor> getAllDoctors() throws SQLException
   {
     List<Doctor> doctors = new ArrayList<>();
@@ -112,6 +167,13 @@ public class DoctorDAO
     return doctors;
   }
 
+  /**
+   * Extracts a Doctor object from the ResultSet.
+   *
+   * @param resultSet the ResultSet containing doctor data
+   * @return a Doctor object
+   * @throws SQLException if there is an error accessing the ResultSet
+   */
   private Doctor extractDoctor(ResultSet resultSet) throws SQLException
   {
     int doctorId = resultSet.getInt("doctorId");

@@ -11,6 +11,10 @@ import javafx.scene.control.TableView;
 import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.Prescription;
 
+/**
+ * PrescriptionController is responsible for managing the prescription view in the patient journal.
+ * It initializes the prescription table and binds the data from the view model.
+ */
 public class PrescriptionController
 {
   @FXML private TableView<Prescription> prescriptionTable;
@@ -27,6 +31,12 @@ public class PrescriptionController
   @FXML private TableColumn<Prescription, String> statusColumn;
   @FXML private TableColumn<Prescription, String> commentColumn;
 
+  /**
+   * Initializes the PrescriptionController with the provided view model.
+   * It sets up the prescription table and binds the data from the view model.
+   *
+   * @param viewModel the view model containing prescription data and logic
+   */
   public void init(PatientDiagnosisViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -55,6 +65,10 @@ public class PrescriptionController
     prescriptionTable.setItems(viewModel.getPrescriptionList(patientId));
   }
 
+  /**
+   * Handles the action when the "Back" button is clicked.
+   * It navigates back to the front view of the patient journal.
+   */
   @FXML private void onBackButtonClick()
   {
     PatientJournalViewHandler.showView(

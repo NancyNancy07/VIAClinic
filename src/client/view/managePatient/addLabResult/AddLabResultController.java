@@ -8,7 +8,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.LabResult;
 
-
+/**
+ * AddLabResultController handles the front-end logic for adding lab results for a patient.
+ * It allows doctors to input lab test details and view existing lab results.
+ */
 public class AddLabResultController
 {
 
@@ -26,6 +29,11 @@ public class AddLabResultController
   @FXML private DatePicker dateCollectedPicker;
   private AddLabResultViewModel viewModel;
 
+  /**
+   * Initializes the controller with the provided view model.
+   *
+   * @param viewModel the view model containing the lab results and patient information
+   */
   public void init(AddLabResultViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -40,6 +48,10 @@ public class AddLabResultController
     commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
   }
 
+  /**
+   * Handles the action of adding a new lab result.
+   * It retrieves the input data from the fields, validates it, and calls the view model to add the lab result.
+   */
   @FXML private void onAddLabResult()
   {
     try
@@ -64,14 +76,22 @@ public class AddLabResultController
   }
 
 
-
-
+  /**
+   * Converts a LocalDate to a NewDateTime object with time set to midnight.
+   *
+   * @param date the LocalDate to convert
+   * @return a NewDateTime object representing the date at midnight
+   */
   private NewDateTime toNewDateTime(java.time.LocalDate date)
   {
     return new NewDateTime(date.getDayOfMonth(), date.getMonthValue(),
         date.getYear(), 0, 0);
   }
 
+  /**
+   * Handles the action of going back to the previous view.
+   * It navigates back to the patient journal view.
+   */
 
   private void clearForm()
   {
@@ -82,6 +102,11 @@ public class AddLabResultController
 
   }
 
+  /**
+   * Displays an alert dialog with the specified message.
+   *
+   * @param msg the message to display in the alert dialog
+   */
   private void showAlert(String msg)
   {
     Alert alert = new Alert(Alert.AlertType.ERROR);

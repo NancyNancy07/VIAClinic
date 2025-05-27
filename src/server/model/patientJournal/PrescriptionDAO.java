@@ -9,15 +9,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PrescriptionDAO is a Data Access Object for managing prescriptions in the database.
+ * It provides methods to create, retrieve, and manage prescriptions.
+ */
 public class PrescriptionDAO
 {
   private static PrescriptionDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   */
   private PrescriptionDAO()
   {
 
   }
 
+  /**
+   * Returns the singleton instance of PrescriptionDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of PrescriptionDAO
+   */
   public static synchronized PrescriptionDAO getInstance()
   {
     if (instance == null)
@@ -27,6 +41,12 @@ public class PrescriptionDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -36,6 +56,22 @@ public class PrescriptionDAO
     );
   }
 
+  /**
+   * Creates a new prescription in the database.
+   *
+   * @param medicineName the name of the medicine
+   * @param doseAmount the amount of the dose
+   * @param doseUnit the unit of the dose
+   * @param startDate the start date of the prescription
+   * @param endDate the end date of the prescription
+   * @param frequency the frequency of the prescription
+   * @param status the status of the prescription
+   * @param comment any additional comments for the prescription
+   * @param doctorId the ID of the doctor issuing the prescription
+   * @param patientId the ID of the patient receiving the prescription
+   * @return a Prescription object representing the created prescription
+   * @throws SQLException if there is an error creating the prescription in the database
+   */
   public Prescription create(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
       String frequency, String status, String comment,
@@ -87,6 +123,13 @@ public class PrescriptionDAO
     }
   }
 
+  /**
+   * Retrieves a prescription by its ID from the database.
+   *
+   * @param prescriptionId the ID of the prescription to retrieve
+   * @return a Prescription object representing the retrieved prescription, or null if not found
+   * @throws SQLException if there is an error retrieving the prescription from the database
+   */
   public Prescription getPrescriptionById(int prescriptionId) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -122,6 +165,13 @@ public class PrescriptionDAO
     return null;
   }
 
+  /**
+   * Retrieves all prescriptions for a specific patient by their ID.
+   *
+   * @param patientId the ID of the patient whose prescriptions are to be retrieved
+   * @return a List of Prescription objects for the specified patient
+   * @throws SQLException if there is an error retrieving the prescriptions from the database
+   */
   public List<Prescription> getPrescriptionsByPatientId(int patientId) throws SQLException
   {
     List<Prescription> prescriptions = new ArrayList<>();

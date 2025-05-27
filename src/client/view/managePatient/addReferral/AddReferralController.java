@@ -11,6 +11,10 @@ import server.model.patientJournal.Referral;
 
 import java.time.LocalDate;
 
+/**
+ * AddReferralController is responsible for managing the referral addition view.
+ * It initializes the referral table and handles user interactions such as adding new referrals.
+ */
 public class AddReferralController
 {
   @FXML private Label patientNameLabel;
@@ -25,6 +29,11 @@ public class AddReferralController
 
   private AddReferralViewModel viewModel;
 
+  /**
+   * Initializes the controller with the provided view model.
+   *
+   * @param viewModel the view model containing referral data and logic
+   */
   public void init(AddReferralViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -41,6 +50,10 @@ public class AddReferralController
         cellData.getValue().getDateCreated().toString()));
   }
 
+  /**
+   * Handles the action when the "Add Referral" button is clicked.
+   * It retrieves the input from the text fields and adds a new referral.
+   */
   @FXML private void onAddReferral()
   {
     try
@@ -63,6 +76,11 @@ public class AddReferralController
     }
   }
 
+  /**
+   * Displays an alert with the provided message.
+   *
+   * @param msg the message to be displayed in the alert
+   */
   private void showAlert(String msg)
   {
     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -71,6 +89,10 @@ public class AddReferralController
     alert.setContentText(msg);
     alert.showAndWait();
   }
+  /**
+   * Handles the action when the "Back" button is clicked.
+   * It navigates back to the front view of the manage patient section.
+   */
   @FXML
   private void back()
   {

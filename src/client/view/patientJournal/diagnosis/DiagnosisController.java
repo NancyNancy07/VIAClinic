@@ -10,6 +10,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import server.model.patientJournal.Diagnosis;
 
+/**
+ * DiagnosisController is responsible for displaying a patient's diagnosis information.
+ * It initializes the view with the patient's name and populates the diagnosis table
+ * with relevant data from the PatientDiagnosisViewModel.
+ */
 public class DiagnosisController
 {
   @FXML private TableView<Diagnosis> diagnosisTable;
@@ -23,6 +28,12 @@ public class DiagnosisController
   @FXML private TableColumn<Diagnosis, String> prescription;
   private PatientDiagnosisViewModel viewModel;
 
+  /**
+   * Initializes the DiagnosisController with the provided view model.
+   * Sets up the UI components and populates the diagnosis table with data.
+   *
+   * @param viewModel the view model containing data and logic for patient diagnoses
+   */
   public void init(PatientDiagnosisViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -45,6 +56,10 @@ public class DiagnosisController
     diagnosisTable.setItems(viewModel.getDiagnosisList(patientId));
   }
 
+  /**
+   * Handles the action when the back button is clicked.
+   * It navigates back to the front view of the patient journal.
+   */
   @FXML private void onBackButtonClick()
   {
     PatientJournalViewHandler.showView(

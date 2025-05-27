@@ -7,16 +7,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ReferralDAO is a Data Access Object for managing Referral records in the database.
+ * It provides methods to create a new referral and retrieve referrals by patient ID.
+ */
 public class VaccinationDAO
 {
   private static VaccinationDAO instance;
 
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   */
   private VaccinationDAO()
   {
   }
 
 
+  /**
+   * Returns the singleton instance of VaccinationDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of VaccinationDAO
+   */
   public static synchronized VaccinationDAO getInstance()
   {
     if (instance == null)
@@ -27,6 +41,12 @@ public class VaccinationDAO
   }
 
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -35,6 +55,19 @@ public class VaccinationDAO
   }
 
 
+  /**
+   * Creates a new vaccination record in the database.
+   *
+   * @param vaccinationName the name of the vaccination
+   * @param dateTaken       the date when the vaccination was taken
+   * @param isRecommended   whether the vaccination is recommended
+   * @param comment         any additional comments about the vaccination
+   * @param nextDoseDate    the date for the next dose, if applicable
+   * @param doctorId        the ID of the doctor administering the vaccination
+   * @param patientId       the ID of the patient receiving the vaccination
+   * @return a Vaccination object representing the created vaccination record
+   * @throws SQLException if there is an error creating the vaccination record
+   */
   public Vaccination create(String vaccinationName, NewDateTime dateTaken,
       boolean isRecommended, String comment, NewDateTime nextDoseDate,
       int doctorId, int patientId) throws SQLException
@@ -86,6 +119,13 @@ public class VaccinationDAO
 
 
 
+  /**
+   * Retrieves a vaccination record by its ID.
+   *
+   * @param vaccinationId the ID of the vaccination to retrieve
+   * @return a Vaccination object representing the retrieved vaccination, or null if not found
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Vaccination getVaccinationById(int vaccinationId) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -137,6 +177,13 @@ public class VaccinationDAO
   }
 
 
+  /**
+   * Retrieves all vaccinations for a specific patient by their ID.
+   *
+   * @param patientId the ID of the patient whose vaccinations are to be retrieved
+   * @return a list of Vaccination objects representing the patient's vaccinations
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public List<Vaccination> getVaccinationByPatientId(int patientId) throws SQLException
   {
     List<Vaccination> vaccinations = new ArrayList<>();

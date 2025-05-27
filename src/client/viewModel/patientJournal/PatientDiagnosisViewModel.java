@@ -12,12 +12,20 @@ import server.model.patientJournal.Prescription;
 
 import java.util.List;
 
+/**
+ * PatientDiagnosisViewModel is responsible for managing the patient's diagnosis and prescription data.
+ * It interacts with the PatientClient to retrieve and manipulate diagnosis and prescription information.
+ */
 public class PatientDiagnosisViewModel implements DiagnosisListener
 {
   private final PatientClient patientClient;
   private final ObservableList<Diagnosis> diagnosisList;
   private final ObservableList<Prescription> prescriptionList;
 
+  /**
+   * Constructor for PatientDiagnosisViewModel.
+   * Initializes the PatientClient and observable lists for diagnoses and prescriptions.
+   */
   public PatientDiagnosisViewModel()
   {
     this.patientClient = new PatientClient();
@@ -25,6 +33,12 @@ public class PatientDiagnosisViewModel implements DiagnosisListener
     this.prescriptionList = FXCollections.observableArrayList();
   }
 
+  /**
+   * Retrieves the list of diagnoses for a specific patient.
+   *
+   * @param patientId the ID of the patient whose diagnoses are to be retrieved
+   * @return an ObservableList containing the patient's diagnoses
+   */
   public ObservableList<Diagnosis> getDiagnosisList(int patientId)
   {
 
@@ -48,6 +62,12 @@ public class PatientDiagnosisViewModel implements DiagnosisListener
 
   }
 
+  /**
+   * Retrieves the list of prescriptions for a specific patient.
+   *
+   * @param patientId the ID of the patient whose prescriptions are to be retrieved
+   * @return an ObservableList containing the patient's prescriptions
+   */
   public ObservableList<Prescription> getPrescriptionList(int patientId)
   {
     List<Prescription> prescriptions = patientClient.getPatientPrescriptions(
@@ -56,12 +76,21 @@ public class PatientDiagnosisViewModel implements DiagnosisListener
     return prescriptionList;
   }
 
+  /**
+   * Gets the patient ID from the shared login data.
+   * @return the patient ID as an int
+   */
   public int getPatientId()
   {
     return LoginSharedData.getInstance().getId();
 
   }
 
+  /**
+   * Prints the result of adding a diagnosis.
+   * @param success Indicates whether the operation was successful.
+   * @param message A message providing additional details about the operation.
+   */
   @Override public void onDiagnosisAdded(boolean success, String message)
   {
     System.out.println("Diagnosis result: " + message);

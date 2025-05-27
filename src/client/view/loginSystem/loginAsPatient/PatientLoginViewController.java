@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * Controller for the patient login view.
+ */
 public class PatientLoginViewController
 {
   @FXML private TextField username;
@@ -16,6 +19,11 @@ public class PatientLoginViewController
   @FXML private Button loginBtn;
   private LoginViewModel loginViewModel;
 
+  /**
+   * Default constructor for PatientLoginViewController.
+   * Initializes the controller without any parameters.
+   * @param loginViewModel The view model containing login user information.
+   */
   public void init(LoginViewModel loginViewModel)
   {
     this.loginViewModel = loginViewModel;
@@ -34,11 +42,19 @@ public class PatientLoginViewController
     });
   }
 
+  /**
+   * Handles the login action when the login button is clicked.
+   * It calls the login method from the LoginViewModel to perform the login operation.
+   */
   public void login()
   {
     loginViewModel.loginPatient();
   }
 
+  /**
+   * Handles the action when the back button is clicked.
+   * It navigates back to the front view of the login system.
+   */
   public void back()
   {
     LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.FRONT);

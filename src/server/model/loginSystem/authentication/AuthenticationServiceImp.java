@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * AuthenticationServiceImp is the implementation of the AuthenticationService interface.
+ * It handles user authentication, appointment management, and patient/doctor data retrieval.
+ * It provides methods for logging in users, retrieving doctors and patients,
+ * booking appointments, and managing patient records such as diagnoses, prescriptions, vaccinations, and lab results.
+ */
 public class AuthenticationServiceImp implements AuthenticationService
 {
   private ArrayList<User> users = new ArrayList<>();
@@ -22,6 +28,10 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   private AppointmentList appointmentList;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Initializes sample data for doctors, patients, appointments, diagnoses, prescriptions, vaccinations, and lab results.
+   */
   private AuthenticationServiceImp()
   {
     appointmentList = new AppointmentList();
@@ -84,6 +94,11 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   }
 
+  /**
+   * Singleton pattern to ensure only one instance of AuthenticationServiceImp exists.
+   *
+   * @return the single instance of AuthenticationServiceImp
+   */
   public static AuthenticationServiceImp getInstance()
   {
     if (instance == null)
@@ -93,6 +108,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     return instance;
   }
 
+  /**
+   * Returns the currently logged-in user.
+   *
+   * @return the logged-in user
+   */
   @Override public ResponseObject login(LoginRequest request)
   {
     String username = request.getUsername();
@@ -113,6 +133,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Returns the currently logged-in user.
+   *
+   * @return the logged-in user
+   */
   private ResponseObject loginDoctor(String username, String password)
   {
     for (User user : users)
@@ -134,6 +159,15 @@ public class AuthenticationServiceImp implements AuthenticationService
     return new ResponseObject(false, "Doctor username not found", -1);
   }
 
+  /**
+   * Logs in a patient with the provided username and password.
+   * If the patient is found and the password matches, it sets the logged-in user.
+   * Otherwise, it returns an error response.
+   *
+   * @param username the patient's username
+   * @param password the patient's password
+   * @return a ResponseObject indicating success or failure
+   */
   private ResponseObject loginPatient(String username, String password)
   {
     try
@@ -163,6 +197,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Gets all doctors from the database.
+   * @return a list of all doctors or an empty list if an error occurs
+   */
   @Override public List<Doctor> getAllDoctors()
   {
     try
@@ -176,6 +214,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Gets all patients from the database.
+   * @return a list of all patients or an empty list if an error occurs
+   */
   @Override public List<Patient> getAllPatients()
   {
     PatientList patients = new PatientList();
@@ -189,6 +231,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     return Arrays.asList(patients.getAllPatients());
   }
 
+  /**
+   * Gets all appointments for a specific patient by their ID.
+   * @param id the patient's ID
+   * @return a list of appointments for the specified patient or an empty list if an error occurs
+   */
   @Override public List<Appointment> getAppointmentsForPatient(int id)
   {
     try
@@ -202,6 +249,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Gets all appointments for a specific doctor by their ID.
+   * @param id the doctor's ID
+   * @return a list of appointments for the specified doctor or an empty list if an error occurs
+   */
   @Override public List<Appointment> getAppointmentsForDoctor(int id)
   {
     try
@@ -215,6 +267,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Books an appointment for a patient and doctor with the specified details.
+   * @param appointment the Appointment object containing the details of the appointment
+   * @return the created Appointment object or null if an error occurs
+   */
   @Override public Appointment bookAppointment(Appointment appointment)
   {
     try
@@ -248,6 +305,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     return null;
   }
 
+  /**
+   * Get doctor by ID.
+   * @param doctorId
+   * @return Doctor object if found, otherwise null
+   */
   public Doctor getDoctorById(int doctorId)
   {
     for (User user : users)
@@ -264,6 +326,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     return null;
   }
 
+  /**
+   * Get patient by ID.
+   * @param patientId
+   * @return Patient object if found, otherwise null
+   */
   private Patient getPatientById(int patientId)
   {
     for (User user : users)
@@ -280,6 +347,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     return null;
   }
 
+  /**
+   * Get all diagnoses for a specific patient by their ID from database.
+   * @param patientId the ID of the patient
+   * @return a list of Diagnosis objects for the specified patient or an empty list if an error occurs
+   */
   @Override public List<Diagnosis> getDiagnosesForPatient(int patientId)
   {
     try
@@ -304,6 +376,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     //    return patientDiagnoses;
   }
 
+  /**
+   * Adds a diagnosis for a patient to the database.
+   * @param diagnosis the Diagnosis object to be added
+   */
   @Override public void addDiagnosis(Diagnosis diagnosis)
   {
     try
@@ -321,6 +397,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Retrieves all prescriptions for a specific patient by their ID from the database.
+   * @param patientId the ID of the patient
+   * @return a list of Prescription objects for the specified patient or an empty list if an error occurs
+   */
   @Override public List<Prescription> getPrescriptionsForPatient(int patientId)
   {
     PrescriptionDAO prescriptionDAO = PrescriptionDAO.getInstance();
@@ -335,6 +416,19 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Adds a prescription for a patient to the database.
+   * @param medicineName the name of the medicine
+   * @param doseAmount the amount of the dose
+   * @param doseUnit the unit of the dose
+   * @param startDate the start date of the prescription
+   * @param endDate the end date of the prescription
+   * @param frequency the frequency of the dose
+   * @param status the status of the prescription
+   * @param comment any additional comments
+   * @param doctorId the ID of the doctor prescribing the medicine
+   * @param patientId the ID of the patient receiving the prescription
+   */
   @Override public void addPrescription(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
       String frequency, String status, String comment, int doctorId,
@@ -361,6 +455,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Retrieves all vaccinations for a specific patient by their ID from the database.
+   * @param patientId the ID of the patient
+   * @return a list of Vaccination objects for the specified patient or an empty list if an error occurs
+   */
   @Override public List<Vaccination> getVaccinationsForPatient(int patientId)
   {
     VaccinationDAO vaccinationDAO = VaccinationDAO.getInstance();
@@ -375,6 +474,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Retrieves all lab results for a specific patient by their ID from the database.
+   * @param patientId the ID of the patient
+   * @return a list of LabResult objects for the specified patient or an empty list if an error occurs
+   */
   @Override public List<LabResult> getLabResultsForPatient(int patientId)
   {
     {
@@ -392,6 +496,15 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   }
 
+  /**
+   * Adds a lab result for a patient to the database.
+   * @param testName the name of the lab test
+   * @param sampleType the type of sample collected
+   * @param dateCollected the date and time when the sample was collected
+   * @param comment any additional comments about the lab result
+   * @param doctorId the ID of the doctor who ordered the lab test
+   * @param patientId the ID of the patient who underwent the lab test
+   */
   @Override public void addLabResult(String testName, String sampleType,
       NewDateTime dateCollected, String comment, int doctorId, int patientId)
   {
@@ -412,6 +525,17 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Adds a vaccination for a patient to the database.
+   * @param vaccinationName the name of the vaccination
+   * @param dateTaken the date when the vaccination was administered
+   * @param isRecommended whether the vaccination is recommended
+   * @param comment any additional comments about the vaccination
+   * @param nextDoseDate the date for the next dose, if applicable
+   * @param doctorId the ID of the doctor administering the vaccination
+   * @param patientId the ID of the patient receiving the vaccination
+   * @return the created Vaccination object
+   */
   @Override public Vaccination addVaccination(String vaccinationName,
       NewDateTime dateTaken, boolean isRecommended, String comment,
       NewDateTime nextDoseDate, int doctorId, int patientId)
@@ -447,6 +571,10 @@ public class AuthenticationServiceImp implements AuthenticationService
     return vaccination;
   }
 
+  /**
+   * Adds a referral for a patient to the database.
+   * @param referral the Referral object containing the details of the referral
+   */
   @Override public void addReferral(Referral referral)
   {
     try
@@ -462,6 +590,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Retrieves all referrals for a specific patient by their ID from the database.
+   * @param patientId the ID of the patient
+   * @return a list of Referral objects for the specified patient or an empty list if an error occurs
+   */
   @Override public List<Referral> getReferralsForPatient(int patientId)
   {
     ReferralDAO referralDAO = ReferralDAO.getInstance();
@@ -476,6 +609,11 @@ public class AuthenticationServiceImp implements AuthenticationService
     }
   }
 
+  /**
+   * Modifies an existing appointment in the database.
+   * @param appointment the Appointment object containing the updated details
+   * @return the updated Appointment object or throws an exception if not found
+   */
   @Override public Appointment modifyAppointment(Appointment appointment)
   {
     try

@@ -23,6 +23,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ClientHandler is responsible for handling client requests in a multi-threaded server environment.
+ * It processes various types of requests such as login, appointment management, and patient data retrieval.
+ */
 public class ClientHandler implements Runnable
 {
   private final Socket socket;
@@ -31,6 +35,12 @@ public class ClientHandler implements Runnable
   private final Gson gson;
   private final AuthenticationService authService;
 
+  /**
+   * Constructor for ClientHandler.
+   * Initializes the socket and sets up the Gson instance for JSON processing.
+   *
+   * @param socket the socket connected to the client
+   */
   public ClientHandler(Socket socket)
   {
     this.socket = socket;
@@ -39,6 +49,13 @@ public class ClientHandler implements Runnable
     authService = AuthenticationServiceImp.getInstance();
   }
 
+  /**
+   * The run method is executed when the thread starts.
+   * It listens for incoming requests from the client, processes them,
+   * and sends back appropriate responses.
+   * It handles various request types such as login, appointment management,
+   * patient and doctor data retrieval, and more.
+   */
   @Override public void run()
   {
     try

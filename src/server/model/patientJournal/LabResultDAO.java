@@ -8,16 +8,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LabResultDAO is a Data Access Object for managing lab results in the database.
+ * It provides methods to create, retrieve, and manage lab results associated with patients.
+ */
 public class LabResultDAO
 {
   private static LabResultDAO instance;
   private NewDateTime dateCollected;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   */
   private LabResultDAO()
   {
 
   }
 
+  /**
+   * Returns the singleton instance of LabResultDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of LabResultDAO
+   */
   public static synchronized LabResultDAO getInstance()
   {
     if (instance == null)
@@ -27,6 +41,12 @@ public class LabResultDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -34,6 +54,18 @@ public class LabResultDAO
         "postgres", "Via@123");
   }
 
+  /**
+   * Creates a new lab result in the database.
+   *
+   * @param testName      the name of the lab test
+   * @param sampleType    the type of sample collected
+   * @param dateCollected the date and time when the sample was collected
+   * @param comment       any additional comments regarding the lab result
+   * @param doctorId      the ID of the doctor who ordered the test
+   * @param patientId     the ID of the patient for whom the test was conducted
+   * @return a LabResult object representing the created lab result
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public LabResult create(String testName, String sampleType,
       NewDateTime dateCollected, String comment, int doctorId, int patientId)
       throws SQLException
@@ -75,6 +107,14 @@ public class LabResultDAO
       return labResult;
     }
   }
+
+  /**
+   * Retrieves a lab result by its ID.
+   *
+   * @param labResultId the ID of the lab result to retrieve
+   * @return a LabResult object if found, otherwise null
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public LabResult getLabResultById(int labResultId) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -102,6 +142,14 @@ public class LabResultDAO
     }
     return null;
   }
+
+  /**
+   * Retrieves all lab results for a specific patient by their ID.
+   *
+   * @param patientId the ID of the patient whose lab results are to be retrieved
+   * @return a list of LabResult objects for the specified patient
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public List<LabResult> getLabResultsByPatientId(int patientId) throws SQLException
   {
     List<LabResult> labResults = new ArrayList<>();

@@ -6,12 +6,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PatientDAO is responsible for managing database operations related to patients.
+ * It provides methods to retrieve patient information from the database.
+ */
 public class PatientDAO
 {
   private static PatientDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   */
   private PatientDAO() {}
 
+  /**
+   * Returns the singleton instance of PatientDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of PatientDAO
+   */
   public static synchronized PatientDAO getInstance()
   {
     if (instance == null) {
@@ -20,6 +34,12 @@ public class PatientDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -27,6 +47,14 @@ public class PatientDAO
         "postgres", "Via@123");
   }
 
+
+  /**
+   * Retrieves a patient by their username from the database.
+   *
+   * @param username the username of the patient
+   * @return the Patient object if found, otherwise null
+   * @throws SQLException if there is an error executing the query
+   */
   public Patient getPatientByUsername(String username) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -44,6 +72,13 @@ public class PatientDAO
     return null;
   }
 
+  /**
+   * Retrieves a patient by their ID from the database.
+   *
+   * @param patientId the ID of the patient
+   * @return the Patient object if found, otherwise null
+   * @throws SQLException if there is an error executing the query
+   */
   public Patient getPatientById(int patientId) throws SQLException
   {
     try (Connection connection = getConnection())
@@ -61,6 +96,12 @@ public class PatientDAO
     return null;
   }
 
+  /**
+   * Retrieves all patients from the database.
+   *
+   * @return a list of Patient objects
+   * @throws SQLException if there is an error executing the query
+   */
   public List<Patient> getAllPatients() throws SQLException
   {
     List<Patient> patients = new ArrayList<>();
@@ -77,6 +118,13 @@ public class PatientDAO
     return patients;
   }
 
+  /**
+   * Extracts a Patient object from the ResultSet.
+   *
+   * @param resultSet the ResultSet containing patient data
+   * @return a Patient object with the extracted data
+   * @throws SQLException if there is an error accessing the ResultSet
+   */
   private Patient extractPatient(ResultSet resultSet) throws SQLException
   {
     int id = resultSet.getInt("patientId");

@@ -15,8 +15,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * PatientJournalViewHandler is responsible for managing the different views in the
+ * patient journal system. It uses a factory to get the appropriate ViewModel for
+ * each view and handles the transitions between them.
+ */
 public class PatientJournalViewHandler
 {
+  /**
+   * Starts the application by showing the front view.
+   *
+   * @param s The primary stage for the application.
+   */
   public static void start(Stage s)
   {
     stage = s;
@@ -24,6 +34,9 @@ public class PatientJournalViewHandler
     stage.show();
   }
 
+  /**
+   * Enum representing the different types of views in the patient journal system.
+   */
   public enum ViewType
   {
     FRONT, DIAGNOSIS, REFERRAL, PRESCRIPTION, VACCINATION,LABRESULT
@@ -32,6 +45,12 @@ public class PatientJournalViewHandler
   private static Stage stage;
   private static PatientJournalViewModelFactory factory;
 
+  /**
+   * Constructor for PatientJournalViewHandler.
+   *
+   * @param stage   The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public PatientJournalViewHandler(Stage stage,
       PatientJournalViewModelFactory factory)
 
@@ -40,6 +59,11 @@ public class PatientJournalViewHandler
     PatientJournalViewHandler.factory = factory;
   }
 
+  /**
+   * Shows the specified view based on the ViewType.
+   *
+   * @param view The type of view to show.
+   */
   public static void showView(ViewType view)
   {
     try
@@ -64,6 +88,11 @@ public class PatientJournalViewHandler
     }
   }
 
+  /**
+   * Displays the front view of the patient journal.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showFrontView() throws IOException
   {
     PatientJournalController controller = new PatientJournalController();
@@ -80,6 +109,11 @@ public class PatientJournalViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the diagnosis view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showDiagnosisView() throws IOException
   {
     DiagnosisController controller = new DiagnosisController();
@@ -96,6 +130,11 @@ public class PatientJournalViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the prescription view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showPrescriptionView() throws IOException
   {
     PrescriptionController controller = new PrescriptionController();
@@ -111,6 +150,12 @@ public class PatientJournalViewHandler
     stage.setTitle("View Prescription");
     stage.setScene(scene);
   }
+
+  /**
+   * Displays the lab result view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showLabResultView() throws IOException
   {
     LabResultController controller = new LabResultController();
@@ -128,6 +173,11 @@ public class PatientJournalViewHandler
   }
 
 
+  /**
+   * Displays the referral view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showReferralView() throws IOException
   {
     ReferralController controller = new ReferralController();
@@ -144,6 +194,10 @@ public class PatientJournalViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the vaccination view.
+   * @throws IOException If there is an error loading the FXML file.
+   */
   public static void showVaccinationView() throws IOException
   {
     VaccinationController controller = new VaccinationController();
@@ -165,6 +219,11 @@ public class PatientJournalViewHandler
     }
   }
 
+  /**
+   * Returns the AddVaccinationViewModel for managing patients.
+   *
+   * @return AddVaccinationViewModel instance.
+   */
   public AddVaccinationViewModel getAddVaccinationViewModel()
   {
     return new AddVaccinationViewModel();

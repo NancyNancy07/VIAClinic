@@ -9,6 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import server.model.bookAppointment.NewDateTime;
 import server.model.patientJournal.Prescription;
 
+/**
+ * AddPrescriptionController handles the logic for adding prescriptions to a patient's record.
+ * It allows doctors to input prescription details and view existing prescriptions.
+ */
 public class AddPrescriptionController
 {
   @FXML private Label patientNameLabel;
@@ -33,6 +37,12 @@ public class AddPrescriptionController
 
   private AddPrescriptionViewModel viewModel;
 
+  /**
+   * Initializes the controller with the provided view model.
+   * It sets up the prescription table and binds the data from the view model.
+   *
+   * @param viewModel the view model containing prescription data and logic
+   */
   public void init(AddPrescriptionViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -51,6 +61,10 @@ public class AddPrescriptionController
     commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
   }
 
+  /**
+   * Handles the action of adding a new prescription.
+   * It retrieves the input values, validates them, and calls the view model to add the prescription.
+   */
   @FXML private void onAddPrescription()
   {
     try
@@ -78,11 +92,20 @@ public class AddPrescriptionController
     }
   }
 
+  /**
+   * Converts a LocalDate to a NewDateTime object.
+   * @param date the LocalDate to convert
+   * @return a NewDateTime object representing the date
+   */
   private NewDateTime toNewDateTime(java.time.LocalDate date)
   {
     return new NewDateTime(date.getDayOfMonth(), date.getMonthValue(), date.getYear(), 0, 0);
   }
 
+  /**
+   * Handles the action of viewing a selected prescription from the table.
+   * It populates the form fields with the selected prescription's details.
+   */
   private void clearForm()
   {
     medicineField.clear();
@@ -95,6 +118,12 @@ public class AddPrescriptionController
     endDatePicker.setValue(null);
   }
 
+  /**
+   * Displays an alert with the specified message.
+   * This is used to inform the user of errors or important information.
+   *
+   * @param msg the message to display in the alert
+   */
   private void showAlert(String msg)
   {
     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -104,6 +133,10 @@ public class AddPrescriptionController
     alert.showAndWait();
   }
 
+  /**
+   * Handles the action of going back to the previous view.
+   * It navigates back to the front view of the Manage Patient section.
+   */
   @FXML
   private void back()
   {

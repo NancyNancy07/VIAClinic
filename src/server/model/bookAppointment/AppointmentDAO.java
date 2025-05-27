@@ -7,15 +7,33 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AppointmentDAO is responsible for managing database operations related to
+ * appointments. It provides methods to create, retrieve, and update appointments
+ * in the database.
+ */
 public class AppointmentDAO
 {
   private static AppointmentDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connections.
+   *
+   * @throws SQLException if there is an error registering the driver
+   */
   private AppointmentDAO() throws SQLException
   {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Returns the singleton instance of AppointmentDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of AppointmentDAO
+   * @throws SQLException if there is an error creating the instance
+   */
   public static synchronized AppointmentDAO getInstance() throws SQLException
   {
     if (instance == null)
@@ -26,6 +44,12 @@ public class AppointmentDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -33,6 +57,16 @@ public class AppointmentDAO
         "postgres", "Via@123");
   }
 
+  /**
+   * Creates a new appointment in the database.
+   *
+   * @param dateTime   the date and time of the appointment
+   * @param mode       the mode of the appointment (e.g., in-person, online)
+   * @param patientID  the ID of the patient for whom the appointment is created
+   * @param doctor     the Doctor object representing the doctor for the appointment
+   * @return an Appointment object representing the created appointment
+   * @throws SQLException if there is an error creating the appointment
+   */
   public Appointment create(NewDateTime dateTime, String mode, int patientID,
       Doctor doctor) throws SQLException
   {
@@ -65,6 +99,13 @@ public class AppointmentDAO
     }
   }
 
+  /**
+   * Retrieves a list of appointments for a specific patient by their ID.
+   *
+   * @param patientId the ID of the patient whose appointments are to be retrieved
+   * @return a List of Appointment objects for the specified patient
+   * @throws SQLException if there is an error retrieving the appointments
+   */
   public List<Appointment> getAppointmentsByPatientId(int patientId)
       throws SQLException
   {
@@ -101,6 +142,13 @@ public class AppointmentDAO
     return appointments;
   }
 
+  /**
+   * Retrieves a list of appointments for a specific doctor by their ID.
+   *
+   * @param doctorId the ID of the doctor whose appointments are to be retrieved
+   * @return a List of Appointment objects for the specified doctor
+   * @throws SQLException if there is an error retrieving the appointments
+   */
   public List<Appointment> getAppointmentsByDoctorId(int doctorId)
       throws SQLException
   {
@@ -140,6 +188,16 @@ public class AppointmentDAO
     return appointments;
   }
 
+  /**
+   * Updates an existing appointment in the database.
+   *
+   * @param appointmentId the ID of the appointment to be updated
+   * @param newDateTime   the new date and time for the appointment
+   * @param newMode       the new mode for the appointment
+   * @param newDoctorId   the ID of the doctor for the appointment
+   * @return an Appointment object representing the updated appointment, or null if no update occurred
+   * @throws SQLException if there is an error updating the appointment
+   */
   public Appointment updateAppointment(int appointmentId,
       NewDateTime newDateTime, String newMode, int newDoctorId)
       throws SQLException
