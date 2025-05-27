@@ -12,6 +12,7 @@ import server.model.patientJournal.Referral;
 import server.model.patientJournal.Vaccination;
 import shared.ResponseObject;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -200,6 +201,8 @@ public interface AuthenticationService
   List<Doctor> getAllDoctors();
   List<Patient> getAllPatients();
   List<Appointment> getAppointmentsForPatient(int id);
+//  void bookAppointment(Appointment appointment);
+  boolean cancelAppointment(int appointmentId) throws SQLException;
   List<Appointment> getAppointmentsForDoctor(int id);
 
   Appointment bookAppointment(Appointment appointment);

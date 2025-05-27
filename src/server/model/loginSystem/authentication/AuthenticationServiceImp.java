@@ -3,6 +3,7 @@ package server.model.loginSystem.authentication;
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.*;
+import server.model.patientJournal.DoctorDAO;
 import shared.ResponseObject;
 
 import java.sql.SQLException;
@@ -140,23 +141,29 @@ public class AuthenticationServiceImp implements AuthenticationService
    */
   private ResponseObject loginDoctor(String username, String password)
   {
-    for (User user : users)
+    try
     {
-      if (user instanceof Doctor)
+      Doctor doctor = DoctorDAO.getInstance().getDoctorByUsername(username);
+      if (doctor == null)
       {
-        if (user.getUsername().equals(username))
-        {
-          if (user.getPassword().equals(password))
-          {
-            loggedInUser = user;
-            return new ResponseObject(true, "Doctor login successful",
-                ((Doctor) user).getDoctorID());
-          }
-          return new ResponseObject(false, "Incorrect password for doctor", -1);
-        }
+        return new ResponseObject(false, "Doctor username not found", -1);
+      }
+
+      if (doctor.getPassword().equals(password))
+      {
+        loggedInUser = doctor;
+        return new ResponseObject(true, "Doctor login successful", doctor.getDoctorID());
+      }
+      else
+      {
+        return new ResponseObject(false, "Incorrect password for doctor", -1);
       }
     }
-    return new ResponseObject(false, "Doctor username not found", -1);
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      return new ResponseObject(false, "Database error", -1);
+    }
   }
 
   /**
@@ -303,6 +310,12 @@ public class AuthenticationServiceImp implements AuthenticationService
       e.printStackTrace();
     }
     return null;
+  }
+
+  @Override
+  public boolean cancelAppointment(int appointmentId) throws SQLException
+  {
+    return AppointmentDAO.getInstance().deleteAppointment(appointmentId);
   }
 
   /**

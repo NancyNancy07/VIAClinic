@@ -250,4 +250,9 @@ public class ClientAppointment
         && appointmentID == other.appointmentID && doctor == other.doctor
         && patientID == other.patientID && mode.equals(other.mode);
   }
+
+  public int getAppointmentId()
+  {
+    return appointmentID;
+  }
 }

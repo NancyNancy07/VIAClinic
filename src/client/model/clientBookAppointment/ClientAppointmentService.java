@@ -56,7 +56,7 @@ public class ClientAppointmentService implements ClientAppointmentModel
    */
   @Override public boolean cancelAppointment(int appointmentId)
   {
-    return false;
+    return networkClient.cancelAppointment(appointmentId);
   }
 
   /**
