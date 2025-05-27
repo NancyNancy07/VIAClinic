@@ -36,63 +36,6 @@ public class AuthenticationServiceImp implements AuthenticationService
   private AuthenticationServiceImp()
   {
     appointmentList = new AppointmentList();
-
-    // Sample doctors
-    Doctor doctor1 = new Doctor(1, "Dr. Smith", "Smith", "tobias@gmail.com",
-        "87654321", "drsmith", "doctorpassword");
-    //    Doctor doctor2 = new Doctor(2, "Dr. Adams", "asf123", "12345678");
-    //    Doctor doctor3 = new Doctor(3, "Dr. Brown", "asg123", "123456789");
-    //    Doctor doctor4 = new Doctor(4, "Dr. Lee", "asa123", "123456");
-    users.add(doctor1);
-    //    users.add(doctor2);
-    //    users.add(doctor3);
-    //    users.add(doctor4);
-
-    // Sample patients
-    Address address1 = new Address("Horsens", "8700", "Street 1");
-    Patient patient1 = new Patient(1, "John", "Doe", "asdasd@gmail.com",
-        "12345678", "asq123", "123", "1234567890", address1);
-
-    users.add(patient1);
-    //    users.add(new Patient(5, "John Doe", "asq123", "123"));
-    //    users.add(new Patient(6, "Jane Doe", "asw123", "1234"));
-    //    users.add(new Patient(7, "Bob Smith", "ase123", "12345"));
-    //    users.add(new Patient(8, "Alice White", "asr123", "98765"));
-
-    // Sample appointments
-    // Create sample NewDateTime objects
-    NewDateTime dateTime1 = new NewDateTime(9, 5, 2025, 12, 17);
-    NewDateTime dateTime2 = new NewDateTime(9, 5, 2025, 13, 30);
-
-    allDiagnoses = new ArrayList<>();
-    NewDateTime dateTime3 = new NewDateTime(9, 5, 2025, 12, 17);
-    NewDateTime dateTime4 = new NewDateTime(9, 5, 2025, 13, 30);
-
-    allVaccinations = new ArrayList<>();
-    Vaccination vaccination1 = new Vaccination("COVID-19", dateTime3, true,
-        "2nd dose done", dateTime4, doctor1.getDoctorID(),
-        patient1.getPatientID());
-    allVaccinations.add(vaccination1);
-
-    Vaccination vaccination2 = new Vaccination("Tetanus", dateTime3, true,
-        "Completed - No follow-up needed", doctor1.getDoctorID(),
-        patient1.getPatientID());
-    allVaccinations.add(vaccination2);
-    allLabResults = new ArrayList<>();
-    LabResult labResult1 = new LabResult("HIV", "blood", dateTime1, "safe",
-        doctor1.getDoctorID(), patient1.getPatientID());
-
-    allPrescriptions = new ArrayList<>();
-    Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
-        dateTime3, dateTime4, "Twice a day", "Ongoing", "Take with food",
-        doctor1.getDoctorID(), patient1.getPatientID());
-    //    allDiagnoses.add(
-    //        new Diagnosis("Flu", "Ongoing", dateTime3, 1, 5, "Rest and hydration"));
-    //    allDiagnoses.add(
-    //        new Diagnosis("Cold", "Resolved", dateTime4, 2, 5, "Paracetamol"));
-    allDiagnoses.add(new Diagnosis("Fracture", "Healing", dateTime3, 1,
-        patient1.getPatientID(), prescription1));
-
   }
 
   /**

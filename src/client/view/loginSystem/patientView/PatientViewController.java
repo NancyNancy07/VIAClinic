@@ -13,9 +13,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import client.view.loginSystem.LoginSystemViewHandler;
 import client.view.myPatient.PatientInformationGUI;
-import client.view.myPatient.PatientInformationViewHandler;
 import client.viewModel.myPatient.PatientInformationSharedData;
-import client.viewModel.myPatient.PatientInformationViewModelFactory;
+
 import javafx.scene.control.Button;
 import server.model.bookAppointment.Patient;
 import server.model.patientJournal.PatientDAO;
@@ -109,6 +108,7 @@ public class PatientViewController
   @FXML private void onLogoutButtonClick()
   {
     LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.FRONT);
+    
   }
 
   /**
