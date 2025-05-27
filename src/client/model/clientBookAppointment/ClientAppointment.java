@@ -6,23 +6,59 @@ public class ClientAppointment
   private int appointmentID;
   private String mode;
   private int patientID;
-  private int doctorId;
+  //  private int doctorId;
   private ClientDoctor doctor;
+  private ClientPatient patient;
 
   public ClientAppointment(ClientNewDateTime dateTime, int patientID,
-      int doctorId, String mode)
+      ClientDoctor doctor, String mode)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentId();
-    this.doctorId = doctorId;
+    this.doctor = doctor;
     this.mode = mode;
-    //    this.doctor = doctor;
     this.patientID = patientID;
   }
 
-  private int appointmentId()
+  public ClientAppointment(ClientNewDateTime dateTime, ClientPatient patient,
+      ClientDoctor doctor, String mode)
   {
-    return appointmentID;
+    this.dateTime = dateTime;
+    this.patient = patient;
+    this.patientID = patient.getPatientID();
+    this.doctor = doctor;
+    this.mode = mode;
+  }
+
+  public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
+      int patientID, ClientDoctor doctor, String mode)
+  {
+    this.appointmentID = appointmentID;
+    this.dateTime = dateTime;
+    this.doctor = doctor;
+    this.mode = mode;
+    this.patientID = patientID;
+  }
+
+  public ClientAppointment(int appointmentID, ClientNewDateTime dateTime,
+      ClientPatient patient, ClientDoctor doctor, String mode)
+  {
+    this.appointmentID = appointmentID;
+    this.dateTime = dateTime;
+    this.doctor = doctor;
+    this.mode = mode;
+    this.patient = patient;
+  }
+
+
+  public ClientPatient getPatient()
+  {
+    return patient;
+  }
+
+  public void setPatient(ClientPatient patient)
+  {
+    this.patient = patient;
+    this.patientID = patient.getPatientID();
   }
 
   public String getDate()
@@ -41,9 +77,9 @@ public class ClientAppointment
     return appointmentID;
   }
 
-  public int getDoctorID()
+  public ClientDoctor getDoctor()
   {
-    return doctorId;
+    return doctor;
   }
 
   public int getPatientID()
@@ -61,9 +97,9 @@ public class ClientAppointment
     this.appointmentID = appointmentID;
   }
 
-  public void setDoctorID(int doctorID)
+  public void setDoctorID(ClientDoctor doctor)
   {
-    this.doctor.setDoctorID(doctorID);
+    this.doctor = doctor;
   }
 
   public void setMode(String mode)
@@ -83,15 +119,9 @@ public class ClientAppointment
 
   @Override public String toString()
   {
-    if (doctor != null)
-    {
-      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
-          + "'\n";
-    }
-    else
-    {
-      return dateTime + ", Doctor= Unknown, Mode='" + mode + "'\n";
-    }
+    return "Appointment ID: " + appointmentID + ", " + dateTime + ", Doctor= "
+        + doctor.getName() + ", Mode='" + mode + "'\n";
+
   }
 
   public boolean equals(Object obj)

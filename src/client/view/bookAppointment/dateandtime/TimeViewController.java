@@ -1,5 +1,6 @@
 package client.view.bookAppointment.dateandtime;
 
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -60,7 +61,13 @@ public class TimeViewController
 
     if (viewModel.getDate() != null && viewModel.getTime() != null)
     {
-      BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.CONFIRMATION);
+      BookAppointmentSharedData.getInstance()
+          .setAppointmentTime(viewModel.getTime());
+      BookAppointmentSharedData.getInstance()
+          .setAppointmentDate(viewModel.getDate());
+
+      BookAppointmentViewHandler.showView(
+          BookAppointmentViewHandler.ViewType.CONFIRMATION);
     }
     else
     {
@@ -74,6 +81,7 @@ public class TimeViewController
 
   public void goBack()
   {
-    BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.MODE);
+    BookAppointmentViewHandler.showView(
+        BookAppointmentViewHandler.ViewType.MODE);
   }
 }

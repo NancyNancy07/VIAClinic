@@ -35,7 +35,7 @@ public class SelectModeViewModel
       {
         if (doc.getDoctorID() == sharedData.getSelectedDoctorId())
         {
-          return doc.getName();
+          return doc.getFirstName() + " " + doc.getLastName();
         }
       }
     }

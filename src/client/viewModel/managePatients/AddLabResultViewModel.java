@@ -38,7 +38,7 @@ public class AddLabResultViewModel implements LabResultListener
     System.out.println("Labresult class: "+labResult.getClass());
     System.out.println("Patient Id for lab result: " + patientId);
     System.out.println("lab result: " + labResult.getTestName() + " " +labResult.getPatientId());
-       patientClient.sendaddLabResult(labResult);
+       patientClient.sendAddLabResult(labResult);
       patientsSharedData.setLabResult(testName, sampleType,dateCollected,comment,doctorId,patientId);
        patientJournalSharedData.setPatientId(patientsSharedData.getPatientId());
   }

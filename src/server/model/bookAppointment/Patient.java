@@ -13,9 +13,9 @@ public class Patient extends User
   private String CPR;
   private Address address;
 
-  public Patient(int patientID, String firstName, String lastName,
-      String email, String phoneNumber, String userName, String password,
-      String CPR, Address address)
+  public Patient(int patientID, String firstName, String lastName, String email,
+      String phoneNumber, String userName, String password, String CPR,
+      Address address)
   {
     super(userName, password);
     this.patientID = patientID;
@@ -27,10 +27,9 @@ public class Patient extends User
     this.address = address;
   }
 
-  public Patient(String firstName, String lastName,
-      String email,
-      String phoneNumber, String userName,
-      String password, String CPR, Address address)
+  public Patient(String firstName, String lastName, String email,
+      String phoneNumber, String userName, String password, String CPR,
+      Address address)
   {
     super(userName, password);
     this.firstName = firstName;
@@ -41,7 +40,6 @@ public class Patient extends User
     this.address = address;
   }
 
-
   public int getPatientID()
   {
     return patientID;
@@ -50,6 +48,46 @@ public class Patient extends User
   public String getName()
   {
     return firstName + " " + lastName;
+  }
+
+  public String getPhoneNumber()
+  {
+    return phoneNumber;
+  }
+
+  public String getLastName()
+  {
+    return lastName;
+  }
+
+  @Override public String getPassword()
+  {
+    return super.getPassword();
+  }
+
+  @Override public String getUsername()
+  {
+    return super.getUsername();
+  }
+
+  public String getFirstName()
+  {
+    return firstName;
+  }
+
+  public String getEmail()
+  {
+    return email;
+  }
+
+  public String getCPR()
+  {
+    return CPR;
+  }
+
+  public Address getAddress()
+  {
+    return address;
   }
 
   public void setPatientID(int patientID)

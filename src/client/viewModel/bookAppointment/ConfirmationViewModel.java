@@ -66,7 +66,7 @@ public class ConfirmationViewModel
     int patientId = LoginSharedData.getInstance().getId();
 
     ClientAppointment appointment = frontViewModel.addAppointment(newDateTime,
-        patientId, doctor.getDoctorID(), getConsultationMode());
+        patientId, doctor, getConsultationMode());
     return appointment != null;
   }
 }

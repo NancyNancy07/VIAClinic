@@ -1,7 +1,5 @@
 package server.model.bookAppointment;
 
-import java.util.Random;
-
 public class Appointment
 {
   private NewDateTime dateTime;
@@ -9,21 +7,33 @@ public class Appointment
   private String mode;
   private int patientID;
   private Doctor doctor;
+  private Patient patient;
 
   public Appointment(NewDateTime dateTime, int patientID, Doctor doctor,
       String mode)
   {
     this.dateTime = dateTime;
-    this.appointmentID = appointmentId();
-    this.doctor = doctor;
     this.mode = mode;
     this.doctor = doctor;
     this.patientID = patientID;
   }
-
-  private int appointmentId()
+  public Appointment(NewDateTime dateTime, Patient patient, Doctor doctor,
+      String mode)
   {
-    return appointmentID;
+    this.dateTime = dateTime;
+    this.mode = mode;
+    this.doctor = doctor;
+    this.patient = patient;
+  }
+
+  public Patient getPatient()
+  {
+    return patient;
+  }
+
+  public void setPatient(Patient patient)
+  {
+    this.patient = patient;
   }
 
   public String getDate()
@@ -42,9 +52,9 @@ public class Appointment
     return appointmentID;
   }
 
-  public int getDoctorID()
+  public Doctor getDoctor()
   {
-    return doctor.getDoctorID();
+    return doctor;
   }
 
   public int getPatientID()
@@ -86,8 +96,8 @@ public class Appointment
   {
     if (doctor != null)
     {
-      return dateTime + ", Doctor= " + doctor.getName() + ", Mode='" + mode
-          + "'\n";
+      return "Appointment ID: " + appointmentID + ", " + dateTime + ", Doctor= "
+          + doctor.getName() + ", Mode='" + mode + "'\n";
     }
     else
     {

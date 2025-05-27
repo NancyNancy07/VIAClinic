@@ -1,5 +1,6 @@
 package client.view.bookAppointment.modeofconsultation;
 
+import client.viewModel.bookAppointment.BookAppointmentSharedData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -41,7 +42,10 @@ public class ModeViewController
   {
     if (viewModel.getConsultationMode() != null)
     {
-      BookAppointmentViewHandler.showView(BookAppointmentViewHandler.ViewType.TIME);
+      BookAppointmentSharedData.getInstance()
+          .setConsultationMode(viewModel.getConsultationMode());
+      BookAppointmentViewHandler.showView(
+          BookAppointmentViewHandler.ViewType.TIME);
     }
     else
     {

@@ -1,5 +1,6 @@
 package client.view.patientJournal.prescription;
 
+import client.view.patientJournal.PatientJournalViewHandler;
 import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,27 +32,32 @@ public class PrescriptionController
     this.viewModel = viewModel;
     patientName.setText(LoginSharedData.getInstance().getUsername());
 
-    idColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(String.valueOf(cellData.getValue().getPrescriptionId())));
-    medicineColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getMedicineName()));
-    doseAmountColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(String.valueOf(cellData.getValue().getDoseAmount())));
-    doseUnitColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getDoseUnit()));
-    startDateColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getStartDate().toString()));
-    endDateColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getEndDate().toString()));
-    frequencyColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getFrequency()));
-    statusColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getStatus()));
-    commentColumn.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getComment()));
+    idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        String.valueOf(cellData.getValue().getPrescriptionId())));
+    medicineColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getMedicineName()));
+    doseAmountColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        String.valueOf(
+            cellData.getValue().getDoseAmount() + " " + cellData.getValue()
+                .getDoseUnit())));
+    startDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getStartDate().toString()));
+    endDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getEndDate().toString()));
+    frequencyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getFrequency()));
+    statusColumn.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
+    commentColumn.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getComment()));
 
     int patientId = viewModel.getPatientId();
     prescriptionTable.setItems(viewModel.getPrescriptionList(patientId));
   }
 
+  @FXML private void onBackButtonClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.FRONT);
+  }
 }

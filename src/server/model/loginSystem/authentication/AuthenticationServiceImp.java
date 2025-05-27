@@ -17,7 +17,7 @@ public class AuthenticationServiceImp implements AuthenticationService
   private User loggedInUser;
   private List<Diagnosis> allDiagnoses;
   private List<Prescription> allPrescriptions;
-private List <LabResult> allLabResults;
+  private List<LabResult> allLabResults;
   private List<Vaccination> allVaccinations;
 
   private AppointmentList appointmentList;
@@ -67,9 +67,9 @@ private List <LabResult> allLabResults;
         "Completed - No follow-up needed", doctor1.getDoctorID(),
         patient1.getPatientID());
     allVaccinations.add(vaccination2);
-allLabResults=new ArrayList<>();
-LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
-    doctor1.getDoctorID(), patient1.getPatientID());
+    allLabResults = new ArrayList<>();
+    LabResult labResult1 = new LabResult("HIV", "blood", dateTime1, "safe",
+        doctor1.getDoctorID(), patient1.getPatientID());
 
     allPrescriptions = new ArrayList<>();
     Prescription prescription1 = new Prescription("Paracetamol", 500, "mg",
@@ -208,20 +208,23 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
       e.printStackTrace();
       return new ArrayList<>();
     }
-    //    List<Appointment> result = new ArrayList<>();
-    //    for (Appointment appointment : appointmentList.getAllAppointments())
-    //    {
-    //      if (appointment.getPatientID() == id)
-    //      {
-    //        result.add(appointment);
-    //      }
-    //    }
-    //    return result;
   }
 
-  @Override public void bookAppointment(Appointment appointment)
+  @Override public List<Appointment> getAppointmentsForDoctor(int id)
   {
-    appointmentList.addAppointment(appointment);
+    try
+    {
+      return AppointmentDAO.getInstance().getAppointmentsByDoctorId(id);
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
+  @Override public Appointment bookAppointment(Appointment appointment)
+  {
     try
     {
       String date = appointment.getDate();
@@ -237,14 +240,20 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
       int minute = Integer.parseInt(timeParts[1]);
 
       NewDateTime dateTime = new NewDateTime(day, month, year, hour, minute);
-      AppointmentDAO.getInstance()
+
+      Appointment createdAppointment = AppointmentDAO.getInstance()
           .create(dateTime, appointment.getMode(), appointment.getPatientID(),
-              getDoctorById(appointment.getDoctorID()));
+              appointment.getDoctor());
+
+      appointment.setAppointmentID(createdAppointment.getAppointmentID());
+      appointmentList.addAppointment(appointment);
+      return createdAppointment;
     }
     catch (SQLException e)
     {
       e.printStackTrace();
     }
+    return null;
   }
 
   @Override
@@ -396,21 +405,19 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
     }
 
   }
-  @Override public void addLabResult(String testName,
-      String sampleType, NewDateTime dateCollected,
-       String comment, int doctorId, int patientId)
-  {
-    LabResult labResult = new LabResult(testName,sampleType,
-        dateCollected, comment, doctorId, patientId);
 
+  @Override public void addLabResult(String testName, String sampleType,
+      NewDateTime dateCollected, String comment, int doctorId, int patientId)
+  {
+    LabResult labResult = new LabResult(testName, sampleType, dateCollected,
+        comment, doctorId, patientId);
 
     allLabResults.add(labResult);
     LabResultDAO labResultDAO = LabResultDAO.getInstance();
     try
     {
       labResultDAO.create(labResult.getTestName(), labResult.getSampleType(),
-          labResult.getDateCollected(),
-          labResult.getComment(),
+          labResult.getDateCollected(), labResult.getComment(),
           labResult.getDoctorId(), labResult.getPatientId());
     }
     catch (SQLException e)
@@ -482,4 +489,45 @@ LabResult labResult1=new LabResult("HIV","blood",dateTime1,"safe",
       return new ArrayList<>();
     }
   }
+
+  @Override public Appointment modifyAppointment(Appointment appointment)
+  {
+    try
+    {
+      AppointmentDAO dao = AppointmentDAO.getInstance();
+      int appointmentId = appointment.getAppointmentID();
+
+      String[] dateParts = appointment.getDate().split("/");
+      String[] timeParts = appointment.getTime().split(":");
+
+      int day = Integer.parseInt(dateParts[0]);
+      int month = Integer.parseInt(dateParts[1]);
+      int year = Integer.parseInt(dateParts[2]);
+
+      int hour = Integer.parseInt(timeParts[0]);
+      int minute = Integer.parseInt(timeParts[1]);
+
+      NewDateTime dateTime = new NewDateTime(day, month, year, hour, minute);
+
+      String newMode = appointment.getMode();
+      int newDoctorId = appointment.getDoctor().getDoctorID();
+
+      Appointment updatedAppointment = dao.updateAppointment(appointmentId,
+          dateTime, newMode, newDoctorId);
+
+      if (updatedAppointment == null)
+      {
+        throw new IllegalArgumentException(
+            "Appointment to modify not found in DB");
+      }
+      return updatedAppointment;
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      throw new RuntimeException("Database error while modifying appointment",
+          e);
+    }
+  }
+
 }

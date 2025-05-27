@@ -16,9 +16,12 @@ public class FrontViewController
 {
   private BookAppointmentFrontViewModel viewModel;
   @FXML private TableView<ClientAppointment> appointmentTable;
-  @FXML private TableColumn<ClientAppointment, String> appointment;
+  @FXML private TableColumn<ClientAppointment, String> idCol;
+  @FXML private TableColumn<ClientAppointment, String> dateCol;
+  @FXML private TableColumn<ClientAppointment, String> timeCol;
+  @FXML private TableColumn<ClientAppointment, String> doctorCol;
+  @FXML private TableColumn<ClientAppointment, String> modeCol;
   @FXML private AnchorPane pane;
-  @FXML private Label doctorName;
   @FXML private Label mode;
   @FXML private Label date;
 
@@ -28,11 +31,22 @@ public class FrontViewController
     ObservableList<ClientAppointment> observableAppointments = FXCollections.observableArrayList(
         viewModel.getAppointmentList().getAllAppointments());
 
-    appointment.setCellValueFactory(
-        cellData -> new SimpleStringProperty(cellData.getValue().toString()));
+    idCol.setCellValueFactory(
+        cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAppointmentID())));
+
+    dateCol.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getDate()));
+
+    timeCol.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
+
+    doctorCol.setCellValueFactory(
+        cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDoctor())));
+
+    modeCol.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getMode()));
 
     appointmentTable.setItems(observableAppointments);
-
     appointmentTable.setOnMouseClicked(event -> manageAppointment());
   }
 
@@ -42,11 +56,10 @@ public class FrontViewController
 
     ClientAppointment selected = appointmentTable.getSelectionModel()
         .getSelectedItem();
-
     //    doctorName.setText(selected.getDoctorName());
 
     mode.setText(selected.getMode());
-    date.setText(selected.getDate().toString());
+    date.setText(selected.getDate());
   }
 
   public void cancelAppointment()

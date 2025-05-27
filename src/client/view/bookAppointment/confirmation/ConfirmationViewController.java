@@ -21,7 +21,7 @@ public class ConfirmationViewController
     this.viewModel = new ConfirmationViewModel(frontViewModel,selectDoctorViewModel);
 
     ClientDoctor doctor = viewModel.getSelectedDoctor();
-    doctorName.setText(doctor != null ? doctor.getName() : "Unknown");
+    doctorName.setText(doctor != null ? doctor.getFirstName() : "Unknown");
 
     mode.setText(viewModel.getConsultationMode());
     date.setText(viewModel.getAppointmentDate().toString());

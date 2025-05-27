@@ -15,7 +15,6 @@ public class BookAppointmentGUI extends Application
   @Override public void start(Stage primaryStage) throws Exception
   {
     ClientAppointmentModel model = new ClientAppointmentService();
-    BookAppointmentSharedData sharedData = BookAppointmentSharedData.getInstance();
     viewModel = new BookAppointmentFrontViewModel(model);
     BookAppointmentViewModelFactory factory = new BookAppointmentViewModelFactory();
     BookAppointmentViewHandler viewHandler = new BookAppointmentViewHandler(

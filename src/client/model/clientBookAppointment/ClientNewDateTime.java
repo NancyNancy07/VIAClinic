@@ -69,9 +69,25 @@ public class ClientNewDateTime
     this.minute = minute;
   }
 
+  public String getDate()
+  {
+    return day + "/" + month + "/" + year;
+  }
+
+  public String getTime()
+  {
+    return hour + ":" + minute;
+  }
+
   @Override public String toString()
   {
-    return "Date=" + year + "-" + month + "-" + day + ", Time=" + hour + ":"
+    return day + "/" + month + "/" + year;
+  }
+
+  public String dateAndTime()
+  {
+    return "Date=" + day + "-" + month + "-" + year + ", Time=" + hour + ":"
         + minute;
   }
+
 }

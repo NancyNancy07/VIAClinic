@@ -4,18 +4,31 @@ public class AppointmentDTO
 {
   private String date;
   private String time;
-  private int doctorId;
+  private DoctorDTO doctor;
   private int patientId;
   private String mode;
+  private int id;
+  private PatientDTO patientDTO;
 
-  // Constructor
-  public AppointmentDTO(String date, String time, int doctorId, int patientId,
-      String mode)
+  public AppointmentDTO(int id, String date, String time, DoctorDTO doctor,
+      int patientId, String mode)
   {
+    this.id = id;
     this.date = date;
     this.time = time;
-    this.doctorId = doctorId;
+    this.doctor = doctor;
     this.patientId = patientId;
+    this.mode = mode;
+  }
+
+  public AppointmentDTO(int id, String date, String time, DoctorDTO doctor,
+      PatientDTO patientDTO, String mode)
+  {
+    this.id = id;
+    this.date = date;
+    this.time = time;
+    this.doctor = doctor;
+    this.patientDTO = patientDTO;
     this.mode = mode;
   }
 
@@ -40,14 +53,14 @@ public class AppointmentDTO
     this.time = time;
   }
 
-  public int getDoctorId()
+  public DoctorDTO getDoctor()
   {
-    return doctorId;
+    return doctor;
   }
 
-  public void setDoctorId(int doctorId)
+  public void setDoctor(DoctorDTO doctor)
   {
-    this.doctorId = doctorId;
+    this.doctor = doctor;
   }
 
   public int getPatientId()
@@ -68,5 +81,25 @@ public class AppointmentDTO
   public void setMode(String mode)
   {
     this.mode = mode;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+
+  public PatientDTO getPatientDTO()
+  {
+    return patientDTO;
+  }
+
+  public void setPatientDTO(PatientDTO patientDTO)
+  {
+    this.patientDTO = patientDTO;
   }
 }

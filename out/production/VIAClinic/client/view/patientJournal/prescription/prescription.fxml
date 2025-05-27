@@ -1,38 +1,33 @@
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.view.patientJournal.prescription.PrescriptionController">
+<AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.patientJournal.prescription.PrescriptionController">
     <children>
-        <Label layoutX="249.0" layoutY="28.0" text="VIAClinic">
+        <Label layoutX="277.0" layoutY="27.0" text="VIAClinic">
             <font>
-                <Font name="System Bold" size="24.0"/>
+                <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <Label layoutX="231.0" layoutY="91.0" text="Patient Name:"/>
-        <Label fx:id="patientName" layoutX="321.0" layoutY="91.0" text="Patient 1"/>
-
-        <ScrollPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
-            <content>
-                <TableView fx:id="prescriptionTable" prefWidth="1200.0">
-                    <columns>
-                        <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
-                        <TableColumn fx:id="medicineColumn" text="Medicine" prefWidth="100"/>
-                        <TableColumn fx:id="doseAmountColumn" text="Dose" prefWidth="80"/>
-                        <TableColumn fx:id="doseUnitColumn" text="Unit" prefWidth="60"/>
-                        <TableColumn fx:id="startDateColumn" text="Start Date" prefWidth="150" minWidth="100" maxWidth="250"/>
-                        <TableColumn fx:id="endDateColumn" text="End Date" prefWidth="150" minWidth="100" maxWidth="250"/>
-                        <TableColumn fx:id="frequencyColumn" text="Frequency" prefWidth="100"/>
-                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
-                        <TableColumn fx:id="commentColumn" text="Comment" prefWidth="300"/>
-                    </columns>
-                </TableView>
-            </content>
-        </ScrollPane>
+        <Label layoutX="259.0" layoutY="90.0" text="Patient Name:" />
+        <Label fx:id="patientName" layoutX="349.0" layoutY="90.0" text="Patient 1" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Back" />
+          <TableView fx:id="prescriptionTable" layoutX="3.0" layoutY="122.0" prefHeight="278.0" prefWidth="649.0">
+              <columns>
+                  <TableColumn fx:id="idColumn" prefWidth="25.0" text="ID" />
+                  <TableColumn fx:id="medicineColumn" prefWidth="100" text="Medicine" />
+                  <TableColumn fx:id="doseAmountColumn" prefWidth="75.99996948242188" text="Dose" />
+                  <TableColumn fx:id="startDateColumn" maxWidth="250" minWidth="68.66668701171875" prefWidth="74.66668701171875" text="Start Date" />
+                  <TableColumn fx:id="endDateColumn" maxWidth="250" minWidth="53.99993896484375" prefWidth="68.0" text="End Date" />
+                  <TableColumn fx:id="frequencyColumn" prefWidth="72.0" text="Frequency" />
+                  <TableColumn fx:id="statusColumn" prefWidth="98.0" text="Status" />
+                  <TableColumn fx:id="commentColumn" prefWidth="136.0" text="Comment" />
+              </columns>
+          </TableView>
     </children>
 </AnchorPane>
