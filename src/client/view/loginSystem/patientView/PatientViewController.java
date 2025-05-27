@@ -32,6 +32,7 @@ public class PatientViewController
   /**
    * Default constructor for PatientViewController.
    * Initializes the controller without any parameters.
+   *
    * @param loginViewModel The view model containing login user information.
    */
   public void init(LoginViewModel loginViewModel)
@@ -60,7 +61,8 @@ public class PatientViewController
   @FXML private void onAppointmentButtonClick() throws Exception
   {
     ClientAppointmentModel model = new ClientAppointmentService();
-    BookAppointmentFrontViewModel viewModel = new BookAppointmentFrontViewModel(model);
+    BookAppointmentFrontViewModel viewModel = new BookAppointmentFrontViewModel(
+        model);
     startBookAppointmentGUI(viewModel);
   }
 
@@ -82,7 +84,8 @@ public class PatientViewController
    *
    * @throws Exception If an error occurs while starting the patient information GUI.
    */
-  private void startBookAppointmentGUI(BookAppointmentFrontViewModel viewModel) throws Exception
+  private void startBookAppointmentGUI(BookAppointmentFrontViewModel viewModel)
+      throws Exception
   {
     BookAppointmentGUI bookAppointmentGUI = new BookAppointmentGUI();
     bookAppointmentGUI.start(new Stage());
@@ -95,7 +98,8 @@ public class PatientViewController
    * @param viewModel The view model containing patient data.
    * @throws Exception If an error occurs while starting the patient journal GUI.
    */
-  private void startPatientJournalGUI(PatientsViewModel viewModel) throws Exception
+  private void startPatientJournalGUI(PatientsViewModel viewModel)
+      throws Exception
   {
     PatientJournalGUI patientJournalGUI = new PatientJournalGUI();
     patientJournalGUI.start(new Stage());
@@ -107,8 +111,9 @@ public class PatientViewController
    */
   @FXML private void onLogoutButtonClick()
   {
+    loginViewModel.clearCredentials();
     LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.FRONT);
-    
+
   }
 
   /**

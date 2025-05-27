@@ -17,7 +17,11 @@ import server.model.patientJournal.Referral;
 public class ReferralController
 {
   @FXML private TableView<Referral> referralTableView;
-  @FXML private TableColumn<Referral, String> referralColumn;
+  @FXML private TableColumn<Referral, String> referralId;
+  @FXML private TableColumn<Referral, String> referralDate;
+  @FXML private TableColumn<Referral, String> referralDoctor;
+  @FXML private TableColumn<Referral, String> referralReason;
+  @FXML private TableColumn<Referral, String> referralComment;
   @FXML private Label patientName;
   private PatientReferralViewModel viewModel;
 
@@ -31,8 +35,17 @@ public class ReferralController
   {
     this.viewModel = viewModel;
     patientName.setText(LoginSharedData.getInstance().getUsername());
-    referralColumn.setCellValueFactory(
-        cellData -> new SimpleStringProperty(cellData.getValue().toString()));
+
+    referralId.setCellValueFactory(cellData -> new SimpleStringProperty(
+        String.valueOf(cellData.getValue().getReferralId())));
+    referralDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getDateCreated().toString()));
+    referralReason.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getReason()));
+
+    referralComment.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getComment()));
+
     int patientId = viewModel.getPatientId();
     referralTableView.setItems(viewModel.getReferralList(patientId));
   }
@@ -40,8 +53,9 @@ public class ReferralController
   /**
    * Handles the action when the "Back" button is clicked.
    */
-  @FXML
-  private void onBackButtonClick() {
-    PatientJournalViewHandler.showView(PatientJournalViewHandler.ViewType.FRONT);
+  @FXML private void onBackButtonClick()
+  {
+    PatientJournalViewHandler.showView(
+        PatientJournalViewHandler.ViewType.FRONT);
   }
 }

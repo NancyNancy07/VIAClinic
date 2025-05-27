@@ -1,6 +1,7 @@
 package client.view.patientJournal.vaccination;
 
 import client.view.patientJournal.PatientJournalViewHandler;
+import client.viewModel.loginSystem.LoginSharedData;
 import client.viewModel.patientJournal.PatientDiagnosisViewModel;
 import client.viewModel.patientJournal.PatientVaccinationViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,6 +40,7 @@ public class VaccinationController
   public void init(PatientVaccinationViewModel viewModel)
   {
     this.viewModel = viewModel;
+    patientName.setText(LoginSharedData.getInstance().getUsername());
     vaccinationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     commentColumn.setMaxWidth(300);
     commentColumn.setPrefWidth(300);

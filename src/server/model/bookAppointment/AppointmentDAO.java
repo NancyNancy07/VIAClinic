@@ -1,5 +1,6 @@
 package server.model.bookAppointment;
 
+import server.model.patientJournal.DoctorDAO;
 import server.model.patientJournal.PatientDAO;
 
 import java.sql.*;

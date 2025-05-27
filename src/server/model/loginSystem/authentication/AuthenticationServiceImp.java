@@ -8,7 +8,6 @@ import shared.ResponseObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -95,7 +94,8 @@ public class AuthenticationServiceImp implements AuthenticationService
       if (doctor.getPassword().equals(password))
       {
         loggedInUser = doctor;
-        return new ResponseObject(true, "Doctor login successful", doctor.getDoctorID());
+        return new ResponseObject(true, "Doctor login successful",
+            doctor.getDoctorID());
       }
       else
       {
@@ -149,12 +149,14 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Gets all doctors from the database.
+   *
    * @return a list of all doctors or an empty list if an error occurs
    */
   @Override public List<Doctor> getAllDoctors()
   {
     try
     {
+      users.addAll(DoctorDAO.getInstance().getAllDoctors());
       return DoctorDAO.getInstance().getAllDoctors();
     }
     catch (SQLException e)
@@ -166,23 +168,26 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Gets all patients from the database.
+   *
    * @return a list of all patients or an empty list if an error occurs
    */
   @Override public List<Patient> getAllPatients()
   {
-    PatientList patients = new PatientList();
-    for (User user : users)
+    try
     {
-      if (user instanceof Patient)
-      {
-        patients.addPatient((Patient) user);
-      }
+      users.addAll(PatientDAO.getInstance().getAllPatients());
+      return PatientDAO.getInstance().getAllPatients();
     }
-    return Arrays.asList(patients.getAllPatients());
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
   }
 
   /**
    * Gets all appointments for a specific patient by their ID.
+   *
    * @param id the patient's ID
    * @return a list of appointments for the specified patient or an empty list if an error occurs
    */
@@ -201,6 +206,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Gets all appointments for a specific doctor by their ID.
+   *
    * @param id the doctor's ID
    * @return a list of appointments for the specified doctor or an empty list if an error occurs
    */
@@ -219,6 +225,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Books an appointment for a patient and doctor with the specified details.
+   *
    * @param appointment the Appointment object containing the details of the appointment
    * @return the created Appointment object or null if an error occurs
    */
@@ -255,14 +262,15 @@ public class AuthenticationServiceImp implements AuthenticationService
     return null;
   }
 
-  @Override
-  public boolean cancelAppointment(int appointmentId) throws SQLException
+  @Override public boolean cancelAppointment(int appointmentId)
+      throws SQLException
   {
     return AppointmentDAO.getInstance().deleteAppointment(appointmentId);
   }
 
   /**
    * Get doctor by ID.
+   *
    * @param doctorId
    * @return Doctor object if found, otherwise null
    */
@@ -284,6 +292,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Get patient by ID.
+   *
    * @param patientId
    * @return Patient object if found, otherwise null
    */
@@ -305,6 +314,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Get all diagnoses for a specific patient by their ID from database.
+   *
    * @param patientId the ID of the patient
    * @return a list of Diagnosis objects for the specified patient or an empty list if an error occurs
    */
@@ -334,6 +344,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Adds a diagnosis for a patient to the database.
+   *
    * @param diagnosis the Diagnosis object to be added
    */
   @Override public void addDiagnosis(Diagnosis diagnosis)
@@ -355,6 +366,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Retrieves all prescriptions for a specific patient by their ID from the database.
+   *
    * @param patientId the ID of the patient
    * @return a list of Prescription objects for the specified patient or an empty list if an error occurs
    */
@@ -374,16 +386,17 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Adds a prescription for a patient to the database.
+   *
    * @param medicineName the name of the medicine
-   * @param doseAmount the amount of the dose
-   * @param doseUnit the unit of the dose
-   * @param startDate the start date of the prescription
-   * @param endDate the end date of the prescription
-   * @param frequency the frequency of the dose
-   * @param status the status of the prescription
-   * @param comment any additional comments
-   * @param doctorId the ID of the doctor prescribing the medicine
-   * @param patientId the ID of the patient receiving the prescription
+   * @param doseAmount   the amount of the dose
+   * @param doseUnit     the unit of the dose
+   * @param startDate    the start date of the prescription
+   * @param endDate      the end date of the prescription
+   * @param frequency    the frequency of the dose
+   * @param status       the status of the prescription
+   * @param comment      any additional comments
+   * @param doctorId     the ID of the doctor prescribing the medicine
+   * @param patientId    the ID of the patient receiving the prescription
    */
   @Override public void addPrescription(String medicineName, double doseAmount,
       String doseUnit, NewDateTime startDate, NewDateTime endDate,
@@ -413,6 +426,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Retrieves all vaccinations for a specific patient by their ID from the database.
+   *
    * @param patientId the ID of the patient
    * @return a list of Vaccination objects for the specified patient or an empty list if an error occurs
    */
@@ -432,6 +446,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Retrieves all lab results for a specific patient by their ID from the database.
+   *
    * @param patientId the ID of the patient
    * @return a list of LabResult objects for the specified patient or an empty list if an error occurs
    */
@@ -454,12 +469,13 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Adds a lab result for a patient to the database.
-   * @param testName the name of the lab test
-   * @param sampleType the type of sample collected
+   *
+   * @param testName      the name of the lab test
+   * @param sampleType    the type of sample collected
    * @param dateCollected the date and time when the sample was collected
-   * @param comment any additional comments about the lab result
-   * @param doctorId the ID of the doctor who ordered the lab test
-   * @param patientId the ID of the patient who underwent the lab test
+   * @param comment       any additional comments about the lab result
+   * @param doctorId      the ID of the doctor who ordered the lab test
+   * @param patientId     the ID of the patient who underwent the lab test
    */
   @Override public void addLabResult(String testName, String sampleType,
       NewDateTime dateCollected, String comment, int doctorId, int patientId)
@@ -483,13 +499,14 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Adds a vaccination for a patient to the database.
+   *
    * @param vaccinationName the name of the vaccination
-   * @param dateTaken the date when the vaccination was administered
-   * @param isRecommended whether the vaccination is recommended
-   * @param comment any additional comments about the vaccination
-   * @param nextDoseDate the date for the next dose, if applicable
-   * @param doctorId the ID of the doctor administering the vaccination
-   * @param patientId the ID of the patient receiving the vaccination
+   * @param dateTaken       the date when the vaccination was administered
+   * @param isRecommended   whether the vaccination is recommended
+   * @param comment         any additional comments about the vaccination
+   * @param nextDoseDate    the date for the next dose, if applicable
+   * @param doctorId        the ID of the doctor administering the vaccination
+   * @param patientId       the ID of the patient receiving the vaccination
    * @return the created Vaccination object
    */
   @Override public Vaccination addVaccination(String vaccinationName,
@@ -529,6 +546,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Adds a referral for a patient to the database.
+   *
    * @param referral the Referral object containing the details of the referral
    */
   @Override public void addReferral(Referral referral)
@@ -548,6 +566,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Retrieves all referrals for a specific patient by their ID from the database.
+   *
    * @param patientId the ID of the patient
    * @return a list of Referral objects for the specified patient or an empty list if an error occurs
    */
@@ -567,6 +586,7 @@ public class AuthenticationServiceImp implements AuthenticationService
 
   /**
    * Modifies an existing appointment in the database.
+   *
    * @param appointment the Appointment object containing the updated details
    * @return the updated Appointment object or throws an exception if not found
    */
