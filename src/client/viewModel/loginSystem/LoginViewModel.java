@@ -22,6 +22,8 @@ public class LoginViewModel
       true);
   private final BooleanProperty loginSuccessProp = new SimpleBooleanProperty(
       false);
+  private String username;
+  private String password;
 
   /**
    * Constructor for LoginViewModel.
@@ -113,6 +115,7 @@ public class LoginViewModel
 
   /**
    * Shows an alert dialog with the specified message.
+   *
    * @param message the message to display in the alert dialog
    */
   private void showAlert(String message)
@@ -140,6 +143,7 @@ public class LoginViewModel
 
   /**
    * Gets the email property.
+   *
    * @return the email property
    */
   public StringProperty emailPropProperty()
@@ -149,6 +153,7 @@ public class LoginViewModel
 
   /**
    * Gets the password property.
+   *
    * @return the password property
    */
   public StringProperty pwPropProperty()
@@ -176,5 +181,12 @@ public class LoginViewModel
   public BooleanProperty loginSuccessProp()
   {
     return this.loginSuccessProp;
+  }
+
+  public void clearCredentials()
+  {
+    this.emailProp.set("");
+    this.pwProp.set("");
+    this.loginSuccessProp.set(false);
   }
 }

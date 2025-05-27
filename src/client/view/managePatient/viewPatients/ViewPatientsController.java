@@ -1,5 +1,6 @@
 package client.view.managePatient.viewPatients;
 
+import client.view.loginSystem.LoginSystemViewHandler;
 import client.view.managePatient.ManagePatientViewHandler;
 import client.viewModel.managePatients.PatientsViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +20,10 @@ import server.model.bookAppointment.Patient;
 public class ViewPatientsController
 {
   @FXML TableView<Patient> patientsTable;
-  @FXML TableColumn<Patient, String> patient;
+  @FXML TableColumn<Patient, String> patientId;
+  @FXML TableColumn<Patient, String> patientN;
+  @FXML TableColumn<Patient, String> patientUsername;
+
   @FXML AnchorPane pane;
   @FXML Label patientName;
 
@@ -37,8 +41,15 @@ public class ViewPatientsController
     ObservableList<Patient> patients = FXCollections.observableArrayList(
         viewModel.getPatientList());
 
-    patient.setCellValueFactory(
-        cellData -> new SimpleStringProperty(cellData.getValue().toString()));
+    patientId.setCellValueFactory(cellData -> new SimpleStringProperty(
+        String.valueOf(cellData.getValue().getPatientID())));
+
+    patientN.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getFirstName() + " " + cellData.getValue()
+            .getLastName()));
+
+    patientUsername.setCellValueFactory(cellData -> new SimpleStringProperty(
+        cellData.getValue().getUsername()));
 
     patientsTable.setItems(patients);
 
@@ -60,7 +71,6 @@ public class ViewPatientsController
     pane.setVisible(true);
 
     patientsTable.getSelectionModel().getSelectedItem();
-    patientName.setText(selected.getName());
     viewModel.setPatientName(selected.getName());
     viewModel.setPatientId(selected);
   }
@@ -82,11 +92,15 @@ public class ViewPatientsController
   {
     addPrescriptionView();
   }
+
   /**
    * Sets the view to add a lab result for the selected patient.
    * This method is called to navigate to the lab result view.
    */
-  public void setADDLabResultView(){addLabResultView();}
+  public void setADDLabResultView()
+  {
+    addLabResultView();
+  }
 
   /**
    * Sets the view to add a referral for the selected patient.
@@ -125,6 +139,7 @@ public class ViewPatientsController
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
   }
+
   /**
    * Sets the view to add a lab result for the selected patient.
    * This method is called to navigate to the lab result view.
@@ -134,7 +149,6 @@ public class ViewPatientsController
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.LABRESULT);
   }
-
 
   /**
    * Sets the view to add a referral for the selected patient.
@@ -163,5 +177,10 @@ public class ViewPatientsController
   @FXML private void back()
   {
     ManagePatientViewHandler.showView(ManagePatientViewHandler.ViewType.FRONT);
+  }
+
+  public void backToFront()
+  {
+    LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.DOCTORVIEW);
   }
 }

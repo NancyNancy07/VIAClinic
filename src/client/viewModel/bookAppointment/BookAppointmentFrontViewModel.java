@@ -52,4 +52,9 @@ public class BookAppointmentFrontViewModel
 
   }
 
+
+  public boolean cancelAppointment(int appointmentId)
+  {
+    return model.cancelAppointment(appointmentId);
+  }
 }

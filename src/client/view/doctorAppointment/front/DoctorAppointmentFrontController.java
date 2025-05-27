@@ -2,6 +2,8 @@ package client.view.doctorAppointment.front;
 
 import client.model.clientBookAppointment.ClientAppointment;
 import client.model.clientBookAppointment.ClientNewDateTime;
+import client.view.loginSystem.LoginSystemViewHandler;
+import client.view.managePatient.ManagePatientViewHandler;
 import client.viewModel.doctorAppointment.DoctorAppointmentViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -151,4 +153,10 @@ public class DoctorAppointmentFrontController
   {
     pane.setVisible(false);
   }
+
+  public void backToFront()
+  {
+    LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.DOCTORVIEW);
+  }
+
 }

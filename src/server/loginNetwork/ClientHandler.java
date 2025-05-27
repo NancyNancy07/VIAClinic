@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +61,7 @@ public class ClientHandler implements Runnable
   {
     try
     {
-      input = new BufferedReader(
-          new InputStreamReader(socket.getInputStream()));
+      input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       output = new PrintWriter(socket.getOutputStream(), true);
 
       String request;
@@ -71,6 +71,7 @@ public class ClientHandler implements Runnable
 
         // Parse the request JSON
         RequestObject req = gson.fromJson(request, RequestObject.class);
+        ResponseObject responseObject = null;
         switch (req.getType())
         {
           case "login" ->
@@ -166,6 +167,24 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(doctorResponse));
+          }
+
+          case "cancelAppointment" ->
+          {
+            try
+            {
+              int appointmentId = req.getId();
+              boolean cancelled = authService.cancelAppointment(appointmentId);
+
+              responseObject = new ResponseObject(cancelled, cancelled ? "Appointment cancelled." : "Cancellation failed.", -1);
+            }
+            catch (SQLException e)
+            {
+              e.printStackTrace();
+              responseObject = new ResponseObject(false, "Database error during cancellation.", -1);
+            }
+
+            output.println(gson.toJson(responseObject));
           }
 
           case "doctorList" ->

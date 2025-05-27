@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="client.view.myPatient.myInformation.MyInformationController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox spacing="10.0" layoutX="50.0" layoutY="30.0">
+        <Label text="Patient Information"/>
+        <HBox spacing="10">
+            <Label text="Full Name:"/>
+            <Label fx:id="name"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Email:"/>
+            <Label fx:id="email"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Phone:"/>
+            <Label fx:id="phone"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="CPR:"/>
+            <Label fx:id="cpr"/>
+        </HBox>
+
+        <Label text="Address"/>
+        <HBox spacing="10">
+            <Label text="Street:"/>
+            <Label fx:id="street"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Post Code:"/>
+            <Label fx:id="postCode"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="City:"/>
+            <Label fx:id="city"/>
+        </HBox>
+    </VBox>
+
+</AnchorPane>

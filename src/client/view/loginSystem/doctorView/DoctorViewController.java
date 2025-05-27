@@ -82,6 +82,7 @@ public class DoctorViewController
    */
   @FXML private void onLogoutButtonClick()
   {
+    loginViewModel.clearCredentials();
     LoginSystemViewHandler.showView(LoginSystemViewHandler.ViewType.FRONT);
   }
 

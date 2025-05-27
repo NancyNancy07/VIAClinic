@@ -1,5 +1,6 @@
 package server.model.bookAppointment;
 
+import server.model.patientJournal.DoctorDAO;
 import server.model.patientJournal.PatientDAO;
 
 import java.sql.*;
@@ -188,6 +189,18 @@ public class AppointmentDAO
     return appointments;
   }
 
+  public boolean deleteAppointment(int appointmentId) throws SQLException
+  {
+    try (Connection connection = getConnection())
+    {
+      PreparedStatement statement = connection.prepareStatement(
+          "DELETE FROM Appointment WHERE appointmentId = ?");
+      statement.setInt(1, appointmentId);
+      int affectedRows = statement.executeUpdate();
+      return affectedRows == 1;
+    }
+  }
+
   /**
    * Updates an existing appointment in the database.
    *
@@ -256,5 +269,3 @@ public class AppointmentDAO
   }
 
 }
-
-

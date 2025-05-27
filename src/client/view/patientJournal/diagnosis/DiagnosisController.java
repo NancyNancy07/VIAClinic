@@ -42,8 +42,8 @@ public class DiagnosisController
         String.valueOf(cellData.getValue().getDiagnosisId())));
     diagnosisName.setCellValueFactory(cellData -> new SimpleStringProperty(
         cellData.getValue().getDiagnosisName()));
-    doctorId.setCellValueFactory(cellData -> new SimpleStringProperty(
-        String.valueOf(cellData.getValue().getDiagnosisId())));
+  /*  doctorId.setCellValueFactory(cellData -> new SimpleStringProperty(
+        String.valueOf(cellData.getValue().getDiagnosisId())));*/
     status.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
     dateDiagnosed.setCellValueFactory(cellData -> new SimpleStringProperty(

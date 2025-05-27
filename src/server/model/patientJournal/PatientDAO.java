@@ -28,7 +28,8 @@ public class PatientDAO
    */
   public static synchronized PatientDAO getInstance()
   {
-    if (instance == null) {
+    if (instance == null)
+    {
       instance = new PatientDAO();
     }
     return instance;
