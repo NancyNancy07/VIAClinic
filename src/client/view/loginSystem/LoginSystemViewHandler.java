@@ -12,9 +12,18 @@ import client.viewModel.loginSystem.ViewModelFactory;
 
 import java.io.IOException;
 
+/**
+ * LoginSystemViewHandler is responsible for managing the different views in the
+ * login system. It uses a factory to get the appropriate ViewModel for each view
+ * and handles the transitions between them.
+ */
 public class LoginSystemViewHandler
 {
 
+  /**
+   * Starts the application by showing the front view.
+   * @param s The primary stage for the application.
+   */
   public static void start(Stage s)
   {
     stage = s;
@@ -22,6 +31,9 @@ public class LoginSystemViewHandler
     stage.show();
   }
 
+  /**
+   * Enum representing the different types of views in the login system.
+   */
   public enum ViewType
   {
     FRONT, DOCTORLOGIN, PATIENTLOGIN, DOCTORVIEW, PATIENTVIEW
@@ -30,12 +42,23 @@ public class LoginSystemViewHandler
   private static Stage stage;
   private static ViewModelFactory viewModelFactory;
 
+  /**
+   * Constructor for LoginSystemViewHandler.
+   *
+   * @param stage   The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public LoginSystemViewHandler(Stage stage, ViewModelFactory factory)
   {
     LoginSystemViewHandler.stage = stage;
     this.viewModelFactory = factory;
   }
 
+  /**
+   * Shows the specified view based on the ViewType.
+   *
+   * @param view The type of view to show.
+   */
   public static void showView(ViewType view)
   {
     try
@@ -56,6 +79,12 @@ public class LoginSystemViewHandler
     }
   }
 
+  /**
+   * Displays the front view of the login system.
+   * This method initializes the LoginFrontViewController and sets the scene.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showFrontView() throws IOException
   {
     LoginFrontViewContoller controller = new LoginFrontViewContoller();
@@ -72,6 +101,12 @@ public class LoginSystemViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the doctor login view.
+   * This method initializes the DoctorLoginViewController and sets the scene.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showDoctorLoginView() throws IOException
   {
     DoctorLoginViewController controller = new DoctorLoginViewController();
@@ -88,6 +123,12 @@ public class LoginSystemViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the patient login view.
+   * This method initializes the PatientLoginViewController and sets the scene.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showPatientLoginView() throws IOException
   {
     PatientLoginViewController controller = new PatientLoginViewController();
@@ -105,6 +146,12 @@ public class LoginSystemViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the doctor's view.
+   * This method initializes the DoctorViewController and sets the scene.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showDoctorView() throws IOException
   {
     DoctorViewController controller = new DoctorViewController();
@@ -122,6 +169,12 @@ public class LoginSystemViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the patient's view.
+   * This method initializes the PatientViewController and sets the scene.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showPatientView() throws IOException
   {
     PatientViewController controller = new PatientViewController();

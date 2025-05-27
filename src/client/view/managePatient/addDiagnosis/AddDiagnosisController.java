@@ -11,6 +11,11 @@ import server.model.patientJournal.Prescription;
 
 import java.time.LocalDate;
 
+/**
+ * AddDiagnosisController is responsible for managing the addition of diagnoses
+ * to a patient's record. It interacts with the AddDiagnosisViewModel to perform
+ * operations related to diagnoses and prescriptions.
+ */
 public class AddDiagnosisController
 {
   @FXML private TextField diagnosisName;
@@ -29,6 +34,12 @@ public class AddDiagnosisController
   private AddDiagnosisViewModel viewModel;
   private Prescription addNewPlaceholder;
 
+  /**
+   * Initializes the AddDiagnosisController with the provided view model.
+   * Sets up the UI components and populates the diagnosis table and prescription combo box.
+   *
+   * @param viewModel the view model containing data and logic for adding diagnoses
+   */
   public void init(AddDiagnosisViewModel viewModel)
   {
     this.viewModel = viewModel;
@@ -91,6 +102,10 @@ public class AddDiagnosisController
     });
   }
 
+  /**
+   * Sets the diagnosis name and other details when the user clicks the "Set Diagnosis" button.
+   * Validates input fields and adds the diagnosis to the patient's record.
+   */
   @FXML private void setDiagnosisName()
   {
     String diagnosis = diagnosisName.getText();
@@ -132,6 +147,10 @@ public class AddDiagnosisController
     endDatePicker.setValue(null);
   }
 
+  /**
+   * Shows an alert dialog with the specified message.
+   * @param message the message to display in the alert dialog
+   */
   private void showAlert(String message)
   {
     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -142,11 +161,20 @@ public class AddDiagnosisController
   }
 
   // Simulate dialog to enter new prescription
+
+  /**
+   * Opens a dialog to add a new prescription.
+   */
   private void openNewPrescriptionDialog()
   {
     ManagePatientViewHandler.showView(
         ManagePatientViewHandler.ViewType.PRESCRIPTION);
   }
+
+  /**
+   * Handles the action when the "Back" button is clicked.
+   * It navigates back to the front view of the Manage Patient section.
+   */
   @FXML
   private void back()
   {

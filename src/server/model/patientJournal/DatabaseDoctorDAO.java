@@ -4,14 +4,31 @@ import server.model.bookAppointment.Doctor;
 
 import java.sql.*;
 
+/**
+ * DatabaseDoctorDAO is a Data Access Object for managing Doctor records in the database.
+ * It provides methods to create and retrieve Doctor objects.
+ */
 public class DatabaseDoctorDAO
 {
   private static DatabaseDoctorDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   *
+   * @throws SQLException if there is an error registering the driver
+   */
   private DatabaseDoctorDAO() throws SQLException {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Returns the singleton instance of DatabaseDoctorDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of DatabaseDoctorDAO
+   * @throws SQLException if there is an error creating the connection
+   */
   public static synchronized DatabaseDoctorDAO getInstance() throws SQLException {
     if (instance == null) {
       instance = new DatabaseDoctorDAO();
@@ -19,6 +36,12 @@ public class DatabaseDoctorDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException {
     return DriverManager.getConnection(
         "jdbc:postgresql://localhost:5432/postgres?currentSchema=book_appointment",
@@ -27,6 +50,18 @@ public class DatabaseDoctorDAO
     );
   }
 
+  /**
+   * Creates a new doctor in the database.
+   *
+   * @param firstName   the first name of the doctor
+   * @param lastName    the last name of the doctor
+   * @param email       the email address of the doctor
+   * @param phoneNumber the phone number of the doctor
+   * @param userName    the username for the doctor
+   * @param password    the password for the doctor
+   * @return a Doctor object representing the created doctor
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Doctor create(String firstName, String lastName, String email,
       String phoneNumber, String userName, String password) throws SQLException
   {
@@ -60,6 +95,13 @@ public class DatabaseDoctorDAO
     }
   }
 
+  /**
+   * Retrieves a doctor by their ID from the database.
+   *
+   * @param doctorId the ID of the doctor to retrieve
+   * @return a Doctor object representing the retrieved doctor, or null if not found
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Doctor getDoctorById(int doctorId) throws SQLException
   {
     try (Connection connection = getConnection())

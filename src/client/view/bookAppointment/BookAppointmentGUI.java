@@ -8,14 +8,23 @@ import javafx.stage.Stage;
 import client.viewModel.bookAppointment.BookAppointmentFrontViewModel;
 import client.viewModel.bookAppointment.BookAppointmentSharedData;
 
+/**
+ * BookAppointmentGUI is the main class for the Book Appointment GUI application.
+ * It initializes the view model and starts the application.
+ */
 public class BookAppointmentGUI extends Application
 {
   private BookAppointmentFrontViewModel viewModel;
 
+  /**
+   * Initializes the BookAppointmentGUI application.
+   *
+   * @param primaryStage the primary stage for this application
+   * @throws Exception if an error occurs during initialization
+   */
   @Override public void start(Stage primaryStage) throws Exception
   {
     ClientAppointmentModel model = new ClientAppointmentService();
-    BookAppointmentSharedData sharedData = BookAppointmentSharedData.getInstance();
     viewModel = new BookAppointmentFrontViewModel(model);
     BookAppointmentViewModelFactory factory = new BookAppointmentViewModelFactory();
     BookAppointmentViewHandler viewHandler = new BookAppointmentViewHandler(
@@ -23,6 +32,11 @@ public class BookAppointmentGUI extends Application
     viewHandler.start(primaryStage, factory);
   }
 
+  /**
+   * The main method to launch the Book Appointment GUI application.
+   *
+   * @param args command line arguments
+   */
   public static void main(String[] args)
   {
     launch();

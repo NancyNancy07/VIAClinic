@@ -16,8 +16,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * ManagePatientViewHandler is responsible for managing the different views related
+ * to patient management. It uses a factory to get the appropriate ViewModel for
+ * each view and handles the transitions between them.
+ */
 public class ManagePatientViewHandler
 {
+  /**
+   * Starts the application by showing the front view.
+   *
+   * @param s       The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public static void start(Stage s, ManagePatientViewModelFactory factory)
   {
     stage = s;
@@ -26,6 +37,9 @@ public class ManagePatientViewHandler
     stage.show();
   }
 
+  /**
+   * Enum representing the different types of views in the patient management system.
+   */
   public enum ViewType
   {
 
@@ -37,6 +51,12 @@ public class ManagePatientViewHandler
   private static ManagePatientViewModelFactory factory;
 
 
+  /**
+   * Constructor for ManagePatientViewHandler.
+   *
+   * @param stage   The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public ManagePatientViewHandler(Stage stage,
       ManagePatientViewModelFactory factory)
   {
@@ -45,6 +65,11 @@ public class ManagePatientViewHandler
     ManagePatientViewHandler.factory = factory;
   }
 
+  /**
+   * Displays the specified view based on the ViewType.
+   *
+   * @param view The type of view to display.
+   */
   public static void showView(ViewType view)
   {
     try
@@ -69,6 +94,11 @@ public class ManagePatientViewHandler
     }
   }
 
+  /**
+   * Displays the front view of the patient management system.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showFrontView() throws IOException
   {
     ViewPatientsController controller = new ViewPatientsController();
@@ -85,6 +115,11 @@ public class ManagePatientViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the prescription view.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showPrescriptionView() throws IOException
   {
     AddPrescriptionController controller = new AddPrescriptionController();
@@ -101,6 +136,11 @@ public class ManagePatientViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the diagnosis view.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showDiagnosisView() throws IOException
   {
     AddDiagnosisController controller = new AddDiagnosisController();
@@ -116,6 +156,12 @@ public class ManagePatientViewHandler
     stage.setTitle("View Diagnosis");
     stage.setScene(scene);
   }
+
+  /**
+   * Displays the lab result view.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showLabResultView() throws IOException
   {
     AddLabResultController controller = new AddLabResultController();
@@ -133,6 +179,11 @@ public class ManagePatientViewHandler
   }
 
 
+  /**
+   * Displays the vaccination view.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showVaccinationView() throws IOException
   {
     AddVaccinationController controller = new AddVaccinationController();
@@ -148,6 +199,11 @@ public class ManagePatientViewHandler
   }
 
 
+  /**
+   * Displays the referral view.
+   *
+   * @throws IOException If an error occurs while loading the FXML file.
+   */
   private static void showReferralView() throws IOException
   {
     AddReferralController controller = new AddReferralController();

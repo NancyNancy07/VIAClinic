@@ -10,18 +10,34 @@ import server.model.patientJournal.Referral;
 
 import java.util.List;
 
+/**
+ * PatientReferralViewModel is responsible for managing the referral data
+ * related to a patient. It interacts with the PatientClient to retrieve
+ * and display referrals for a specific patient.
+ */
 public class PatientReferralViewModel
 {
   private final PatientClient patientClient;
   private final ObservableList<Referral> referralList;
   private PatientJournalSharedData patientJournalSharedData = PatientJournalSharedData.getInstance();
 
+  /**
+   * Constructor for PatientReferralViewModel.
+   * Initializes the PatientClient and the referral list.
+   */
   public PatientReferralViewModel()
   {
     this.patientClient = new PatientClient();
     this.referralList = FXCollections.observableArrayList();
   }
 
+  /**
+   * Retrieves the list of referrals for a specific patient.
+   * If no referrals are found, an informational alert is displayed.
+   *
+   * @param patientId the ID of the patient whose referrals are to be retrieved
+   * @return an ObservableList of Referral objects
+   */
   public ObservableList<Referral> getReferralList(int patientId)
   {
 
@@ -45,6 +61,11 @@ public class PatientReferralViewModel
 
   }
 
+  /**
+   * Gets the patient ID from the shared login data.
+   *
+   * @return the ID of the currently logged-in patient
+   */
   public int getPatientId()
   {
     return LoginSharedData.getInstance().getId();

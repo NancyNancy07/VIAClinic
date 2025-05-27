@@ -12,13 +12,8 @@ import server.model.patientJournal.Diagnosis;
 import server.model.patientJournal.LabResult;
 import server.model.patientJournal.Prescription;
 import server.model.patientJournal.Referral;
-import shared.AppointmentDTO;
-import shared.DoctorDTO;
+import shared.*;
 import server.model.patientJournal.Vaccination;
-import server.util.LocalDateAdapter;
-import server.util.LocalTimeAdapter;
-import shared.RequestObject;
-import shared.ResponseObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +23,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ClientHandler is responsible for handling client requests in a multi-threaded server environment.
+ * It processes various types of requests such as login, appointment management, and patient data retrieval.
+ */
 public class ClientHandler implements Runnable
 {
   private final Socket socket;
@@ -36,6 +35,12 @@ public class ClientHandler implements Runnable
   private final Gson gson;
   private final AuthenticationService authService;
 
+  /**
+   * Constructor for ClientHandler.
+   * Initializes the socket and sets up the Gson instance for JSON processing.
+   *
+   * @param socket the socket connected to the client
+   */
   public ClientHandler(Socket socket)
   {
     this.socket = socket;
@@ -44,6 +49,13 @@ public class ClientHandler implements Runnable
     authService = AuthenticationServiceImp.getInstance();
   }
 
+  /**
+   * The run method is executed when the thread starts.
+   * It listens for incoming requests from the client, processes them,
+   * and sends back appropriate responses.
+   * It handles various request types such as login, appointment management,
+   * patient and doctor data retrieval, and more.
+   */
   @Override public void run()
   {
     try
@@ -86,8 +98,14 @@ public class ClientHandler implements Runnable
               List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
               for (Appointment app : patientAppointments)
               {
-                AppointmentDTO dto = new AppointmentDTO(app.getDate(),
-                    app.getTime(), app.getDoctorID(), app.getPatientID(),
+                Doctor doctor = app.getDoctor();
+                DoctorDTO doctorDTO = new DoctorDTO(doctor.getDoctorID(),
+                    doctor.getFirstName(), doctor.getLastName(),
+                    doctor.getEmail(), doctor.getPhoneNumber(),
+                    doctor.getUsername(), doctor.getPassword());
+
+                AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
+                    app.getDate(), app.getTime(), doctorDTO, app.getPatientID(),
                     app.getMode());
                 appointmentDTOs.add(dto);
               }
@@ -101,6 +119,53 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(patientResponse));
+          }
+
+          case "doctorAppointments" ->
+          {
+            int doctorId = req.getId();
+
+            List<Appointment> doctorAppointments = authService.getAppointmentsForDoctor(
+                doctorId);
+
+            ResponseObject doctorResponse;
+            if (doctorAppointments != null && !doctorAppointments.isEmpty())
+            {
+              doctorResponse = new ResponseObject(true, "Appointments found",
+                  doctorId);
+
+              List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+              for (Appointment app : doctorAppointments)
+              {
+                Doctor doctor = app.getDoctor();
+                Patient patient = app.getPatient();
+                PatientDTO patientDTO = new PatientDTO(patient.getPatientID(),
+                    patient.getFirstName(), patient.getLastName(),
+                    patient.getEmail(), patient.getPhoneNumber(),
+                    patient.getUsername(), patient.getPassword(),
+                    patient.getCPR(), patient.getAddress());
+
+                DoctorDTO doctorDTO = new DoctorDTO(doctor.getDoctorID(),
+                    doctor.getFirstName(), doctor.getLastName(),
+                    doctor.getEmail(), doctor.getPhoneNumber(),
+                    doctor.getUsername(), doctor.getPassword());
+
+                AppointmentDTO dto = new AppointmentDTO(app.getAppointmentID(),
+                    app.getDate(), app.getTime(), doctorDTO, patientDTO,
+                    app.getMode());
+
+                appointmentDTOs.add(dto);
+              }
+
+              doctorResponse.setAppointments(appointmentDTOs);
+            }
+            else
+            {
+              doctorResponse = new ResponseObject(false,
+                  "No appointments found", doctorId);
+            }
+
+            output.println(gson.toJson(doctorResponse));
           }
 
           case "doctorList" ->
@@ -196,16 +261,13 @@ public class ClientHandler implements Runnable
           {
             Vaccination vaccination = req.getVaccination();
 
-            if (vaccination != null) {
-              Vaccination created = AuthenticationServiceImp.getInstance().addVaccination(
-                  vaccination.getVaccinationName(),
-                  vaccination.getDateTaken(),
-                  vaccination.isRecommended(),
-                  vaccination.getComment(),
-                  vaccination.getNextDoseDate(),
-                  vaccination.getDoctorId(),
-                  vaccination.getPatientId()
-              );
+            if (vaccination != null)
+            {
+              Vaccination created = AuthenticationServiceImp.getInstance()
+                  .addVaccination(vaccination.getVaccinationName(),
+                      vaccination.getDateTaken(), vaccination.isRecommended(),
+                      vaccination.getComment(), vaccination.getNextDoseDate(),
+                      vaccination.getDoctorId(), vaccination.getPatientId());
               System.out.println("Received vaccination");
             }
 
@@ -221,15 +283,21 @@ public class ClientHandler implements Runnable
           {
             int patientId = req.getId();
 
-            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(patientId);
+            List<Vaccination> vaccinationList = authService.getVaccinationsForPatient(
+                patientId);
 
             ResponseObject vaccinationResponse;
 
-            if (vaccinationList != null && !vaccinationList.isEmpty()) {
-              vaccinationResponse = new ResponseObject(true, "Vaccinations found", patientId);
+            if (vaccinationList != null && !vaccinationList.isEmpty())
+            {
+              vaccinationResponse = new ResponseObject(true,
+                  "Vaccinations found", patientId);
               vaccinationResponse.setVaccinations(vaccinationList);
-            } else {
-              vaccinationResponse = new ResponseObject(false, "No vaccinations found", patientId);
+            }
+            else
+            {
+              vaccinationResponse = new ResponseObject(false,
+                  "No vaccinations found", patientId);
             }
 
             output.println(gson.toJson(vaccinationResponse));
@@ -281,33 +349,43 @@ public class ClientHandler implements Runnable
 
             output.println(gson.toJson(prescriptionResponse));
           }
+
           case "getLabResultList" ->
           {
             int patientId = req.getId();
 
-            List<LabResult> labResultList = authService.getLabResultsForPatient(patientId);
+            List<LabResult> labResultList = authService.getLabResultsForPatient(
+                patientId);
 
             ResponseObject labResultResponse;
 
-            if (labResultList != null && !labResultList.isEmpty()) {
-              labResultResponse = new ResponseObject(true, "LabResult found", patientId);
+            if (labResultList != null && !labResultList.isEmpty())
+            {
+              labResultResponse = new ResponseObject(true, "LabResult found",
+                  patientId);
               labResultResponse.setLabResults(labResultList);
-            } else {
-              labResultResponse = new ResponseObject(false, "No labResults found", patientId);
+            }
+            else
+            {
+              labResultResponse = new ResponseObject(false,
+                  "No labResults found", patientId);
             }
 
             output.println(gson.toJson(labResultResponse));
           }
+
           case "addLabResult" ->
           {
             LabResult labResult = req.getLabResult();
 
-            System.out.println("ClientHandler LabResult: " + labResult.getTestName()+ " " +labResult.getPatientId());
+            System.out.println(
+                "ClientHandler LabResult: " + labResult.getTestName() + " "
+                    + labResult.getPatientId());
 
-            if (labResult != null) {
-             authService.addLabResult(labResult.getTestName(),
-                 labResult.getSampleType(),
-                  labResult.getDateCollected(),
+            if (labResult != null)
+            {
+              authService.addLabResult(labResult.getTestName(),
+                  labResult.getSampleType(), labResult.getDateCollected(),
 
                   labResult.getComment(), labResult.getDoctorId(),
                   labResult.getPatientId());
@@ -315,23 +393,20 @@ public class ClientHandler implements Runnable
             }
             System.out.println("Received labResult");
 
-
             ResponseObject labResultResponse = new ResponseObject();
             labResultResponse.setSuccess(true);
             labResultResponse.setMessage("LabResult received by server");
             labResultResponse.setLabResult(labResult);
-            System.out.println("LabResultResponse: " + labResultResponse.getLabResult().getTestName());
+            System.out.println(
+                "LabResultResponse: " + labResultResponse.getLabResult()
+                    .getTestName());
 
             output.println(gson.toJson(labResultResponse));
           }
 
-
           case "bookAppointment" ->
           {
             AppointmentDTO dto = req.getAppointment();
-
-            Doctor doctor = AuthenticationServiceImp.getInstance()
-                .getDoctorById(dto.getDoctorId());
 
             String[] dateParts = dto.getDate().split("/");
             String[] timeParts = dto.getTime().split(":");
@@ -347,34 +422,63 @@ public class ClientHandler implements Runnable
                 minute);
 
             // Convert DTO to server model
+            DoctorDTO doctorDTO = dto.getDoctor();
+
+            Doctor doctor = new Doctor(doctorDTO.getDoctorID(),
+                doctorDTO.getFirstName(), doctorDTO.getLastName(),
+                doctorDTO.getEmail(), doctorDTO.getPhoneNumber(),
+                doctorDTO.getUserName(), doctorDTO.getPassword());
+
             Appointment appointment = new Appointment(dateTime,
                 dto.getPatientId(), doctor, dto.getMode());
 
             ResponseObject appointmentResponse = new ResponseObject();
-            if (appointment != null)
-            {
-              authService.bookAppointment(appointment);
 
-              System.out.println("Received prescription");
+            Appointment createdAppointment = authService.bookAppointment(
+                appointment);
 
-              appointmentResponse.setSuccess(true);
-              appointmentResponse.setMessage("Appointment received by server");
-              AppointmentDTO responseDto = new AppointmentDTO(
-                  appointment.getDate(), appointment.getTime(),
-                  appointment.getDoctorID(), appointment.getPatientID(),
-                  appointment.getMode());
+            appointmentResponse.setSuccess(true);
+            appointmentResponse.setMessage("Appointment received by server");
 
-              appointmentResponse.setAppointment(responseDto);
-              output.println(gson.toJson(appointmentResponse));
-            }
-            else
-            {
-              appointmentResponse.setSuccess(false);
-              appointmentResponse.setMessage(
-                  "Failed to save appointment to database");
-            }
+            Doctor doctor1 = createdAppointment.getDoctor();
 
+            DoctorDTO doctorDTO1 = new DoctorDTO(doctor1.getDoctorID(),
+                doctor1.getFirstName(), doctor1.getLastName(),
+                doctor1.getEmail(), doctor1.getPhoneNumber(),
+                doctor1.getUsername(), doctor1.getPassword());
+            AppointmentDTO responseDto = new AppointmentDTO(
+
+                createdAppointment.getAppointmentID(),
+                createdAppointment.getDate(), createdAppointment.getTime(),
+                doctorDTO1, createdAppointment.getPatientID(),
+                createdAppointment.getMode());
+
+            appointmentResponse.setAppointment(responseDto);
             output.println(gson.toJson(appointmentResponse));
+            //            if (appointment != null)
+            //            {
+            //              authService.bookAppointment(appointment);
+            //
+            //              System.out.println("Received prescription");
+            //
+            //              appointmentResponse.setSuccess(true);
+            //              appointmentResponse.setMessage("Appointment received by server");
+            //              AppointmentDTO responseDto = new AppointmentDTO(
+            //                  appointment.getAppointmentID(), appointment.getDate(),
+            //                  appointment.getTime(), appointment.getDoctorID(),
+            //                  appointment.getPatientID(), appointment.getMode());
+            //
+            //              appointmentResponse.setAppointment(responseDto);
+            //              output.println(gson.toJson(appointmentResponse));
+            //            }
+            //            else
+            //            {
+            //              appointmentResponse.setSuccess(false);
+            //              appointmentResponse.setMessage(
+            //                  "Failed to save appointment to database");
+            //            }
+            //
+            //            output.println(gson.toJson(appointmentResponse));
           }
 
           case "addReferral" ->
@@ -416,6 +520,66 @@ public class ClientHandler implements Runnable
             }
 
             output.println(gson.toJson(referralResponse));
+          }
+
+          case "modifyAppointment" ->
+          {
+            AppointmentDTO dto = req.getAppointment();
+
+            String[] dateParts = dto.getDate().split("/");
+            String[] timeParts = dto.getTime().split(":");
+
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
+
+            NewDateTime dateTime = new NewDateTime(day, month, year, hour,
+                minute);
+
+            DoctorDTO doctorDTO = dto.getDoctor();
+            Doctor doctor = new Doctor(doctorDTO.getDoctorID(),
+                doctorDTO.getFirstName(), doctorDTO.getLastName(),
+                doctorDTO.getEmail(), doctorDTO.getPhoneNumber(),
+                doctorDTO.getUserName(), doctorDTO.getPassword());
+
+            Appointment appointmentToUpdate = new Appointment(dateTime,
+                dto.getPatientId(), doctor, dto.getMode());
+
+            appointmentToUpdate.setAppointmentID(dto.getId());
+
+            Appointment updatedAppointment = authService.modifyAppointment(
+                appointmentToUpdate);
+
+            ResponseObject response = new ResponseObject();
+            if (updatedAppointment != null)
+            {
+              response.setSuccess(true);
+              response.setMessage("Appointment modified successfully");
+
+              Doctor doctor1 = updatedAppointment.getDoctor();
+              DoctorDTO doctorDTO1 = new DoctorDTO(doctor1.getDoctorID(),
+                  doctor1.getFirstName(), doctor1.getLastName(),
+                  doctor1.getEmail(), doctor1.getPhoneNumber(),
+                  doctor1.getUsername(), doctor1.getPassword());
+
+              response.setAppointment(
+                  new AppointmentDTO(updatedAppointment.getAppointmentID(),
+                      updatedAppointment.getDate(),
+                      updatedAppointment.getTime(), doctorDTO1,
+                      updatedAppointment.getPatientID(),
+                      updatedAppointment.getMode()));
+            }
+            else
+            {
+              response.setSuccess(false);
+              response.setMessage("Failed to modify appointment");
+            }
+
+            output.println(gson.toJson(response));
+
           }
 
           default ->

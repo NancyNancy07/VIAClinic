@@ -7,15 +7,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ReferralDAO is a Data Access Object for managing Referral records in the database.
+ * It provides methods to create a new referral and retrieve referrals by patient ID.
+ */
 public class ReferralDAO
 {
   private static ReferralDAO instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   * Registers the PostgreSQL driver for database connectivity.
+   */
   private ReferralDAO()
   {
 
   }
 
+  /**
+   * Returns the singleton instance of ReferralDAO.
+   * If the instance is null, it creates a new instance.
+   *
+   * @return the singleton instance of ReferralDAO
+   */
   public static synchronized ReferralDAO getInstance()
   {
     if (instance == null)
@@ -25,6 +39,12 @@ public class ReferralDAO
     return instance;
   }
 
+  /**
+   * Establishes a connection to the PostgreSQL database.
+   *
+   * @return a Connection object to the database
+   * @throws SQLException if there is an error connecting to the database
+   */
   private static Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
@@ -32,6 +52,17 @@ public class ReferralDAO
         "postgres", "Via@123");
   }
 
+  /**
+   * Creates a new referral in the database.
+   *
+   * @param date       the date and time of the referral
+   * @param reason     the reason for the referral
+   * @param comment    additional comments about the referral (can be null)
+   * @param doctorId   the ID of the doctor making the referral
+   * @param patientId  the ID of the patient being referred
+   * @return a Referral object representing the created referral
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public Referral create(NewDateTime date, String reason, String comment,
       int doctorId, int patientId) throws SQLException
   {
@@ -74,6 +105,14 @@ public class ReferralDAO
     }
   }
 
+
+  /**
+   * Retrieves a list of referrals for a specific patient by their ID.
+   *
+   * @param patientId the ID of the patient whose referrals are to be retrieved
+   * @return a List of Referral objects associated with the specified patient
+   * @throws SQLException if there is an error executing the SQL statement
+   */
   public List<Referral> getReferralsByPatientId(int patientId)
       throws SQLException
   {

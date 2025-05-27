@@ -13,17 +13,32 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * BookAppointmentViewHandler is responsible for managing the different views
+ * related to booking an appointment. It uses a factory to get the appropriate
+ * ViewModel for each view and handles the transitions between them.
+ */
 public class BookAppointmentViewHandler
 {
   private static Stage stage;
   private static BookAppointmentViewModelFactory factory;
 
+  /**
+   * Enum representing the different types of views in the appointment booking
+   * process.
+   */
   public enum ViewType
   {
     FRONT, DOCTOR, MODE, TIME, CONFIRMATION
   }
 
   // Constructor now takes factory instead of single ViewModel
+  /**
+   * Constructor for BookAppointmentViewHandler.
+   *
+   * @param stage   The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public BookAppointmentViewHandler(Stage stage,
       BookAppointmentViewModelFactory factory)
   {
@@ -31,6 +46,12 @@ public class BookAppointmentViewHandler
     BookAppointmentViewHandler.factory = factory;
   }
 
+  /**
+   * Starts the application by showing the front view.
+   *
+   * @param s       The primary stage for the application.
+   * @param factory The factory to create ViewModels for the different views.
+   */
   public static void start(Stage s, BookAppointmentViewModelFactory factory)
   {
     stage = s;
@@ -39,6 +60,11 @@ public class BookAppointmentViewHandler
     stage.show();
   }
 
+  /**
+   * Displays the specified view based on the ViewType.
+   *
+   * @param view The type of view to display.
+   */
   public static void showView(ViewType view)
   {
     try
@@ -58,6 +84,11 @@ public class BookAppointmentViewHandler
     }
   }
 
+  /**
+   * Displays the front view for booking appointments.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showFrontView() throws IOException
   {
     FrontViewController controller = new FrontViewController();
@@ -75,6 +106,11 @@ public class BookAppointmentViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the doctor selection view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showDoctorView() throws IOException
   {
     SelectDoctorViewController controller = new SelectDoctorViewController();
@@ -92,6 +128,11 @@ public class BookAppointmentViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the mode of consultation selection view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showModeView() throws IOException
   {
     ModeViewController controller = new ModeViewController();
@@ -110,6 +151,11 @@ public class BookAppointmentViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the date and time selection view.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showTimeView() throws IOException
   {
     TimeViewController controller = new TimeViewController();
@@ -128,6 +174,11 @@ public class BookAppointmentViewHandler
     stage.setScene(scene);
   }
 
+  /**
+   * Displays the confirmation view after booking an appointment.
+   *
+   * @throws IOException If there is an error loading the FXML file.
+   */
   private static void showConfirmationView() throws IOException
   {
     ConfirmationViewController controller = new ConfirmationViewController();
