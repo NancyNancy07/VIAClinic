@@ -3,6 +3,7 @@ package server.model.loginSystem.authentication;
 import server.model.bookAppointment.*;
 import server.model.loginSystem.entities.User;
 import server.model.patientJournal.*;
+import server.model.patientJournal.DoctorDAO;
 import shared.ResponseObject;
 
 import java.sql.SQLException;

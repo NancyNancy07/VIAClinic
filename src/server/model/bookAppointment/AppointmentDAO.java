@@ -152,7 +152,6 @@ public class AppointmentDAO
     }
   }
 
-}
   public Appointment updateAppointment(int appointmentId,
       NewDateTime newDateTime, String newMode, int newDoctorId)
       throws SQLException
@@ -211,5 +210,3 @@ public class AppointmentDAO
   }
 
 }
-
-

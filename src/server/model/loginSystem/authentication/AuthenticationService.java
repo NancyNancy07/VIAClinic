@@ -21,7 +21,7 @@ public interface AuthenticationService
   List<Doctor> getAllDoctors();
   List<Patient> getAllPatients();
   List<Appointment> getAppointmentsForPatient(int id);
-  void bookAppointment(Appointment appointment);
+//  void bookAppointment(Appointment appointment);
   boolean cancelAppointment(int appointmentId) throws SQLException;
   List<Appointment> getAppointmentsForDoctor(int id);
 
