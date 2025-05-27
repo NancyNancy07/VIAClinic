@@ -222,6 +222,16 @@ public class ClientAppointment
   }
 
   /**
+   * Gets the date and time of the appointment.
+   *
+   * @return the date and time of the appointment
+   */
+  public ClientNewDateTime getDateTime()
+  {
+    return dateTime;
+  }
+
+  /**
    * Returns a string representation of the appointment.
    *
    * @return a string representation of the appointment

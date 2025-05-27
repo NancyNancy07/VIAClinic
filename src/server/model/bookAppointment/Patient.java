@@ -204,24 +204,4 @@ public class Patient extends User
         && phoneNumber.equals(other.phoneNumber) && CPR.equals(other.CPR)
         && address.equals(other.address);
   }
-
-  public String getEmail()
-  {
-    return email;
-  }
-
-  public String getPhoneNumber()
-  {
-    return phoneNumber;
-  }
-
-  public String getCPR()
-  {
-    return CPR;
-  }
-
-  public Address getAddress()
-  {
-    return address;
-  }
 }
